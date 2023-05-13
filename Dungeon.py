@@ -66,14 +66,6 @@
 # 복이 좌표에 다가가 구출, 게임엔딩
 
 import random
-
-#층별 너비 랜덤
-# class DungeonLength():
-#     def __init__(self):
-#         self.widths = random.choices([15, 16, 17, 18], k=7)
-#         self.widths.append(4)
-#         print(self.widths)
-
 #층별 면적 결정
 class DungeonArea():
     def __init__(self):
@@ -93,32 +85,32 @@ class DungeonArea():
     def boss_location(self, current_floor):
         self.current_floor = current_floor
         if self.current_floor == 1:
-            self.boss_x = random.randint(0, self.first_width)
-            self.boss_y = random.randint(0, self.first_width)
+            self.boss_x = random.randint(0, self.first_width-1)
+            self.boss_y = random.randint(0, self.first_width-1)
             print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
         elif self.current_floor == 2:
-            self.boss_x = random.randint(0, self.second_width)
-            self.boss_y = random.randint(0, self.second_width)
+            self.boss_x = random.randint(0, self.second_width-1)
+            self.boss_y = random.randint(0, self.second_width-1)
             print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
         elif self.current_floor == 3:
-            self.boss_x = random.randint(0, self.third_width)
-            self.boss_y = random.randint(0, self.third_width)
+            self.boss_x = random.randint(0, self.third_width-1)
+            self.boss_y = random.randint(0, self.third_width-1)
             print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
         elif self.current_floor == 4:
-            self.boss_x = random.randint(0, self.fourth_width)
-            self.boss_y = random.randint(0, self.fourth_width)
+            self.boss_x = random.randint(0, self.fourth_width-1)
+            self.boss_y = random.randint(0, self.fourth_width-1)
             print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
         elif self.current_floor == 5:
-            self.boss_x = random.randint(0, self.fifth_width)
-            self.boss_y = random.randint(0, self.fifth_width)
+            self.boss_x = random.randint(0, self.fifth_width-1)
+            self.boss_y = random.randint(0, self.fifth_width-1)
             print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
         elif self.current_floor == 6:
-            self.boss_x = random.randint(0, self.sixth_width)
-            self.boss_y = random.randint(0, self.sixth_width)
+            self.boss_x = random.randint(0, self.sixth_width-1)
+            self.boss_y = random.randint(0, self.sixth_width-1)
             print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
         elif self.current_floor == 7:
-            self.boss_x = random.randint(0, self.seventh_width)
-            self.boss_y = random.randint(0, self.seventh_width)
+            self.boss_x = random.randint(0, self.seventh_width-1)
+            self.boss_y = random.randint(0, self.seventh_width-1)
             print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
 
     # 보스 hp
@@ -138,7 +130,7 @@ class DungeonArea():
         elif self.floor == 6:
             self.boss_hp = random.randint(999999, 9999999)
         elif self.floor == 7:
-            self.boss_hp = 9999999 #random.randint(9999999, 100000000)
+            self.boss_hp = 9999999
         elif self.floor == 8:
             print('용사 복이 구출')
 
