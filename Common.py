@@ -5,6 +5,7 @@ import random
 
 from Dialog import CustomDialog as cd
 
+
 class Common():
     def __init__(self, **kwargs):
         if 'direction' in kwargs:
@@ -20,7 +21,44 @@ class Common():
         if 'guardian' in kwargs:
             self.guardian = kwargs['guardian']
 
-        self.guardian_list = ['light', 'moon', 'star', 'land']
+        self.guardian_list = ['light_gard', 'moon_gard', 'star_gard', 'earth_gard']
+
+        self.dict_grad_stat = {'gard': '',
+                               'warrior': {'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0,
+                                           'equipment': [],
+                                           'skill': {10: 'slice_chop'}},
+                               'archer': {'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150,
+                                          'equipment': [],
+                                          'skill': {10: 'target_shot',
+                                                    15: 'dual_shot',
+                                                    20: 'master_shot'}},
+                               'swordsman': {'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150,
+                                             'equipment': [],
+                                             'skill': {10: 'slice_chop'}},
+                               'wizard_red': {'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 100, 'max_mp': 100,
+                                              'equipment': [],
+                                              'skill': {1: ['heal_normal', 'fire_ball'],
+                                                        15: ['heal_greater', 'fire_wall'],
+                                                        20: 'thunder_breaker',
+                                                        25: 'bilzzard',
+                                                        30: 'heal_all'}},
+                               'wizard_black': {'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
+                                                'equipment': [],
+                                                'skill': {1: 'fire_ball',
+                                                          15: 'fire_wall',
+                                                          20: 'thunder_breaker',
+                                                          25: 'bilzzard'}},
+                               'wizard_white': {'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
+                                                'equipment': [],
+                                                'skill': {1: 'heal_normal',
+                                                          15: 'heal_greater',
+                                                          30: 'heal_all'}}}
+
+    # 수호대 랜덤배치
+    def random_assign_gard(self):
+        self.dict_grad_stat['gard'] = random.choice(self.guardian_list)
+
+
 
     # 이동
     def move_by_direction(self):
@@ -100,9 +138,12 @@ class Common():
         guardian = self.guardian_list.pop()
         return guardian
 
-    # 아이템 드랍
-    def
 
-
-x, y = Common(direction='u', x=1, y=1).MoveByDirection()
+# 위치값 확인
+x, y = Common(direction='u', x=1, y=1).move_by_direction()
 print(x, y)
+
+# 랜덤배치 확인
+a = Common()
+a.random_assign_gard()
+print(a.dict_grad_stat)
