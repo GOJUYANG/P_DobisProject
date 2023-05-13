@@ -69,4 +69,3 @@
 #
 # 1단 오늘 카페에서 본 코드를 잘 파헤쳐보자. tqtqtqtqtqtqtqtqtqtqtq
 
-ㄴㅇㅁㄴㅇ
