@@ -69,3 +69,57 @@
 #
 # 1단 오늘 카페에서 본 코드를 잘 파헤쳐보자. tqtqtqtqtqtqtqtqtqtqtq
 
+
+
+# import random
+#
+# class Common():
+#     def __init__(self, **kwargs):
+#         if 'field' in kwargs:
+#             self.field = kwargs['field']
+#         if 'gard' in kwargs:
+#             self.gard = kwargs['gard']
+#         if 'monster' in kwargs:
+#             self.moster = kwargs['monster']
+#         if 'meteorite' in kwargs:
+#             self.meteorite = kwargs['meteorite']
+#         if 'item' in kwargs:
+#             self.item = kwargs['item']
+#         if 'tower' in kwargs:
+#             self.tower = kwargs['tower']
+#         if 'user' in kwargs:
+#             self.user = kwargs['user']
+#
+#         self.field_list = ['fire_area', 'water_area', 'forest_area', 'snow_area']
+#         self.gard_list = ['light_gard', 'moon_gard', 'star_gard', 'forest_gard']
+#         self.monster_list = ['fire_field_moster', 'water_field_moster', 'forest_field_moster', 'snow_field_moster']
+#         self.item_list = ['meteorite', 'tent']
+#         self.tower_list = ['tower_way', 'tower_start'] # 혹시나 해서!
+#         self.meteorite_l = ['meteorite_way', 'meteorite_item']
+#         self.user_state_list = ['lv', 'hp', 'mp', 'exp', 'skil', 'power']
+#
+#     def random_field(self):
+#         rand_field_way = random.choice(self.field_list)
+#         print(rand_field_way)
+#
+#     def random_user_gard(self):
+#         rand_user_gard = random.choice(self.gard_list)
+#         print(rand_user_gard)
+#
+#
+# a = Common()
+# a.random_field()
+# b = Common()
+# b.random_user_gard()
+#
+# # 시작 버튼 클릭 시 필드에서 4개지역 [ 불 물 숲 눈 ] 중 랜덤한 위치에 수호대가 생성된다.
+# # 플레이어의 특정 수호대를 제외한 나머지 특정 타 수호대를 생성한다.
+# # 방향키를 지정하여 맵을 이동한다
+# # 각 지역 이동 중 지역의 고유 몬스터를 일정 확률로 몬스터가 출몰한다.
+# # 던전 입구는 필드 내 랜덤한 위치에 생성된다.
+# # 이동 중 랜덤한 위치에 운석이 존재하며 획득한다.
+# # 이동 중 일정 확률로 아이템 획득이 가능하다. (부활포션, 장비아이템 제외)
+# # 이동 중 일정 확률로 타 수호대와 조우 한다.
+# # 11번째 전투까지 던전 입구 못찾을시 랜덤한 위치에 재생성
+# # 각 지역 필드 몬스터 설정
+# #
