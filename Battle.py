@@ -1,45 +1,53 @@
-###### 함수 생성내역 ######
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+import random
 
-# 전투 중 구성원 전원/일부 전투가능/불능상태 판단
-# 전원 전투가능상태 시 스탯 유지
-# 전원 전투불가상태 판단
-# 일부 전투불가상태 시 이미지 흑백처리 (몬스터 타겟X, 해당 구성원 공격버튼 disable)
+#전투화면은 QMainWindow의 stackedWidget에 해당한다.
 
-# 턴제 방식 및 전투 횟수 카운팅 -> 전투횟수에 따른 입구 배치(재배치)는 필드/던전 담당자몫
-# 전투횟수에 따른 경험치 획득 및 레벨상승
-# 레벨 상승에 따른 HP,MP 상승
+#self.dict_ 의 key값은 def__init__(self, **kwargs)에서 찾을 값들이다. 함께 딕셔너리의 value값들은 기본값이 존재하지 않는다면 ''처리 해둔다.
+#해당 딕셔너리에 key값들로 모여들 것들은 공통적으로 함께 묶여있어야할 값들이다. (ex, gard -> location -> warrior,archer,,,,,->lv,hp,max_hp,equipment,skill)
 
-# 필드 일반 몬스터 조우 및 일반공격/스킬사용
-# HP구간 내 랜덤추출
-# -> 추가 : MP는 무제한(?)
+class Battle():
+    def __init__(self, **kwargs):
+        if 'gard' in kwargs:                              #수호대
+            self.gard = kwargs['gard']
 
-# 필드 수호대 조우 및 일반공격/스킬사용
-# 수호대 평균레벨 15~20 + HP,MP 추출
-# 전사 : 900:1200:60   / x
-# 궁수 : 450:600:30    / 450:600:30
-# 검사 : 450:600:30    / 450:600:30
-# 적법사 : 450:600:30  / 300:400:20
-# 흑법사 : 600:1000:40 / 450:600:30
-# 백법사 : 600:1000:40 / 450:600:30
-# 수호대 아이템 랜덤+수량제한 없음
+        if 'user_gard' in kwargs:                         #유저수호대{'gard':'', 'warrior':{'lv':,'HP',...'},}  +공격력
+            self.user_gard = kwargs['user_gard']
 
-# 던전 일반몬스터 조우 및 일반공격/스킬사용
-# HP구간 내 랜덤추출
-# -> 추가 : MP는 무제한(?)
+        if 'location' in kwargs:                          #유저수호대 위치(필드/던전) {location: {field: ['fire', 'water', 'forest', 'snow']
+            self.location = kwargs['location']            #                         ,dungeon: [1,2,3,4,5,6,7,8]}}
 
-# 던전 수호대 조우 및 일반공격/스킬사용
-# 층별에 따른 수호대 평균레벨 설정
-# 수호대 아이템 랜덤+수량제한 없음
+        if 'x' in kwargs:                                 #유저수호대 좌표값x
+            self.x = kwargs['x']
+        if 'y' in kwargs:                                 #유저수호대 좌표값x
+            self.y = kwargs['y']
 
-# 던전 보스몬스터 조우 및 일반공격/스킬사용
-# 층별에 따른 보스몬스터 이름, HP 설정
-# -> 추가 : MP는 무제한(?)
+        if 'field_monster' in kwargs:
+            self.field_monster = kwargs['field_monster']  #필드몬스터 {'fire_field_monster' : {'HP':'', 'cnt': , 'demage':['fire_ball', 'fire_wall']},
+                                                          #           'water_field_monster' : {'HP':'', 'cnt': , 'demage':['aqua_ball', 'aqua_wall']},
+                                                          #           'forest_field_monster' : {'HP':'', 'cnt': , 'demage':['air_ball', 'air_wall']},
+                                                          #           'snow_field_monster' : {'HP':'', 'cnt': , 'demage':['ice_ball', 'snow_wall']}}
 
-# 승패 판단
-# 필드에서 지역/수호대 처치시 [포션][장비]획득(지역별 차이고려함) -> 저장은 공통담당
-# 던전에서 보스몬스터 처치시 [부활포션][행방단서]획득 -> 저장은 공통담당
+        if 'boss_monster' in kwargs:                      #보스몬스터{'이동려크': {'HP': '','demage':['fan_attack', 'hell_shouting'],'clue':0.1},
+            self.boss_monster = kwargs['boss_monster']    #          '조동혀니' : {'HP': '','demage' = ['silent_attack', 'hell_feedback'],'clue':0.2},
+                                                          #          '류홍거리' : {'HP': '','demage' = ['silent_attack', 'hell_feedback'],'clue':0.3},
+                                                          #          '코로나악마공주' : {},'이땅복이' : {},'환생의 복이' : {},'로드오브보기' : {} }
 
-# 도망
-# 전투화면 한켠에 버튼으로 생성. 매 턴마다 누를 수 있다. 도망성공확률은 10%~30%이다.
-# 필드에서 눌렀을 때 위치한 필드 유지
-# 던전에서 눌렀을 때 던전화면에서 유지
+        # if 'dungeon_monster' in kwargs:
+        #     self.dungeon_monster = kwargs['dungeon_monster'] #던전몬스터는 필드몬스터에서 0~6 랜덤숫자 중 랜덤차출한다. +속성따라오기
+
+        if 'mode' in kwargs:                              #전투모드{'war_possible_all':True, 'war_possible_part':True, 'war_impossible_part'=True}
+            self.war_mode = kwargs['war_mode']
+        if 'run_mode' in kwargs:                          #도망모드{'rate':30,'cnt': 5,'x': '','y':''}
+            self.run_mode = kwargs['run_mode']
+
+        if 'war_cnt' in kwargs:                           #전투횟수{10:1, 20:2, 30:3, 40:4, 50:5, 60:6, 70:7, 80:8, 90:9, 100:10}
+            self.war_cnt = kwargs['war_cnt']
+
+        if 'turn' in kwargs:                              #전투 턴{'enemy_turn':True, 'team_trun':True}
+            self.turn = kwargs['turn']
+
+        if 'item' in kwargs:                              #아이템 (포션사용)
+            self.item = kwargs['item']
