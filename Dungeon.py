@@ -64,3 +64,108 @@
 # 7층에서 최종보스 죽인후 8층 이동
 # 8층 4*4 크기의 던전에서 복이 위치 표시
 # 복이 좌표에 다가가 구출, 게임엔딩
+
+import random
+
+#층별 너비 랜덤
+# class DungeonLength():
+#     def __init__(self):
+#         self.widths = random.choices([15, 16, 17, 18], k=7)
+#         self.widths.append(4)
+#         print(self.widths)
+
+#층별 면적 결정
+class DungeonArea():
+    def __init__(self):
+        self.widths = random.choices([15, 16, 17, 18], k=7)
+        self.widths.append(4)
+        print(self.widths)
+        self.first_width = self.widths[0]
+        self.second_width = self.widths[1]
+        self.third_width = self.widths[2]
+        self.fourth_width = self.widths[3]
+        self.fifth_width = self.widths[4]
+        self.sixth_width = self.widths[5]
+        self.seventh_width = self.widths[6]
+        self.eighth_width = self.widths[7]
+
+    # 던전 보스 위치
+    def boss_location(self, current_floor):
+        self.current_floor = current_floor
+        if self.current_floor == 1:
+            self.boss_x = random.randint(0, self.first_width)
+            self.boss_y = random.randint(0, self.first_width)
+            print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
+        elif self.current_floor == 2:
+            self.boss_x = random.randint(0, self.second_width)
+            self.boss_y = random.randint(0, self.second_width)
+            print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
+        elif self.current_floor == 3:
+            self.boss_x = random.randint(0, self.third_width)
+            self.boss_y = random.randint(0, self.third_width)
+            print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
+        elif self.current_floor == 4:
+            self.boss_x = random.randint(0, self.fourth_width)
+            self.boss_y = random.randint(0, self.fourth_width)
+            print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
+        elif self.current_floor == 5:
+            self.boss_x = random.randint(0, self.fifth_width)
+            self.boss_y = random.randint(0, self.fifth_width)
+            print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
+        elif self.current_floor == 6:
+            self.boss_x = random.randint(0, self.sixth_width)
+            self.boss_y = random.randint(0, self.sixth_width)
+            print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
+        elif self.current_floor == 7:
+            self.boss_x = random.randint(0, self.seventh_width)
+            self.boss_y = random.randint(0, self.seventh_width)
+            print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
+
+    # 보스 hp
+    def boss_match(self, floor):
+        self.floor = floor
+        self.boss_hp = 0
+        if self.floor == 1:
+            self.boss_hp = random.randint(25000, 35000)
+        elif self.floor == 2:
+            self.boss_hp = random.randint(45000, 55000)
+        elif self.floor == 3:
+            self.boss_hp = random.randint(65000, 75000)
+        elif self.floor == 4:
+            self.boss_hp = random.randint(75000, 85000)
+        elif self.floor == 5:
+            self.boss_hp = random.randint(85000, 599999)
+        elif self.floor == 6:
+            self.boss_hp = random.randint(999999, 9999999)
+        elif self.floor == 7:
+            self.boss_hp = 9999999 #random.randint(9999999, 100000000)
+        elif self.floor == 8:
+            print('용사 복이 구출')
+
+    # 텔레포트 사용
+    def teleport_use(self, current_floor):
+        self.teleport_stock = {'first': 5, 'second': 5, 'third': 5, 'fourth': 5, 'fifth': 5, 'sixth': 5, 'seventh': 5}
+        self.current_floor = current_floor
+        if current_floor == 1:
+            self.teleport_stock['first'] -= 1
+        elif current_floor == 2:
+            self.teleport_stock['second'] -= 1
+        elif current_floor == 3:
+            self.teleport_stock['third'] -= 1
+        elif current_floor == 4:
+            self.teleport_stock['fourth'] -= 1
+        elif current_floor == 5:
+            self.teleport_stock['fifth'] -= 1
+        elif current_floor == 6:
+            self.teleport_stock['sixth'] -= 1
+        elif current_floor == 7:
+            self.teleport_stock['seventh'] -= 1
+
+    # 텔레포트 이동 위치
+    def teleport_location(self):
+        self.tele_x = random.randint(19)
+        self.tele_y = random.randint(19)
+        print('텔레포트를 사용해 필드({},{})로 이동'.format(self.tele_y, self.tele_x))
+
+
+
