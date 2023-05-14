@@ -8,57 +8,50 @@ from Dialog import CustomDialog as cd
 
 class Common():
     def __init__(self, **kwargs):
+        # 방향
         if 'direction' in kwargs:
             self.directon = kwargs['direction']
-        if 'job' in kwargs:
-            self.job = kwargs['job']
+        # 열
         if 'x' in kwargs:
             self.x = kwargs['x']
+        # 행
         if 'y' in kwargs:
             self.y = kwargs['y']
+        # 수호대 구성원 클래스
+        if 'job' in kwargs:
+            self.job = kwargs['job']
+        # 아이템(소모품)
         if 'item' in kwargs:
             self.item = kwargs['item']
-        if 'guardian' in kwargs:
-            self.guardian = kwargs['guardian']
-
-        self.guardian_list = ['light_gard', 'moon_gard', 'star_gard', 'earth_gard']
-
-        self.dict_grad_stat = {'gard': '',
-                               'warrior': {'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0,
-                                           'equipment': [],
-                                           'skill': {10: 'slice_chop'}},
-                               'archer': {'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150,
-                                          'equipment': [],
-                                          'skill': {10: 'target_shot',
-                                                    15: 'dual_shot',
-                                                    20: 'master_shot'}},
-                               'swordsman': {'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150,
-                                             'equipment': [],
-                                             'skill': {10: 'slice_chop'}},
-                               'wizard_red': {'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 100, 'max_mp': 100,
-                                              'equipment': [],
-                                              'skill': {1: ['heal_normal', 'fire_ball'],
-                                                        15: ['heal_greater', 'fire_wall'],
-                                                        20: 'thunder_breaker',
-                                                        25: 'bilzzard',
-                                                        30: 'heal_all'}},
-                               'wizard_black': {'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
-                                                'equipment': [],
-                                                'skill': {1: 'fire_ball',
-                                                          15: 'fire_wall',
-                                                          20: 'thunder_breaker',
-                                                          25: 'bilzzard'}},
-                               'wizard_white': {'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
-                                                'equipment': [],
-                                                'skill': {1: 'heal_normal',
-                                                          15: 'heal_greater',
-                                                          30: 'heal_all'}}}
+        # 수호대가 위치한 지역
+        if 'region' in kwargs:
+            self.region = kwargs['region']
+        # 치트키
+        if 'cheatkey' in kwargs:
+            self.cheatkey = kwargs['cheatkey']
+        # 수호대
+        if 'dict_gard' in kwargs:
+            self.dict_grad_stat = kwargs['dict_gard']
+        # 직업리스트
+        if 'list_job' in kwargs:
+            self.list_job = kwargs['list_job']
+        # 수호대 리스트
+        if 'list_gard' in kwargs:
+            self.list_gard = kwargs['list_gard']
+        # 필드 리스트
+        if 'list_field' in kwargs:
+            self.list_field = kwargs['list_field']
 
     # 수호대 랜덤배치
-    def random_assign_gard(self):
-        self.dict_grad_stat['gard'] = random.choice(self.guardian_list)
+    def random_assign_gard(self, dict_gard):
+        dict_gard['gard'] = random.choice(self.list_gard)
 
-
+    # 필드(집결지) 랜덤배치
+    def random_assign_field(self):
+        self.region = random.choice(self.list_field)
+        self.x = random.randint(0, 19)
+        self.y = random.randint(0, 19)
+        self.dict_grad_stat['location'] = {'region': self.region, 'x': self.x, 'y': self.y}
 
     # 이동
     def move_by_direction(self):
@@ -83,67 +76,77 @@ class Common():
             self.x += 1
             self.y += 1
 
-        return self.x, self.y
+        # self.dict_grad_stat['location'] = {'region': self.region, 'x': self.x, 'y': self.y}
+        return self.dict_grad_stat['location']
 
     # 체력회복
     def use_hp_potion(self):
         if self.item == 'HP_potion_high':
-            self.job['HP'] += self.job['Max_HP'] * 0.7
+            self.dict_grad_stat[self.job]['HP'] += self.dict_grad_stat[self.job]['Max_HP'] * 0.7
         elif self.item == 'HP_potion_middle':
-            self.job['HP'] += self.job['Max_HP'] * 0.5
+            self.dict_grad_stat[self.job]['HP'] += self.dict_grad_stat[self.job]['Max_HP'] * 0.5
         elif self.item == 'HP_potion_low':
-            self.job['HP'] += self.job['Max_HP'] * 0.3
-        return self.job['HP']
+            self.dict_grad_stat[self.job]['HP'] += self.dict_grad_stat[self.job]['Max_HP'] * 0.3
+        return self.dict_grad_stat[self.job]['HP']
 
     # 마나회복
     def use_mp_potion(self):
         if self.item == 'MP_potion_high':
-            self.job['MP'] += self.job['Max_MP'] * 0.7
+            self.dict_grad_stat[self.job]['MP'] += self.dict_grad_stat[self.job]['Max_MP'] * 0.7
         elif self.item == 'MP_potion_middle':
-            self.job['MP'] += self.job['Max_MP'] * 0.5
+            self.dict_grad_stat[self.job]['MP'] += self.dict_grad_stat[self.job]['Max_MP'] * 0.5
         elif self.item == 'MP_potion_low':
-            self.job['MP'] += self.job['Max_MP'] * 0.3
-        return self.job['MP']
+            self.dict_grad_stat[self.job]['MP'] += self.dict_grad_stat[self.job]['Max_MP'] * 0.3
+        return self.dict_grad_stat[self.job]['MP']
 
     # 체력,마나회복
     def use_all_potion(self):
         if self.item == 'All_potion_high':
-            self.job['HP'] += self.job['Max_HP'] * 0.7
-            self.job['MP'] += self.job['Max_MP'] * 0.7
+            self.dict_grad_stat[self.job]['HP'] += self.dict_grad_stat[self.job]['Max_HP'] * 0.7
+            self.dict_grad_stat[self.job]['MP'] += self.dict_grad_stat[self.job]['Max_MP'] * 0.7
         elif self.item == 'All_potion_middle':
-            self.job['HP'] += self.job['Max_HP'] * 0.5
-            self.job['MP'] += self.job['Max_MP'] * 0.5
+            self.dict_grad_stat[self.job]['HP'] += self.dict_grad_stat[self.job]['Max_HP'] * 0.5
+            self.dict_grad_stat[self.job]['MP'] += self.dict_grad_stat[self.job]['Max_MP'] * 0.5
         elif self.item == 'All_potion_low':
-            self.job['HP'] += self.job['Max_HP'] * 0.3
-            self.job['MP'] += self.job['Max_MP'] * 0.3
-        return self.job['HP'], self.job['MP']
+            self.dict_grad_stat[self.job]['HP'] += self.dict_grad_stat[self.job]['Max_HP'] * 0.3
+            self.dict_grad_stat[self.job]['MP'] += self.dict_grad_stat[self.job]['Max_MP'] * 0.3
+        return self.dict_grad_stat[self.job]['HP'], self.dict_grad_stat[self.job]['MP']
 
-    # 부활포션 사용
+    # 전투불능 상태인 클래스 중 사용자가 선택한 클래스에 부활포션 사용
     def revival_guardian(self):
-        for k, v in self.guardian.items():
-            if not v['survival']:
-                v['survival'] = True
+        if not self.dict_grad_stat[self.job]['survival']:
+            self.dict_grad_stat[self.job]['survival'] = True
 
-    # 텐트 사용
+    # 텐트 사용: 전투불능인 구성원 모두가 되살아나고 구성원 전부 체력 100% 회복
     def use_tent(self):
-        for k, v in self.guardian.items():
-            v['HP'] = v['Max_HP']
+        for job in self.list_job:
+            self.dict_grad_stat[job]['survival'] = True
+            self.dict_grad_stat[job]['hp'] = self.dict_grad_stat[job]['max_hp']
 
     # 타 수호대와의 조우
     def meet_other_guardian(self):
         # 우리 수호대 제외
-        self.guardian_list.remove(self.guardian['name'])
+        self.list_gard.remove(self.dict_grad_stat['gard'])
         # 리스트 셔플
-        random.shuffle(self.guardian_list)
-        guardian = self.guardian_list.pop()
-        return guardian
+        random.shuffle(self.list_gard)
+        other_gard = self.list_gard.pop()
+        return other_gard
 
+    # 치트키
+    def use_cheatkey(self):
+        if self.cheatkey == 'easter_egg':
+            pass
 
-# 위치값 확인
-x, y = Common(direction='u', x=1, y=1).move_by_direction()
-print(x, y)
-
-# 랜덤배치 확인
-a = Common()
-a.random_assign_gard()
-print(a.dict_grad_stat)
+# # 위치값 확인
+# Common(direction='u', x=1, y=1).move_by_direction()
+#
+# # 랜덤배치 확인
+# a = Common(region='')
+# # 수호대 랜덤배치
+# a.random_assign_gard()
+# # 필드 랜덤배치
+# a.random_assign_field()
+#
+# for k, v in a.dict_grad_stat.items():
+#     print(f'{k}:{v}')
+# # print(a.dict_grad_stat)
