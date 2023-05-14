@@ -162,39 +162,141 @@
 import random
 #층별 면적 결정
 class DungeonClass():
-    def __init__(self, **kwargs):
+    def __init__(self):
         #던전입장 후 현재 층 : current_floor = 1
-        if 'current_floor' in kwargs:
-            self.int_current_floor = kwargs['current_floor']
-
-        self.dict_teleport_stock = {1: 5, 2: 5, 3: 5, 4: 5, 6: 5, 7: 5}
+        self.dict_teleport_stock = {'first': 5, 'second': 5, 'third': 5, 'forth': 5, 'fifth': 5, 'sixth': 5, 'seventh': 5}
         self.list_widths = random.choices([15, 16, 17, 18], k=7)
         self.list_widths.append(4)
-        self.tuple_widths = tuple(self.list_widths)
-        print(self.tuple_widths)
+        print(self.list_widths)
 
-        self.first_width = self.tuple_widths[0]
-        self.second_width = self.tuple_widths[1]
-        self.third_width = self.tuple_widths[2]
-        self.fourth_width = self.tuple_widths[3]
-        self.fifth_width = self.tuple_widths[4]
-        self.sixth_width = self.tuple_widths[5]
-        self.seventh_width = self.tuple_widths[6]
-        self.eighth_width = self.tuple_widths[7]
+        self.first_width = self.list_widths[0]
+        self.second_width = self.list_widths[1]
+        self.third_width = self.list_widths[2]
+        self.fourth_width = self.list_widths[3]
+        self.fifth_width = self.list_widths[4]
+        self.sixth_width = self.list_widths[5]
+        self.seventh_width = self.list_widths[6]
+        self.eighth_width = self.list_widths[7]
 
     #일반몬스터 만남(1~10마리)
-    def meet_monster(self):
+    def meet_monster(self, int_floor):
+        self.int_floor = int_floor
         self.int_monster_count = random.randint(1, 10)
+        drop_item = random.choice(['high_HP_potion', 'middle_HP_potion', 'lower_HP_potion',
+                                   'high_MP_potion', 'middle_MP_potion', 'lower_MP_potion',
+                                   'high_ALL_potion', 'middle_ALL_potion', 'lower_ALL_potion'])
+
+        # self.dict_gard = {'gard': '',
+        #                   'location': {'region': '', 'x': 0, 'y': 0},
+        #                   'warrior': {'survival': True,
+        #                               'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+        #                               'equipment': [],
+        #                               'skill': {10: 'slice_chop'}},
+        #                   'archer': {'survival': True,
+        #                              'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 300,
+        #                              'equipment': [],
+        #                              'skill': {10: 'target_shot',
+        #                                        15: 'dual_shot',
+        #                                        20: 'master_shot'}},
+        #                   'swordman': {'survival': True,
+        #                                'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 250,
+        #                                'equipment': [],
+        #                                'skill': {10: 'slice_chop'}},
+        #                   'wizard_red': {'survival': True,
+        #                                  'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 150,
+        #                                  'equipment': [],
+        #                                  'skill': {1: ['heal_normal', 'fire_ball'],
+        #                                            15: ['heal_greater', 'fire_wall'],
+        #                                            20: 'thunder_breaker',
+        #                                            25: 'bilzzard',
+        #                                            30: 'heal_all'}},
+        #                   'wizard_black': {'survival': True,
+        #                                    'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+        #                                    'equipment': [],
+        #                                    'skill': {1: 'fire_ball',
+        #                                              15: 'fire_wall',
+        #                                              20: 'thunder_breaker',
+        #                                              25: 'bilzzard'}},
+        #                   'wizard_white': {'survival': True,
+        #                                    'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 100,
+        #                                    'equipment': [],
+        #                                    'skill': {1: 'heal_normal',
+        #                                              15: 'heal_greater',
+        #                                              30: 'heal_all'}}}
+
+        self.dict_maze_monster = {'int_cnt': self.int_monster_count,
+                                  'list_hp': self.random.sample(range(200, 1000), self.int_monster_count),
+                                  'list_area_monster': random.sample([area_fire, area_water, area_forest, area_snow], self.int_monster_count)
+                                  'list_damage': radom.sample([5, 10], self.int_monster_count)
+                                  }
+        #시연-진영님 상속받기
+        self.self.dict_grad = {'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
+                                      'skill':{10:'slice_chop'}, 'power': 200},
+                          'archer': {'survival': True,
+                                     'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 300,
+                                     'equipment': [],
+                                     'skill': {10: 'target_shot',
+                                               15: 'dual_shot',
+                                               20: 'master_shot'}},
+                          'swordman': {'survival': True,
+                                       'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 250,
+                                       'equipment': [],
+                                       'skill': {10: 'slice_chop'}},
+                          'wizard_red': {'survival': True,
+                                         'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 150,
+                                         'equipment': [],
+                                         'skill': {1: ['heal_normal', 'fire_ball'],
+                                                   15: ['heal_greater', 'fire_wall'],
+                                                   20: 'thunder_breaker',
+                                                   25: 'bilzzard',
+                                                   30: 'heal_all'}},
+                          'wizard_black': {'survival': True,
+                                           'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+                                           'equipment': [],
+                                           'skill': {1: 'fire_ball',
+                                                     15: 'fire_wall',
+                                                     20: 'thunder_breaker',
+                                                     25: 'bilzzard'}},
+                          'wizard_white': {'survival': True,
+                                           'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 100,
+                                           'equipment': [],
+                                           'skill': {1: 'heal_normal',
+                                                     15: 'heal_greater',
+                                                     30: 'heal_all'}}}
+        return self.int_floor,
+
 
     #아군 수호대 만남
-    def meet_army(self):
+    def meet_ally_gard(self):
         #9개의 포션, 장비들 중 하나 드랍
-        pass
+        print('아군수호대를 만났다')
+        drop_item = random.choice(['high_HP_potion', 'middle_HP_potion','lower_HP_potion',
+                                   'high_MP_potion', 'middle_MP_potion','lower_MP_potion',
+                                   'high_ALL_potion', 'middle_ALL_potion','lower_ALL_potion'])
 
     #적군수호대 만남
-    def meet_enemy(self):
+    def meet_enemy_gard(self, current_floor):
         #전투시작
+        self.int_floor = current_floor
+        if self.int_floor == 1:
+            list_enemy_lvs = random.sample(range(20, 25), k=6)
+        elif self.int_floor == 2:
+            list_enemy_lvs = random.sample(range(25, 30), k=6)
+        elif self.int_floor == 3:
+            list_enemy_lvs = random.sample(range(30, 35), k=6)
+        elif self.int_floor == 4:
+            list_enemy_lvs = random.sample(range(35, 40), k=6)
+        elif self.int_floor == 5:
+            list_enemy_lvs = random.sample(range(45, 50), k=6)
+        elif self.int_floor >= 6:
+            list_enemy_lvs = random.sample(range(50, 100), k=6)
 
+
+        self.dict_enemy_gard = {'name': random.choice(['light_gard', 'moon_gard', 'star_gard', 'earth_gard']),
+                                'lv': list_enemy_lvs,
+                                'hp': random.sample(range(150, 300), k=6),
+                                'mp': random.sample(range(0, 200), k=6),
+                                }
 
     # 던전 보스 위치
     def boss_location(self):
@@ -226,63 +328,115 @@ class DungeonClass():
         #     self.boss_x = random.randint(0, self.seventh_width-1)
         #     self.boss_y = random.randint(0, self.seventh_width-1)
         #     print("{}층({},{})에 보스".format(self.current_floor, self.boss_y, self.boss_x))
-        self.boss_x = random.randint(0, self.tuple_widths[self.int_current_floor-1]-1)
-        self.boss_y = random.randint(0, self.tuple_widths[self.int_current_floor-1]-1)
-        print("{}층 ({},{}) 보스몬스터".format(self.int_current_floor, self.boss_y, self.boss_x))
+        self.boss_x = random.randint(0, self.list_widths[self.int_floor-1]-1)
+        self.boss_y = random.randint(0, self.list_widths[self.int_floor-1]-1)
+        print("{}층 ({},{}) 보스몬스터".format(self.int_floor, self.boss_y, self.boss_x))
+        return boss_y, boss_x
 
     # 보스 hp
-    def boss_match(self):
-        self.int_boss_hp = 0
-        if self.int_current_floor == 1:
+    # def boss_match(self):
+    #     self.int_boss_hp = 0
+    #     if self.int_current_floor == 1:
+    #         self.int_boss_hp = random.randint(25000, 35000)
+    #     elif self.int_current_floor == 2:
+    #         self.int_boss_hp = random.randint(45000, 55000)
+    #     elif self.int_current_floor == 3:
+    #         self.int_boss_hp = random.randint(65000, 75000)
+    #     elif self.int_current_floor == 4:
+    #         self.int_boss_hp = random.randint(75000, 85000)
+    #     elif self.int_current_floor == 5:
+    #         self.int_boss_hp = random.randint(85000, 599999)
+    #     elif self.int_current_floor == 6:
+    #         self.int_boss_hp = random.randint(999999, 9999999)
+    #     elif self.int_current_floor == 7:
+    #         self.int_boss_hp = 9999999
+    #     elif self.int_current_floor == 8:
+    #         print('용사 복이 구출')
+    def boss_match(self, current_floor):
+        self.int_floor = current_floor
+        self.int_cnt = random.randint(0, 6)
+        self.list_hp = random.sample(range(200, 1000), k=self.int_cnt)
+        self.list_area = random.choices(['fire_area', 'water_area', 'forest_area', 'snow_area'], k=self.int_cnt)
+
+        if self.int_floor == 1:
             self.int_boss_hp = random.randint(25000, 35000)
-        elif self.int_current_floor == 2:
+            self.dict_boss_monster = {'name': '이동려크', 'hp': self.int_boss_hp, 'attack': ['fan_attack', 5],
+                                      'skill': ['hell_shouting', 10],
+                                      'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
+        elif self.int_floor == 2:
             self.int_boss_hp = random.randint(45000, 55000)
-        elif self.int_current_floor == 3:
+            self.dict_boss_monster = {'name': '조동혀니', 'hp': self.int_boss_hp, 'attack': ['silent_attack', 5],
+                                      'skill': ['hell_feedback', 10],
+                                      'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
+
+        elif self.int_floor == 3:
             self.int_boss_hp = random.randint(65000, 75000)
-        elif self.int_current_floor == 4:
+            self.dict_boss_monster = {'name': '류홍거리', 'hp': self.int_boss_hp, 'attack': ['ignore_attack', 5],
+                                      'skill': ['hell_ignore', 10],
+                                      'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
+
+        elif self.int_floor == 4:
             self.int_boss_hp = random.randint(75000, 85000)
-        elif self.int_current_floor == 5:
+            self.dict_boss_monster = {'name': '코로나악마공주', 'hp': self.int_boss_hp, 'attack': ['virus_attack', 5],
+                                      'skill': ['hell_virus', 10],
+                                      'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
+
+        elif self.int_floor == 5:
             self.int_boss_hp = random.randint(85000, 599999)
-        elif self.int_current_floor == 6:
+            self.dict_boss_monster = {'name': '이땅복이', 'hp': self.int_boss_hp, 'attack': ['html_attack', 5],
+                                      'skill': ['hell_task', 10],
+                                      'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
+
+        elif self.int_floor == 6:
             self.int_boss_hp = random.randint(999999, 9999999)
-        elif self.int_current_floor == 7:
+            self.dict_boss_monster = {'name': '환생의 복이', 'hp': self.int_boss_hp, 'attack': ['python_attack', 5],
+                                      'skill': ['hell_coding', 10],
+                                      'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
+
+        elif self.int_floor == 7:
             self.int_boss_hp = 9999999
-        elif self.int_current_floor == 8:
-            print('용사 복이 구출')
+            self.dict_boss_monster = {'name': '로드오브보기', 'hp': self.int_boss_hp, 'attack': ['c_attack', 5],
+                                      'skill': ['hell_boki', 10],
+                                      'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
+        # elif self.int_current_floor == 8:
+        #     print('용사 복이 구출')
 
     # 텔레포트 사용
-    def teleport_use(self):
-        if self.int_current_floor == 1:
-            self.dict_teleport_stock[1] -= 1
+    def use_teleport(self, current_floor):
+        self.int_floor = current_floor
+        if self.int_floor == 1:
+            self.dict_teleport_stock['first'] -= 1
             print(self.dict_teleport_stock[1])
-        elif self.int_current_floor == 2:
-            self.dict_teleport_stock[2] -= 1
+        elif self.int_floor == 2:
+            self.dict_teleport_stock['second'] -= 1
             print(self.dict_teleport_stock[2])
-        elif self.int_current_floor == 3:
-            self.dict_teleport_stock[3] -= 1
-        elif self.int_current_floor == 4:
-            self.dict_teleport_stock[4] -= 1
-        elif self.int_current_floor == 5:
-            self.dict_teleport_stock[5] -= 1
-        elif self.int_current_floor == 6:
-            self.dict_teleport_stock[6] -= 1
-        elif self.int_current_floor == 7:
-            self.dict_teleport_stock[7] -= 1
+        elif self.int_floor == 3:
+            self.dict_teleport_stock['third'] -= 1
+        elif self.int_floor == 4:
+            self.dict_teleport_stock['fourth'] -= 1
+        elif self.int_floor == 5:
+            self.dict_teleport_stock['fifth'] -= 1
+        elif self.int_floor == 6:
+            self.dict_teleport_stock['sixth'] -= 1
+        elif self.int_floor == 7:
+            self.dict_teleport_stock['seventh'] -= 1
 
-    # 텔레포트 사용시 필드 이동 위치
+    # 필드로 텔레포트 사용시 필드 이동 위치
     def teleport_location(self):
         self.tele_x = random.randint(0, 19)
         self.tele_y = random.randint(0, 19)
         print('텔레포트를 사용해 필드({},{})로 이동'.format(self.tele_y, self.tele_x))
 
     # 텔레포트 사용 후 재입장시 이동위치
-    def come_back(self):
-        self.come_back_x = random.randint(0, self.tuple_widths[self.int_current_floor-1]-1)
-        self.come_back_y = random.randint(0, self.tuple_widths[self.int_current_floor-1]-1)
-        print('{}층 {},{}로 재입장'.format(self.int_current_floor, self.come_back_y, self.come_back_x))
+    def reentry_maze(self):
+        self.reentry_maze_x = random.randint(0, self.list_widths[self.int_floor-1]-1)
+        self.reentry_maze_y = random.randint(0, self.list_widths[self.int_floor-1]-1)
+        print('{}층 {},{}로 재입장'.format(self.int_floor, self.come_back_y, self.come_back_x))
+        return self.reentry_maze_y, self.reentry_maze_x
 
+    # 보스 처치 유무 확인
     # 보스 죽인후 다음층 이동
-    def next_dungeon(self):
+    def next_maze(self):
         # if self.current_floor == 1:
         #     self.current_floor += 1
         #     self.current_x = random.randint(0, self.second_width-1) #self.widths[self.current_floor]-1
@@ -319,14 +473,24 @@ class DungeonClass():
         #     self.current_x = random.randint(0, self.eighth_width-1)
         #     self.current_y = random.randint(0, self.eighth_width-1)
         #     print("{}층 {},{}에 입장".format(self.current_floor, self.current_y, self.current_x))
-        self.int_current_floor += 1
-        self.current_x = random.randint(0, self.tuple_widths[self.int_current_floor-1]-1)
-        self.current_y = random.randint(0, self.tuple_widths[self.int_current_floor-1]-1)
-        print("{}층 {},{}로 진입".format(self.int_current_floor, self.current_y, self.current_x))
+        self.int_floor += 1
+        self.current_x = random.randint(0, self.list_widths[self.int_floor-1]-1)
+        self.current_y = random.randint(0, self.list_widths[self.int_floor-1]-1)
+        print("{}층 {},{}로 진입".format(self.int_floor, self.current_y, self.current_x))
 
+    #도망 선택해 작동한 경우(전투에서 던전으로 빠져나옴)
+    def escape_location(self, current_floor):
+        self.int_floor = current_floor
+        self.int_escape_x = random.randint(0, self.list_widths[self.int_floor-1]-1)
+        self.int_escape_y = random.randint(0, self.list_widths[self.int_floor-1]-1)
+        print('현재 {}층 {},{}로 도망'.format(self.int_floor, self.int_escape_y, self.int_escape_x))
+        return self.int_floor, self.int_escape_y, self.int_escape_x
+
+    #8층 복이 위치(구출하고 게임엔딩)
     def boki_location(self):
-        if self.int_current_floor == 8:
+        if self.int_floor == 8:
             self.int_boki_x = random.randint(0, 3)
             self.int_boki_y = random.randint(0, 3)
-            print("{}층 {},{} 복이 구출".format(self.int_current_floor, self.int_boki_y, self.int_boki_x))
+            print("{}층 {},{} 복이 구출".format(self.int_floor, self.int_boki_y, self.int_boki_x))
+        return self.int_boki_y, self.int_boki_x
 
