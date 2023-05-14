@@ -2,12 +2,14 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-
 from Equipment import Equipment
+from view.main_frame import Ui_MainWindow
 
-class MainClass(QMainWindow, Equipment):
+
+class MainClass(QMainWindow, Equipment, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
         # 수호대 리스트
         self.list_gard = ['light_gard', 'moon_gard', 'star_gard', 'earth_gard']
         # 직업 리스트
@@ -53,63 +55,76 @@ class MainClass(QMainWindow, Equipment):
                                                      15: 'heal_greater',
                                                      30: 'heal_all'}}}
 
-        self.wear_equipment('swordman', 'horse_helmet', self.dict_gard)
+        # 필드에 이미지 넣기
+        self.forest_area.setPixmap(
+            QPixmap('./img_src/forest_map.jpg').scaled(self.forest_area.width(), self.forest_area.height(),
+                                                       Qt.KeepAspectRatio))
+        self.forest_area.setScaledContents(True)
+        self.fire_area.setPixmap(
+            QPixmap('./img_src/fire_map.jpg').scaled(self.fire_area.width(), self.fire_area.height(),
+                                                       Qt.KeepAspectRatio))
+        self.fire_area.setScaledContents(True)
+        self.snow_area.setPixmap(
+            QPixmap('./img_src/snow_map.gif').scaled(self.snow_area.width(), self.snow_area.height(),
+                                                       Qt.KeepAspectRatio))
+        self.snow_area.setScaledContents(True)
+        self.water_area.setPixmap(
+            QPixmap('./img_src/water_map.jpg').scaled(self.water_area.width(), self.water_area.height(),
+                                                       Qt.KeepAspectRatio))
+        self.water_area.setScaledContents(True)
+
+        # 라벨 생성 및 위치 조정
+        self.label = QLabel(self.stack_field)
+        self.label.setGeometry(50, 50, 35, 35)
+        # self.label.setPixmap(QPixmap('./img_src/character.png'))
+        self.label.setStyleSheet("background-color: red;")
+
+        # 장비 착용 및 해제
+        self.wear_equip('swordman', 'horse_helmet', self.dict_gard)
+        print(self.dict_gard)
+        self.take_off_equip('swordman', 'horse_helmet', self.dict_gard)
         print(self.dict_gard)
 
-
-    # 수호대 상태 갱신
-    # @property
-    # def dict_gard(self):
-    #     return self.dict_gard
-    # @dict_gard.setter
-    # def dict_gard(self, dict_gard):
-    #     self.dict_gard = dict_gard
+        self.renew_log_view()
 
     # 이동
     def keyPressEvent(self, event):
         # 방향키 누를 때마다 라벨 위치 조정
         if event.key() == Qt.Key_Left:
-            x = self.label.x() - int(self.frame.width() / 20)
+            x = self.label.x() - int(self.stack_field.width() / 20)
             if x < 0:
                 x = 0
             self.label.move(x, self.label.y())
             print(self.label.x(), self.label.y())
         elif event.key() == Qt.Key_Right:
-            x = self.label.x() + int(self.frame.width() / 20)
-            if x > self.frame.width() - self.label.width():
-                x = self.frame.width() - self.label.width()
+            x = self.label.x() + int(self.stack_field.width() / 20)
+            if x > self.stack_field.width() - self.label.width():
+                x = self.stack_field.width() - self.label.width()
             self.label.move(x, self.label.y())
             print(self.label.x(), self.label.y())
         elif event.key() == Qt.Key_Up:
-            y = self.label.y() - int(self.frame.height() / 20)
+            y = self.label.y() - int(self.stack_field.height() / 20)
             if y < 0:
                 y = 0
             self.label.move(self.label.x(), y)
             print(self.label.x(), self.label.y())
         elif event.key() == Qt.Key_Down:
-            y = self.label.y() + int(self.frame.height() / 20)
-            if y > self.frame.height() - self.label.height():
-                y = self.frame.height() - self.label.height()
+            y = self.label.y() + int(self.stack_field.height() / 20)
+            if y > self.stack_field.height() - self.label.height():
+                y = self.stack_field.height() - self.label.height()
             self.label.move(self.label.x(), y)
             print(self.label.x(), self.label.y())
-
 
     def update_gard_stat(self, gard):
         self.dict_gard = gard
 
     # 로그창 갱신
     def renew_log_view(self):
-        list_widget = QListWidget()
-        # Add an item to the list widget
-        item = QListWidgetItem("")
-        list_widget.addItem("아이템을 획득하였습니다.")
-        list_widget.addItem("아이템을 획득하였습니다.")
-        list_widget.addItem("아이템을 획득하였습니다.")
-        list_widget.addItem("아이템을 획득하였습니다.")
-        list_widget.addItem("아이템을 획득하였습니다.")
-        list_widget.addItem("아이템을 획득하였습니다.")
-        list_widget.addItem("아이템을 획득하였습니다.")
-        list_widget.addItem("아이템을 획득하였습니다.")
+        self.list_log.addItem("아이템을 획득하였습니다.")
+        self.list_log.addItem("아이템을 획득하였습니다.")
+        self.list_log.addItem("아이템을 획득하였습니다.")
+        self.list_log.addItem("아이템을 획득하였습니다.")
+        self.list_log.addItem("아이템을 획득하였습니다.")
 
     # 아이템창 갱신
     def renew_item_view(self):
@@ -155,5 +170,3 @@ if __name__ == '__main__':
     main = MainClass()
     main.show()
     sys.exit(app.exec_())
-
-

@@ -44,7 +44,7 @@ class Equipment():
                              'red_pants', 'blue_pants', 'black_pants', ]}
 
     # 장비 착용
-    def wear_equipment(self, str_job, str_equipment, dict_gard):
+    def wear_equip(self, str_job, str_equipment, dict_gard):
         # 직업에 맞는 장비인지 확인
         if str_equipment in self.dict_job_equip[str_job]:
             is_correct = True
@@ -56,5 +56,5 @@ class Equipment():
             dict_gard[str_job]['equipment'].append(str_equipment)
 
     # 장비 해제
-    def take_off_equipment(self):
-        self.dict_gard[self.str_job]['str_equipment'].remove(self.str_equipment)
+    def take_off_equip(self, str_job, str_equipment, dict_gard):
+        dict_gard[str_job]['equipment'].remove(str_equipment)
