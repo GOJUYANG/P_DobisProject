@@ -1,7 +1,13 @@
+from Common import Common as c
+from Main import MainFrame as mf
+
+
 class Equipment():
-    def __init__(self, job, equipment):
-        self.job = job
-        self.equipment = equipment
+    def __init__(self, **kwargs):
+        if 'job' in kwargs:
+            self.job = kwargs['job']
+        if 'equipment' in kwargs:
+            self.equipment = kwargs['equipment']
 
         # 직업별 착용 장비리스트
         self.job_equip_list = {
@@ -46,19 +52,30 @@ class Equipment():
                              'cow_cape', 'horse_cape', 'croc_cape', 'red_cape', 'blue_cape', 'black_cape',
                              'red_pants', 'blue_pants', 'black_pants', ]}
 
+    # 장비 착용
+    def wear_equipment(self):
+        # 직업에 맞는 장비인지 확인
+        is_correct = self.isEquipCorrect()
+
+        # 맞으면 장비 착용
+        if is_correct:
+            self.a[self.job]['equipment'].append(self.equipment)
+            print(self.a[self.job])
+
     def isEquipCorrect(self):
         if self.equipment in self.job_equip_list[self.job]:
             return True
         else:
             return False
 
+    # 장비 해제
+    def take_off_equipment(self):
+        self.a.dict_grad_stat[self.job]['equipment'].remove(self.equipment)
+        print(self.a.dict_grad_stat[self.job])
+        # 해제한 장비 반환
+        return self.equipment
 
-# 검사 장비를 착용하지 않았을때
-a = Equipment('swordman', 'blue_armor')
-if not a.isEquipCorrect():
-    print('검사 장비가 아닙니다.')
 
-# 검사 장비를 착용했을때
-b = Equipment('swordman', 'silver_helmet')
-if b.isEquipCorrect():
-    print('장비를 착용하였습니다')
+
+
+
