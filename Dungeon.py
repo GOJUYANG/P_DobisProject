@@ -1,3 +1,90 @@
+import random
+
+class Common():
+    def __init__(self, **kwargs):
+        if 'field' in kwargs:
+            self.field = kwargs['field']
+        if 'gard' in kwargs:
+            self.gard = kwargs['gard']
+        if 'monster' in kwargs:
+            self.moster = kwargs['monster']
+        if 'item' in kwargs:
+            self.item = kwargs['item']
+        if 'maze' in kwargs:
+            self.tower = kwargs['maze']
+
+        self.field_list = ['fire_area', 'water_area', 'forest_area', 'snow_area']
+        self.gard_list = ['light_gard', 'moon_gard', 'star_gard', 'forest_gard']
+        self.monster_list = ['fire_field_moster', 'water_field_moster', 'forest_field_moster', 'snow_field_moster']
+        self.item_list = ['meteorite', 'tent', 'HP_potion_high', 'HP_potion_middle', 'HP_potion_low', 'MP_potion_high',
+                          'MP_potion_middle', 'MP_potion_low', 'All_potion_high', 'All_potion_middle', 'All_potion_low',
+                          'survival']
+        self.move_drop_list = ['HP_potion_high', 'HP_potion_middle', 'HP_potion_low', 'MP_potion_high', 'MP_potion_middle',
+                               'MP_potion_low', 'All_potion_high', 'All_potion_middle', 'All_potion_low']
+        self.maze_list = ['maze_way', 'random_maze_way']
+        self.meteorite = ['meteorite_item']
+        self.user_state_list = ['job', 'lv', 'hp', 'mp', 'exp', 'skil', 'power']
+        # self.turn = 0
+
+    def random_field(self): # 랜덤 필드
+        rand_field_way = random.choice(self.field_list)
+        print(f"나의 용병단 {rand_field_way}의 위치에 생성")
+
+    def random_user_gard(self): # 랜덤 유저 속성 수호대
+        rand_user_gard = random.choice(self.gard_list)
+        print(f"나의 수호대 {rand_user_gard}로 생성")
+
+    def random_maze_start(self): # 랜덤한 위치에 던전 입구 생성
+        # if self.turn <= 10: # 10 턴 마다 던전입구 재생성
+        rand_maze_start = random.randint(0, 20)
+        rand_maze_start_ = random.randint(0, 20)
+        print(f"랜덤 던전 좌표 X {rand_maze_start} Y {rand_maze_start_}")
+
+    def random_meteorite_way(self): # 랜덤한 위치에 운석 생성
+        rand_met_way = random.randint(0, 20)
+        rand_met_way_ = random.randint(0, 20)
+        print(f"랜덤 운석 좌표 X {rand_met_way}, Y {rand_met_way_}")
+        # self.inven.append(self.meteorite)
+
+    def field_area(self): # 지역
+        print('\n')
+        for i in range(10):
+            print("'불'"*10,'"눈"'*10, end="\n")
+
+        for i in range(10):
+            print("'숲'"*10,'"물"'*10, end="\n")
+
+    def feild_move_random_drop(self): # 필드 이동 중 랜덤 드랍
+        drop_list = random.choice(self.move_drop_list)
+        print(drop_list)
+
+
+a = Common()
+a.random_field()
+b = Common()
+b.random_user_gard()
+c = Common()
+c.random_maze_start()
+d = Common()
+d.random_meteorite_way()
+e = Common()
+e.field_area()
+f = Common()
+f.feild_move_random_drop()
+
+# 시작 버튼 클릭 시 필드에서 4개지역 [불, 물, 숲, 눈] 중 랜덤한 위치에 수호대가 생성된다.0
+# 플레이어의 특정 수호대를 제외한 나머지 특정 타 수호대를 생성한다.
+# 방향키를 지정하여 맵을 이동한다 # 공통
+# 각 지역 이동 중 지역의 고유 몬스터를 일정 확률로 몬스터가 출몰한다.
+# 던전 입구는 필드 내 랜덤한 위치에 생성된다. 0
+# 이동 중 랜덤한 위치에 운석이 존재하며 획득한다. 0
+# 이동 중 일정 확률로 아이템 획득이 가능하다. (부활포션, 장비아이템 제외) 0
+# 이동 중 일정 확률로 타 수호대와 조우 한다.
+# 11번째 전투까지 던전 입구 못찾을시 랜덤한 위치에 재생성 !
+# 각 지역 필드 몬스터 설정
+# 각 지역 설정 0
+
+
 # #던전 입장
 # 던전 크기 랜덤 생성, 각 층의 던전 크기 저장
 
