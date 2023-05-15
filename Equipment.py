@@ -121,6 +121,13 @@ class EquipmentClass(QDialog, Ui_Equipment):
         for k, v in self.dict_equipment.items():
             v[1] = 1
 
+    # 장비 획득
+    def get_equip(self, list_equip):
+        for equip in list_equip:
+            for k, v in self.dict_equipment.items():
+                if k == equip:
+                    v[1] += 1
+
     # 장비 착용
     def wear_equip(self, str_job, str_equipment, dict_user_grad):
         # 직업에 맞는 장비인지 확인
