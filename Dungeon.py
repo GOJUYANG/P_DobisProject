@@ -163,7 +163,7 @@ import random
 #층별 면적 결정
 class DungeonClass():
     def __init__(self):
-        #던전입장 후 현재 층 : current_floor = 1
+        #던전입장 후 현재 층 : int_floor = 1
         self.dict_teleport_stock = {'first': 5, 'second': 5, 'third': 5, 'forth': 5, 'fifth': 5, 'sixth': 5, 'seventh': 5}
         self.list_widths = random.choices([15, 16, 17, 18], k=7)
         self.list_widths.append(4)
@@ -178,13 +178,28 @@ class DungeonClass():
         self.seventh_width = self.list_widths[6]
         self.eighth_width = self.list_widths[7]
 
+    def move_event(self, int_floor):
+        self.int_floor = int_floor
+        ratio = random.randint(1, 100)
+        if ratio <= 30:
+            print('일반몬스터')
+            self.meet_monster(self.int_floor)
+        elif ratio <= 45:
+            print('아군수호대 조우')
+            self.meet_ally_gard()
+        elif ratio <= 60:
+            print('적군수호대 조우')
+            self.meet_enemy_gard(self.int_floor)
+        else:
+            print('그냥이동')
+
     #일반몬스터 만남(1~10마리)
     def meet_monster(self, int_floor):
         self.int_floor = int_floor
         self.int_monster_count = random.randint(1, 10)
-        drop_item = random.choice(['high_HP_potion', 'middle_HP_potion', 'lower_HP_potion',
-                                   'high_MP_potion', 'middle_MP_potion', 'lower_MP_potion',
-                                   'high_ALL_potion', 'middle_ALL_potion', 'lower_ALL_potion'])
+        # drop_item = random.choice(['high_HP_potion', 'middle_HP_potion', 'lower_HP_potion',
+        #                            'high_MP_potion', 'middle_MP_potion', 'lower_MP_potion',
+        #                            'high_ALL_potion', 'middle_ALL_potion', 'lower_ALL_potion'])
 
         # self.dict_gard = {'gard': '',
         #                   'location': {'region': '', 'x': 0, 'y': 0},
@@ -226,11 +241,11 @@ class DungeonClass():
 
         self.dict_maze_monster = {'int_cnt': self.int_monster_count,
                                   'list_hp': self.random.sample(range(200, 1000), self.int_monster_count),
-                                  'list_area_monster': random.sample([area_fire, area_water, area_forest, area_snow], self.int_monster_count)
+                                  'list_area_monster': random.sample(['area_fire', 'area_water', 'area_forest', 'area_snow'], self.int_monster_count),
                                   'list_damage': radom.sample([5, 10], self.int_monster_count)
                                   }
         #시연-진영님 상속받기
-        self.self.dict_grad = {'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
+        self.dict_gard = {'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
                                       'skill':{10:'slice_chop'}, 'power': 200},
                           'archer': {'survival': True,
                                      'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 300,
@@ -263,7 +278,8 @@ class DungeonClass():
                                            'skill': {1: 'heal_normal',
                                                      15: 'heal_greater',
                                                      30: 'heal_all'}}}
-        return self.int_floor,
+        print(self.int_floor, self.dict_maze_monster, self.dict_gard)
+        return self.int_floor, self.dict_maze_monster, self.dict_gard
 
 
     #아군 수호대 만남
@@ -273,30 +289,79 @@ class DungeonClass():
         drop_item = random.choice(['high_HP_potion', 'middle_HP_potion','lower_HP_potion',
                                    'high_MP_potion', 'middle_MP_potion','lower_MP_potion',
                                    'high_ALL_potion', 'middle_ALL_potion','lower_ALL_potion'])
+        return drop_item
 
     #적군수호대 만남
-    def meet_enemy_gard(self, current_floor):
+    def meet_enemy_gard(self, int_floor):
         #전투시작
-        self.int_floor = current_floor
+        self.int_floor = int_floor
         if self.int_floor == 1:
             list_enemy_lvs = random.sample(range(20, 25), k=6)
+            int_hp_up = 1.3
         elif self.int_floor == 2:
             list_enemy_lvs = random.sample(range(25, 30), k=6)
+            int_hp_up = 1.3
         elif self.int_floor == 3:
             list_enemy_lvs = random.sample(range(30, 35), k=6)
+            int_hp_up = 1.4
         elif self.int_floor == 4:
             list_enemy_lvs = random.sample(range(35, 40), k=6)
+            int_hp_up = 1.4
         elif self.int_floor == 5:
             list_enemy_lvs = random.sample(range(45, 50), k=6)
+            int_hp_up = 1.5
         elif self.int_floor >= 6:
             list_enemy_lvs = random.sample(range(50, 100), k=6)
+            int_hp_up = 1.6
 
+        self.dict_user_gard = {'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 200,
+                                      'skill': {10: 'slice_chop'}},
+                          'archer': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 300,
+                                     'skill': {10: 'target_shot',
+                                               15: 'dual_shot',
+                                               20: 'master_shot'}},
+                          'swordman': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 250,
+                                       'skill': {10: 'slice_chop'}},
+                          'wizard_red': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 150,
+                                         'skill': {1: ['heal_normal', 'fire_ball'],
+                                                   15: ['heal_greater', 'fire_wall'],
+                                                   20: 'thunder_breaker',
+                                                   25: 'bilzzard',
+                                                   30: 'heal_all'}},
+                          'wizard_black': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 200,
+                                           'skill': {1: 'fire_ball',
+                                                     15: 'fire_wall',
+                                                     20: 'thunder_breaker',
+                                                     25: 'bilzzard'}},
+                          'wizard_white': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 100,
+                                           'skill': {1: 'heal_normal',
+                                                     15: 'heal_greater',
+                                                     30: 'heal_all'}}}
 
-        self.dict_enemy_gard = {'name': random.choice(['light_gard', 'moon_gard', 'star_gard', 'earth_gard']),
-                                'lv': list_enemy_lvs,
-                                'hp': random.sample(range(150, 300), k=6),
-                                'mp': random.sample(range(0, 200), k=6),
-                                }
+        self.dict_enemy_gard = {'warrior': {'lv': list_enemy_lvs[0], 'hp': 300*int_hp_up, 'mp': 0,
+                                      'skill': {10: 'slice_chop'}, 'power': 200},
+                          'archer': {'lv': list_enemy_lvs[1], 'hp': 150*int_hp_up, 'mp': 150*int_hp_up,'power': 300,
+                                     'skill': {10: 'target_shot',
+                                               15: 'dual_shot',
+                                               20: 'master_shot'}},
+                          'swordman': {'lv': list_enemy_lvs[2], 'hp': 150*int_hp_up, 'mp': 150*int_hp_up, 'power': 250,
+                                       'skill': {10: 'slice_chop'}},
+                          'wizard_red': {'lv': list_enemy_lvs[3], 'hp': 150*int_hp_up, 'mp': 100*int_hp_up, 'power': 150,
+                                         'skill': {1: ['heal_normal', 'fire_ball'],
+                                                   15: ['heal_greater', 'fire_wall'],
+                                                   20: 'thunder_breaker',
+                                                   25: 'bilzzard',
+                                                   30: 'heal_all'}},
+                          'wizard_black': {'lv': list_enemy_lvs[4], 'hp': 200*int_hp_up, 'mp': 150*int_hp_up, 'power': 200,
+                                           'skill': {1: 'fire_ball',
+                                                     15: 'fire_wall',
+                                                     20: 'thunder_breaker',
+                                                     25: 'bilzzard'}},
+                          'wizard_white': {'lv': list_enemy_lvs[5], 'hp': 200*int_hp_up, 'mp': 150*int_hp_up, 'power': 100,
+                                           'skill': {1: 'heal_normal',
+                                                     15: 'heal_greater',
+                                                     30: 'heal_all'}}}
+        return self.int_floor, self.dict_enemy_gard, self.dict_user_gard
 
     # 던전 보스 위치
     def boss_location(self):
@@ -360,43 +425,43 @@ class DungeonClass():
 
         if self.int_floor == 1:
             self.int_boss_hp = random.randint(25000, 35000)
-            self.dict_boss_monster = {'name': '이동려크', 'hp': self.int_boss_hp, 'attack': ['fan_attack', 5],
-                                      'skill': ['hell_shouting', 10],
+            self.dict_boss_monster = {'name': '이동려크', 'hp': self.int_boss_hp, 'attack': ['fan_attack', 0.05],
+                                      'skill': ['hell_shouting', 0.1],
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
         elif self.int_floor == 2:
             self.int_boss_hp = random.randint(45000, 55000)
-            self.dict_boss_monster = {'name': '조동혀니', 'hp': self.int_boss_hp, 'attack': ['silent_attack', 5],
-                                      'skill': ['hell_feedback', 10],
+            self.dict_boss_monster = {'name': '조동혀니', 'hp': self.int_boss_hp, 'attack': ['silent_attack', 0.05],
+                                      'skill': ['hell_feedback', 0.1],
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
 
         elif self.int_floor == 3:
             self.int_boss_hp = random.randint(65000, 75000)
-            self.dict_boss_monster = {'name': '류홍거리', 'hp': self.int_boss_hp, 'attack': ['ignore_attack', 5],
-                                      'skill': ['hell_ignore', 10],
+            self.dict_boss_monster = {'name': '류홍거리', 'hp': self.int_boss_hp, 'attack': ['ignore_attack', 0.05],
+                                      'skill': ['hell_ignore', 0.1],
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
 
         elif self.int_floor == 4:
             self.int_boss_hp = random.randint(75000, 85000)
-            self.dict_boss_monster = {'name': '코로나악마공주', 'hp': self.int_boss_hp, 'attack': ['virus_attack', 5],
-                                      'skill': ['hell_virus', 10],
+            self.dict_boss_monster = {'name': '코로나악마공주', 'hp': self.int_boss_hp, 'attack': ['virus_attack', 0.05],
+                                      'skill': ['hell_virus', 0.1],
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
 
         elif self.int_floor == 5:
             self.int_boss_hp = random.randint(85000, 599999)
-            self.dict_boss_monster = {'name': '이땅복이', 'hp': self.int_boss_hp, 'attack': ['html_attack', 5],
-                                      'skill': ['hell_task', 10],
+            self.dict_boss_monster = {'name': '이땅복이', 'hp': self.int_boss_hp, 'attack': ['html_attack', 0.05],
+                                      'skill': ['hell_task', 0.1],
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
 
         elif self.int_floor == 6:
             self.int_boss_hp = random.randint(999999, 9999999)
-            self.dict_boss_monster = {'name': '환생의 복이', 'hp': self.int_boss_hp, 'attack': ['python_attack', 5],
-                                      'skill': ['hell_coding', 10],
+            self.dict_boss_monster = {'name': '환생의 복이', 'hp': self.int_boss_hp, 'attack': ['python_attack', 0.05],
+                                      'skill': ['hell_coding', 0.1],
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
 
         elif self.int_floor == 7:
             self.int_boss_hp = 9999999
-            self.dict_boss_monster = {'name': '로드오브보기', 'hp': self.int_boss_hp, 'attack': ['c_attack', 5],
-                                      'skill': ['hell_boki', 10],
+            self.dict_boss_monster = {'name': '로드오브보기', 'hp': self.int_boss_hp, 'attack': ['c_attack', 0.05],
+                                      'skill': ['hell_boki', 0.1],
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
         # elif self.int_current_floor == 8:
         #     print('용사 복이 구출')
@@ -494,3 +559,4 @@ class DungeonClass():
             print("{}층 {},{} 복이 구출".format(self.int_floor, self.int_boki_y, self.int_boki_x))
         return self.int_boki_y, self.int_boki_x
 
+DungeonClass.meet_monster(self.int_floor=1)
