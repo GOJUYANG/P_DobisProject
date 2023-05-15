@@ -4,18 +4,14 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from Equipment import Equipment
 from view.main_frame import Ui_MainWindow
+from Common import CommonClass
 
 
-class MainClass(QMainWindow, Equipment, Ui_MainWindow):
+class MainClass(QMainWindow, Equipment, CommonClass, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        # 수호대 리스트
-        self.list_gard = ['light_gard', 'moon_gard', 'star_gard', 'earth_gard']
-        # 직업 리스트
-        self.list_job = ['warrior', 'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white']
-        # 필드 리스트
-        self.list_field = ['fire_area', 'water_area', 'forest_area', 'snow_area']
+
         # 수호대
         self.dict_gard = {'gard': '',
                           'location': {'region': '', 'x': 0, 'y': 0},
@@ -62,22 +58,29 @@ class MainClass(QMainWindow, Equipment, Ui_MainWindow):
         self.forest_area.setScaledContents(True)
         self.fire_area.setPixmap(
             QPixmap('./img_src/fire_map.jpg').scaled(self.fire_area.width(), self.fire_area.height(),
-                                                       Qt.KeepAspectRatio))
+                                                     Qt.KeepAspectRatio))
         self.fire_area.setScaledContents(True)
         self.snow_area.setPixmap(
             QPixmap('./img_src/snow_map.gif').scaled(self.snow_area.width(), self.snow_area.height(),
-                                                       Qt.KeepAspectRatio))
+                                                     Qt.KeepAspectRatio))
         self.snow_area.setScaledContents(True)
         self.water_area.setPixmap(
             QPixmap('./img_src/water_map.jpg').scaled(self.water_area.width(), self.water_area.height(),
-                                                       Qt.KeepAspectRatio))
+                                                      Qt.KeepAspectRatio))
         self.water_area.setScaledContents(True)
 
         # 라벨 생성 및 위치 조정
-        self.label = QLabel(self.stack_field)
-        self.label.setGeometry(50, 50, 35, 35)
-        # self.label.setPixmap(QPixmap('./img_src/character.png'))
-        self.label.setStyleSheet("background-color: red;")
+        self.img_gard = QLabel(self.stack_field)
+
+        # 수호대 랜덤배치
+        self.x, self.y = self.random_assign_field()
+        self.img_gard.move(self.x * int(self.stack_field.width() / 20), self.y * int(self.stack_field.width() / 20))
+        print(self.x * int(self.stack_field.width() / 20), self.y * int(self.stack_field.width() / 20))
+
+        # 수호대 사이즈 조절
+        self.img_gard.resize(int(self.stack_field.width() / 20), int(self.stack_field.height() / 20))
+        self.img_gard.setPixmap(QPixmap('./img_src/character.png'))
+        self.img_gard.setScaledContents(True)
 
         # 장비 착용 및 해제
         self.wear_equip('swordman', 'horse_helmet', self.dict_gard)
@@ -87,33 +90,40 @@ class MainClass(QMainWindow, Equipment, Ui_MainWindow):
 
         self.renew_log_view()
 
+    # 화면 크기 조절 이벤트
+    def resizeEvent(self, event):
+        print(self.stack_field.width(), self.stack_field.height())
+        if self.img_gard.isVisible():
+            self.img_gard.move(self.x * int(self.stack_field.width() / 20), self.y * int(self.stack_field.width() / 20))
+            self.img_gard.resize(int(self.stack_field.width() / 20), int(self.stack_field.height() / 20))
+
     # 이동
     def keyPressEvent(self, event):
         # 방향키 누를 때마다 라벨 위치 조정
         if event.key() == Qt.Key_Left:
-            x = self.label.x() - int(self.stack_field.width() / 20)
+            x = self.img_gard.x() - int(self.stack_field.width() / 20)
             if x < 0:
                 x = 0
-            self.label.move(x, self.label.y())
-            print(self.label.x(), self.label.y())
+            self.img_gard.move(x, self.img_gard.y())
+            print(self.img_gard.x(), self.img_gard.y())
         elif event.key() == Qt.Key_Right:
-            x = self.label.x() + int(self.stack_field.width() / 20)
-            if x > self.stack_field.width() - self.label.width():
-                x = self.stack_field.width() - self.label.width()
-            self.label.move(x, self.label.y())
-            print(self.label.x(), self.label.y())
+            x = self.img_gard.x() + int(self.stack_field.width() / 20)
+            if x > self.stack_field.width() - self.img_gard.width():
+                x = self.stack_field.width() - self.img_gard.width()
+            self.img_gard.move(x, self.img_gard.y())
+            print(self.img_gard.x(), self.img_gard.y())
         elif event.key() == Qt.Key_Up:
-            y = self.label.y() - int(self.stack_field.height() / 20)
+            y = self.img_gard.y() - int(self.stack_field.height() / 20)
             if y < 0:
                 y = 0
-            self.label.move(self.label.x(), y)
-            print(self.label.x(), self.label.y())
+            self.img_gard.move(self.img_gard.x(), y)
+            print(self.img_gard.x(), self.img_gard.y())
         elif event.key() == Qt.Key_Down:
-            y = self.label.y() + int(self.stack_field.height() / 20)
-            if y > self.stack_field.height() - self.label.height():
-                y = self.stack_field.height() - self.label.height()
-            self.label.move(self.label.x(), y)
-            print(self.label.x(), self.label.y())
+            y = self.img_gard.y() + int(self.stack_field.height() / 20)
+            if y > self.stack_field.height() - self.img_gard.height():
+                y = self.stack_field.height() - self.img_gard.height()
+            self.img_gard.move(self.img_gard.x(), y)
+            print(self.img_gard.x(), self.img_gard.y())
 
     def update_gard_stat(self, gard):
         self.dict_gard = gard
