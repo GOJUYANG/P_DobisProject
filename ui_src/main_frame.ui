@@ -61,16 +61,6 @@
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="0" column="1">
-           <widget class="QLabel" name="snow_area">
-            <property name="lineWidth">
-             <number>0</number>
-            </property>
-            <property name="text">
-             <string>눈</string>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="fire_area">
             <property name="lineWidth">
@@ -78,16 +68,6 @@
             </property>
             <property name="text">
              <string>불</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="forest_area">
-            <property name="lineWidth">
-             <number>0</number>
-            </property>
-            <property name="text">
-             <string>숲</string>
             </property>
            </widget>
           </item>
@@ -101,51 +81,29 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="snow_area">
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="text">
+             <string>눈</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="forest_area">
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="text">
+             <string>숲</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
         <widget class="QWidget" name="stack_maze"/>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="1">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="sizeConstraint">
-       <enum>QLayout::SetFixedSize</enum>
-      </property>
-      <item>
-       <widget class="QListWidget" name="list_item">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>350</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>250</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QListWidget" name="list_log">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>150</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>250</width>
-          <height>16777215</height>
-         </size>
-        </property>
        </widget>
       </item>
      </layout>
@@ -202,6 +160,9 @@
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_1">
              <property name="sizePolicy">
@@ -229,6 +190,11 @@
            </item>
            <item>
             <widget class="QProgressBar" name="mp_job_1">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+QProgressBar::chunk {background-color: rgb(0, 0, 255);}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -246,6 +212,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <property name="spacing">
             <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
            </property>
            <item>
             <widget class="QLabel" name="hp_1">
@@ -274,6 +243,12 @@
            </item>
            <item>
             <widget class="QProgressBar" name="hp_job_1">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+
+QProgressBar::chunk {background-color: #FF0000;}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -433,6 +408,9 @@
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_2">
              <property name="sizePolicy">
@@ -460,6 +438,11 @@
            </item>
            <item>
             <widget class="QProgressBar" name="mp_job_2">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+QProgressBar::chunk {background-color: rgb(0, 0, 255);}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -477,6 +460,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <property name="spacing">
             <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
            </property>
            <item>
             <widget class="QLabel" name="hp_2">
@@ -505,6 +491,12 @@
            </item>
            <item>
             <widget class="QProgressBar" name="hp_job_2">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+
+QProgressBar::chunk {background-color: #FF0000;}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -664,6 +656,9 @@
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_3">
              <property name="sizePolicy">
@@ -691,6 +686,11 @@
            </item>
            <item>
             <widget class="QProgressBar" name="mp_job_3">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+QProgressBar::chunk {background-color: rgb(0, 0, 255);}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -708,6 +708,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout_9">
            <property name="spacing">
             <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
            </property>
            <item>
             <widget class="QLabel" name="hp_3">
@@ -736,6 +739,12 @@
            </item>
            <item>
             <widget class="QProgressBar" name="hp_job_3">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+
+QProgressBar::chunk {background-color: #FF0000;}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -895,6 +904,9 @@
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="hp_4">
              <property name="sizePolicy">
@@ -922,6 +934,12 @@
            </item>
            <item>
             <widget class="QProgressBar" name="hp_job_4">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+
+QProgressBar::chunk {background-color: #FF0000;}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -1036,6 +1054,9 @@
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_4">
              <property name="sizePolicy">
@@ -1063,6 +1084,11 @@
            </item>
            <item>
             <widget class="QProgressBar" name="mp_job_4">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+QProgressBar::chunk {background-color: rgb(0, 0, 255);}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -1126,6 +1152,9 @@
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_5">
              <property name="sizePolicy">
@@ -1153,6 +1182,11 @@
            </item>
            <item>
             <widget class="QProgressBar" name="mp_job_5">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+QProgressBar::chunk {background-color: rgb(0, 0, 255);}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -1170,6 +1204,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout_15">
            <property name="spacing">
             <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
            </property>
            <item>
             <widget class="QLabel" name="hp_5">
@@ -1198,6 +1235,12 @@
            </item>
            <item>
             <widget class="QProgressBar" name="hp_job_5">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+
+QProgressBar::chunk {background-color: #FF0000;}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -1357,6 +1400,9 @@
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_6">
              <property name="sizePolicy">
@@ -1384,6 +1430,11 @@
            </item>
            <item>
             <widget class="QProgressBar" name="mp_job_6">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+QProgressBar::chunk {background-color: rgb(0, 0, 255);}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -1401,6 +1452,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout_18">
            <property name="spacing">
             <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
            </property>
            <item>
             <widget class="QLabel" name="hp_6">
@@ -1429,6 +1483,12 @@
            </item>
            <item>
             <widget class="QProgressBar" name="hp_job_6">
+             <property name="styleSheet">
+              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
+
+QProgressBar::chunk {background-color: #FF0000;}
+</string>
+             </property>
              <property name="value">
               <number>24</number>
              </property>
@@ -1539,6 +1599,120 @@
           </layout>
          </item>
         </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="1">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetFixedSize</enum>
+      </property>
+      <item>
+       <widget class="QStackedWidget" name="stack_item">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>450</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>250</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="page">
+         <layout class="QHBoxLayout" name="horizontalLayout_21">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QTableWidget" name="table_item">
+            <property name="iconSize">
+             <size>
+              <width>100</width>
+              <height>100</height>
+             </size>
+            </property>
+            <property name="gridStyle">
+             <enum>Qt::NoPen</enum>
+            </property>
+            <property name="columnCount">
+             <number>0</number>
+            </property>
+            <attribute name="horizontalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="page_2">
+         <layout class="QHBoxLayout" name="horizontalLayout_20">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QTableWidget" name="tableWidget"/>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QListWidget" name="list_log">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>150</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>250</width>
+          <height>16777215</height>
+         </size>
+        </property>
        </widget>
       </item>
      </layout>

@@ -3,6 +3,8 @@ class ItemClass():
         # 직업 리스트
         self.list_job = ['warrior', 'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white']
 
+
+
     # 체력회복
     def use_hp_potion(self, str_job, str_item, dict_grad):
         if str_item == 'HP_potion_high':

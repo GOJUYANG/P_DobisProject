@@ -30,8 +30,8 @@ class CommonClass():
         if 'str_cheatkey' in kwargs:
             self.str_cheatkey = kwargs['str_cheatkey']
         # 수호대
-        if 'dict_gard' in kwargs:
-            self.dict_grad_stat = kwargs['dict_gard']
+        if 'dict_user_grad' in kwargs:
+            self.dict_grad_stat = kwargs['dict_user_grad']
         # 직업리스트
         if 'list_job' in kwargs:
             self.list_job = kwargs['list_job']
@@ -42,36 +42,8 @@ class CommonClass():
         if 'list_field' in kwargs:
             self.list_field = kwargs['list_field']
 
-        # 수호대 리스트
-        self.list_gard = ['light_gard', 'moon_gard', 'star_gard', 'earth_gard']
-
-        # 필드 리스트
-        self.list_field = ['fire_area', 'water_area', 'forest_area', 'snow_area']
-
-    # 수호대 랜덤배치
-    def random_assign_gard(self, dict_gard):
-        dict_gard['gard'] = random.choice(self.list_gard)
-
-    # 필드(집결지) 랜덤배치
-    def random_assign_field(self):
-        self.str_region = random.choice(self.list_field)
-        self.int_x = random.randint(1, 20)
-        self.int_y = random.randint(1, 20)
-        return self.int_x, self.int_y
 
 
-    # 타 수호대와의 조우
-    def meet_other_guardian(self):
-        # 우리 수호대 제외
-        self.list_gard.remove(self.dict_grad_stat['gard'])
-        # 리스트 셔플
-        random.shuffle(self.list_gard)
-        other_gard = self.list_gard.pop()
-        return other_gard
 
-    # 치트키
-    def use_cheatkey(self):
-        if self.str_cheatkey == 'easter_egg':
-            pass
 
 
