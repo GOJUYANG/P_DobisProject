@@ -240,9 +240,9 @@ class DungeonClass():
         #                                              30: 'heal_all'}}}
 
         self.dict_maze_monster = {'int_cnt': self.int_monster_count,
-                                  'list_hp': self.random.sample(range(200, 1000), self.int_monster_count),
+                                  'list_hp': random.sample(range(200, 1000), self.int_monster_count),
                                   'list_area_monster': random.sample(['area_fire', 'area_water', 'area_forest', 'area_snow'], self.int_monster_count),
-                                  'list_damage': radom.sample([5, 10], self.int_monster_count)
+                                  'list_damage': random.sample([5, 10], self.int_monster_count)
                                   }
         #시연-진영님 상속받기
         self.dict_gard = {'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
@@ -453,8 +453,8 @@ class DungeonClass():
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
 
         elif self.int_floor == 6:
-            self.int_boss_hp = random.randint(999999, 9999999)
-            self.dict_boss_monster = {'name': '환생의 복이', 'hp': self.int_boss_hp, 'attack': ['python_attack', 0.05],
+            int_boss_hp = random.randint(999999, 9999999)
+            self.dict_boss_monster = {'name': '환생의 복이', 'hp': int_boss_hp, 'attack': ['python_attack', 0.05],
                                       'skill': ['hell_coding', 0.1],
                                       'list_field_monster': [int_cnt, self.list_hp, self.list_area]}
 
@@ -491,6 +491,7 @@ class DungeonClass():
         self.tele_x = random.randint(0, 19)
         self.tele_y = random.randint(0, 19)
         print('텔레포트를 사용해 필드({},{})로 이동'.format(self.tele_y, self.tele_x))
+        return self.tele_y, self.tele_x
 
     # 텔레포트 사용 후 재입장시 이동위치
     def reentry_maze(self):
@@ -542,6 +543,7 @@ class DungeonClass():
         self.current_x = random.randint(0, self.list_widths[self.int_floor-1]-1)
         self.current_y = random.randint(0, self.list_widths[self.int_floor-1]-1)
         print("{}층 {},{}로 진입".format(self.int_floor, self.current_y, self.current_x))
+        return self.int_floor, self.current_y, self.current_x
 
     #도망 선택해 작동한 경우(전투에서 던전으로 빠져나옴)
     def escape_location(self, current_floor):
@@ -559,4 +561,4 @@ class DungeonClass():
             print("{}층 {},{} 복이 구출".format(self.int_floor, self.int_boki_y, self.int_boki_x))
         return self.int_boki_y, self.int_boki_x
 
-DungeonClass.meet_monster(self.int_floor=1)
+DungeonClass().meet_monster(1)
