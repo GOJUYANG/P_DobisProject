@@ -7,6 +7,7 @@ class Field:
         # self.monster_population()
         # self.hp_monster()
         monster_cnt, hp_monster_ = self.monster_population()
+        self.dict_user_gard = dict()
 
         # 지역 몬스터 리스트
         self.dict_field_monster = {'fire_area': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster_,
@@ -21,7 +22,9 @@ class Field:
         self.list_move_drop = ['HP_potion_high', 'HP_potion_middle', 'HP_potion_low', 'MP_potion_high',
                                'MP_potion_middle', 'MP_potion_low', 'All_potion_high', 'All_potion_middle',
                                'All_potion_low']
-        # self.field_drop = ['tent']
+
+
+
 
         # 턴수 11번째에 던전입구 재생성
         self.trun = 0
@@ -36,8 +39,9 @@ class Field:
         print(f"일반 몬스터의 체력 {rand_hp_monster}")
         return rand_hp_monster
 
-    def feild_move_random_drop(self):  # 필드 이동 중 랜덤 드랍
+    def field_move_random_drop(self):  # 필드 이동 중 랜덤 드랍
         list_drop = random.choice(self.list_move_drop)
+        print(f"이동중 포션 획득 {list_drop} 획득")
         return list_drop
 
     def meet_ally_gard(self):  # 아군 수호대 조우
@@ -47,20 +51,89 @@ class Field:
 
     # if self.turn <= 10: # 10 턴 마다 던전입구 재생성
     def random_maze_door(self):  # 랜덤한 위치에 던전 입구 생성
-        if self.trun == 10:
-            rand_maze_door = random.randint(1, 20)
-            rand_maze_door_ = random.randint(1, 20)
-            print(f"랜덤 던전 좌표 X {rand_maze_door} Y {rand_maze_door_}")
-        else:
-            print("")
+        rand_maze_door = random.randint(1, 20)
+        rand_maze_door_ = random.randint(1, 20)
+        print(f"랜덤 던전 좌표 X {rand_maze_door} Y {rand_maze_door_}")
 
         return rand_maze_door, rand_maze_door_
+
+    def meet_enemy_gard(self, str_my_gard):
+        self.int_hp_up = 1.2
+        self.list_enemy_lvs = [15, 16, 17, 18, 19, 20]
+        self.list_enemy_lvs_ = random.choice(self.list_enemy_lvs)
+
+        if str_my_gard == 'light_gard':
+            str_enemy_gard = random.choice(['moon_gard', 'star_gard', 'forest_gard'])
+        elif str_my_gard == 'moon_gard':
+            str_enemy_gard = random.choice(['light_gard', 'star_gard', 'forest_gard'])
+        elif str_my_gard == 'star_gard':
+            str_enemy_gard = random.choice(['light_gard', 'moon_gard', 'forest_gard'])
+        elif str_my_gard == 'forest_gard':
+            str_enemy_gard = random.choice(['light_gard', 'star_gard', 'moon_gard'])
+
+        self.dict_user_gard = {'gard': str_my_gard,
+                               'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 200,
+                                           'skill': {10: 'slice_chop'}},
+                               'archer': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 300,
+                                          'skill': {10: 'target_shot',
+                                                    15: 'dual_shot',
+                                                    20: 'master_shot'}},
+                               'swordman': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 250,
+                                            'skill': {10: 'slice_chop'}},
+                               'wizard_red': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 150,
+                                              'skill': {1: ['heal_normal', 'fire_ball'],
+                                                        15: ['heal_greater', 'fire_wall'],
+                                                        20: 'thunder_breaker',
+                                                        25: 'bilzzard',
+                                                        30: 'heal_all'}},
+                               'wizard_black': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 200,
+                                                'skill': {1: 'fire_ball',
+                                                          15: 'fire_wall',
+                                                          20: 'thunder_breaker',
+                                                          25: 'bilzzard'}},
+                               'wizard_white': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 100,
+                                                'skill': {1: 'heal_normal',
+                                                          15: 'heal_greater',
+                                                          30: 'heal_all'}}}
+
+        self.dict_enemy_gard = {'gard': str_enemy_gard,
+                                'warrior': {'lv': self.list_enemy_lvs_, 'hp': 300 * self.int_hp_up, 'mp': 0,
+                                            'skill': {10: 'slice_chop'}, 'power': 200},
+                                'archer': {'lv': self.list_enemy_lvs_, 'hp': 150 * self.int_hp_up, 'mp': 150 * self.int_hp_up,
+                                           'power': 300,
+                                           'skill': {10: 'target_shot',
+                                                     15: 'dual_shot',
+                                                     20: 'master_shot'}},
+                                'swordman': {'lv': self.list_enemy_lvs_, 'hp': 150 * self.int_hp_up, 'mp': 150 * self.int_hp_up,
+                                             'power': 250,
+                                             'skill': {10: 'slice_chop'}},
+                                'wizard_red': {'lv': self.list_enemy_lvs_, 'hp': 150 * self.int_hp_up, 'mp': 100 * self.int_hp_up,
+                                               'power': 150,
+                                               'skill': {1: ['heal_normal', 'fire_ball'],
+                                                         15: ['heal_greater', 'fire_wall'],
+                                                         20: 'thunder_breaker',
+                                                         25: 'bilzzard',
+                                                         30: 'heal_all'}},
+                                'wizard_black': {'lv': self.list_enemy_lvs_, 'hp': 200 * self.int_hp_up, 'mp': 150 * self.int_hp_up,
+                                                 'power': 200,
+                                                 'skill': {1: 'fire_ball',
+                                                           15: 'fire_wall',
+                                                           20: 'thunder_breaker',
+                                                           25: 'bilzzard'}},
+                                'wizard_white': {'lv': self.list_enemy_lvs_, 'hp': 200 * self.int_hp_up, 'mp': 150 * self.int_hp_up,
+                                                 'power': 100,
+                                                 'skill': {1: 'heal_normal',
+                                                           15: 'heal_greater',
+                                                           30: 'heal_all'}}}
+
+        return self.dict_enemy_gard, self.dict_user_gard
 
     def move_event(self):  # 이동 중 이벤트 발생
         ratio = random.randint(1, 100)
         if ratio <= 10:
-            print('Tent')
-            # 텐트 획득
+            print('Tent 획득')
+            # self.field_drop()
+
         elif 10 < ratio <= 20:
             print('아군수호대 조우')
             self.meet_ally_gard()
@@ -68,11 +141,12 @@ class Field:
         elif 20 < ratio <= 30:
             print('적군수호대 조우')
             self.trun += 1
+            self.meet_enemy_gard()
             self.bool_meet_gard = True
 
         elif 30 < ratio <= 50:
             print('아이템 드랍')
-            self.feild_move_random_drop()
+            self.field_move_random_drop()
 
         elif 50 < ratio <= 80:
             print('몬스터 출현')
@@ -85,8 +159,8 @@ class Field:
     # def back_position(self): # 도망 , 전투 후 전투전 위치로
     # 몬스터 출현 했을때 좌표 저장했을때의 위치로 돌아가기
 
-    def fire_monster_match(self):
-        print(self.dict_field_monster['fire_area'])
+    # def fire_monster_match(self):
+    #     print(self.dict_field_monster['fire_area'])
 
     # def water_monster_match(self):
     #     self.dict_field_monster['water_area']
@@ -107,14 +181,15 @@ class Field:
 #     rand_maze_door_ = random.randint(0, 20)
 #     print(f"랜덤 던전 좌표 X {rand_maze_door} Y {rand_maze_door_}")
 
+
 a = Field()
+a.move_event()
 a.monster_population()
-b = Field()
-b.hp_monster()
-c = Field()
-c.meet_ally_gard()
-d = Field()
-d.fire_monster_match()
+a.hp_monster()
+a.field_move_random_drop()
+a.meet_ally_gard
+a.monster_population()
+a.random_maze_door()
 
 
 
