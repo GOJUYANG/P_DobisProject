@@ -19,11 +19,6 @@ class FieldClass():
                                             'attack': ['snow_attack', 0.05], 'skill': ['snow_ball', 0.10]}}
         return dict_field_monster
 
-    def return_turn(self):
-        # 턴수 11번째에 던전입구 재생성
-        turn = 0
-        return turn
-
     def return_list_move_drop(self):
 
         list_move_drop = ['hp_potion_high', 'hp_potion_middle', 'hp_potion_low', 'mp_potion_high',
@@ -84,12 +79,20 @@ class FieldClass():
         return list_drop_
 
     #
-    def random_maze_door(self):  # 랜덤한 위치에 던전 입구 생성
-        rand_maze_door = random.randint(1, 20)
-        rand_maze_door_ = random.randint(1, 20)
-        print(f"랜덤 던전 좌표 X {rand_maze_door} Y {rand_maze_door_}")
+    def random_maze_door(self, turn):  # 랜덤한 위치에 던전 입구 생성
+        if turn == 0:
+            rand_maze_door = random.randint(1, 20)
+            rand_maze_door_ = random.randint(1, 20)
+            print(f"랜덤 던전 좌표 X {rand_maze_door} Y {rand_maze_door_}")
+            return rand_maze_door, rand_maze_door_
 
-        return rand_maze_door, rand_maze_door_
+        elif turn == 11:
+            rand_maze_door = random.randint(1, 20)
+            rand_maze_door_ = random.randint(1, 20)
+            print(f"랜덤 던전 재생성 좌표 X {rand_maze_door} Y {rand_maze_door_}")
+            turn = 0
+
+            return rand_maze_door, rand_maze_door_, turn
 
     def field_meet_enemy_gard(self, str_my_gard):
         int_hp_up = 1.2
@@ -162,7 +165,7 @@ class FieldClass():
 
         return dict_enemy_gard, dict_user_gard
 
-    def field_move_event(self):  # 이동 중 이벤트 발생
+    def field_move_event(self, turn):  # 이동 중 이벤트 발생
         ratio = random.randint(1, 100)
         if ratio <= 10:
             print('Tent 획득')
@@ -174,10 +177,9 @@ class FieldClass():
 
         elif 20 < ratio <= 30:
             print('적군수호대 조우')
-            cnt = self.return_turn()
-            cnt += 1
+            turn += 1
             bool_meet_gard = True
-            return '적군수호대', self.field_meet_enemy_gard('moon_gard'), bool_meet_gard, cnt
+            return '적군수호대', self.field_meet_enemy_gard('moon_gard'), bool_meet_gard, turn
 
         elif 30 < ratio <= 50:
             print('아이템')
@@ -186,9 +188,8 @@ class FieldClass():
         elif 50 < ratio <= 80:
             print('몬스터 출현')
             bool_meet_monster = True
-            cnt = self.return_turn()
-            cnt += 1
-            return '일반몬스터', bool_meet_monster,
+            turn += 1
+            return '일반몬스터', bool_meet_monster, turn
             # 전투전 좌표 저장
         elif 80 < ratio <= 100:
             print('이동')
