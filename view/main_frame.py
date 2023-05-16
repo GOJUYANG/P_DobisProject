@@ -93,8 +93,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.addWidget(self.mp_1)
         self.mp_job_1 = QtWidgets.QProgressBar(self.frame_5)
         self.mp_job_1.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
+                                    "QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
+                                    "")
         self.mp_job_1.setProperty("value", 24)
         self.mp_job_1.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_job_1.setObjectName("mp_job_1")
@@ -117,9 +117,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.hp_1)
         self.hp_job_1 = QtWidgets.QProgressBar(self.frame_5)
         self.hp_job_1.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
+                                    "\n"
+                                    "QProgressBar::chunk {background-color: #FF0000;}\n"
+                                    "")
         self.hp_job_1.setProperty("value", 24)
         self.hp_job_1.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_job_1.setObjectName("hp_job_1")
@@ -194,8 +194,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.addWidget(self.mp_2)
         self.mp_job_2 = QtWidgets.QProgressBar(self.frame_6)
         self.mp_job_2.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
+                                    "QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
+                                    "")
         self.mp_job_2.setProperty("value", 24)
         self.mp_job_2.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_job_2.setObjectName("mp_job_2")
@@ -218,9 +218,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.addWidget(self.hp_2)
         self.hp_job_2 = QtWidgets.QProgressBar(self.frame_6)
         self.hp_job_2.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
+                                    "\n"
+                                    "QProgressBar::chunk {background-color: #FF0000;}\n"
+                                    "")
         self.hp_job_2.setProperty("value", 24)
         self.hp_job_2.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_job_2.setObjectName("hp_job_2")
@@ -295,8 +295,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_8.addWidget(self.mp_3)
         self.mp_job_3 = QtWidgets.QProgressBar(self.frame_7)
         self.mp_job_3.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
+                                    "QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
+                                    "")
         self.mp_job_3.setProperty("value", 24)
         self.mp_job_3.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_job_3.setObjectName("mp_job_3")
@@ -319,9 +319,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.addWidget(self.hp_3)
         self.hp_job_3 = QtWidgets.QProgressBar(self.frame_7)
         self.hp_job_3.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
+                                    "\n"
+                                    "QProgressBar::chunk {background-color: #FF0000;}\n"
+                                    "")
         self.hp_job_3.setProperty("value", 24)
         self.hp_job_3.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_job_3.setObjectName("hp_job_3")
@@ -396,9 +396,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.addWidget(self.hp_4)
         self.hp_job_4 = QtWidgets.QProgressBar(self.frame_8)
         self.hp_job_4.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
+                                    "\n"
+                                    "QProgressBar::chunk {background-color: #FF0000;}\n"
+                                    "")
         self.hp_job_4.setProperty("value", 24)
         self.hp_job_4.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_job_4.setObjectName("hp_job_4")
@@ -457,8 +457,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.addWidget(self.mp_4)
         self.mp_job_4 = QtWidgets.QProgressBar(self.frame_8)
         self.mp_job_4.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
+                                    "QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
+                                    "")
         self.mp_job_4.setProperty("value", 24)
         self.mp_job_4.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_job_4.setObjectName("mp_job_4")
@@ -497,8 +497,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_14.addWidget(self.mp_5)
         self.mp_job_5 = QtWidgets.QProgressBar(self.frame_9)
         self.mp_job_5.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
+                                    "QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
+                                    "")
         self.mp_job_5.setProperty("value", 24)
         self.mp_job_5.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_job_5.setObjectName("mp_job_5")
@@ -521,9 +521,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_15.addWidget(self.hp_5)
         self.hp_job_5 = QtWidgets.QProgressBar(self.frame_9)
         self.hp_job_5.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
+                                    "\n"
+                                    "QProgressBar::chunk {background-color: #FF0000;}\n"
+                                    "")
         self.hp_job_5.setProperty("value", 24)
         self.hp_job_5.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_job_5.setObjectName("hp_job_5")
@@ -598,8 +598,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.addWidget(self.mp_6)
         self.mp_job_6 = QtWidgets.QProgressBar(self.frame_10)
         self.mp_job_6.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
+                                    "QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
+                                    "")
         self.mp_job_6.setProperty("value", 24)
         self.mp_job_6.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_job_6.setObjectName("mp_job_6")
@@ -622,9 +622,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_18.addWidget(self.hp_6)
         self.hp_job_6 = QtWidgets.QProgressBar(self.frame_10)
         self.hp_job_6.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
+                                    "\n"
+                                    "QProgressBar::chunk {background-color: #FF0000;}\n"
+                                    "")
         self.hp_job_6.setProperty("value", 24)
         self.hp_job_6.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_job_6.setObjectName("hp_job_6")
@@ -688,15 +688,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_21.setSpacing(0)
         self.horizontalLayout_21.setObjectName("horizontalLayout_21")
-        self.table_item = QtWidgets.QTableWidget(self.page)
-        self.table_item.setIconSize(QtCore.QSize(100, 100))
-        self.table_item.setGridStyle(QtCore.Qt.NoPen)
-        self.table_item.setColumnCount(0)
-        self.table_item.setObjectName("table_item")
-        self.table_item.setRowCount(0)
-        self.table_item.horizontalHeader().setVisible(False)
-        self.table_item.verticalHeader().setVisible(False)
-        self.horizontalLayout_21.addWidget(self.table_item)
+        self.list_item = QtWidgets.QListWidget(self.page)
+        self.list_item.setObjectName("list_item")
+        self.horizontalLayout_21.addWidget(self.list_item)
         self.stack_item.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
@@ -808,6 +802,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
