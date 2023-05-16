@@ -8,7 +8,7 @@ list_job = ['warrior', 'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wiz
 list_field = ['fire_area', 'water_area', 'forest_area', 'snow_area']
 
 # 직업별 착용 가능한 장비
-list_job_equip = {
+dict_job_equip = {
     'warrior': ['silver_helmet', 'gold_helmet',
                 'bronze_armor', 'silver_armor', 'gold_armor',
                 'bronze_shield', 'iron_shield', 'chain_shield', 'leather_shield',
