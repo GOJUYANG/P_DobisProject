@@ -76,41 +76,44 @@ class DungeonClass:
         self.list_widths.append(4)
         print(self.list_widths)
 
-        self.first_width = self.list_widths[0]
-        self.second_width = self.list_widths[1]
-        self.third_width = self.list_widths[2]
-        self.fourth_width = self.list_widths[3]
-        self.fifth_width = self.list_widths[4]
-        self.sixth_width = self.list_widths[5]
-        self.seventh_width = self.list_widths[6]
-        self.eighth_width = self.list_widths[7]
+        # self.first_width = self.list_widths[0]
+        # self.second_width = self.list_widths[1]
+        # self.third_width = self.list_widths[2]
+        # self.fourth_width = self.list_widths[3]
+        # self.fifth_width = self.list_widths[4]
+        # self.sixth_width = self.list_widths[5]
+        # self.seventh_width = self.list_widths[6]
+        # self.eighth_width = self.list_widths[7]
 
         self.int_floor = 1
         self.dict_gard = dict()
         self.int_turn = 0
-
-    def move_event(self, int_floor, str_my_gard):
+    # 던전 내 이동
+    def dungeon_move_event(self, int_floor, str_my_gard):
         self.int_floor = int_floor
         ratio = random.randint(1, 100)
         if ratio <= 30:
-            print('일반몬스터')
-            # self.bool_meet_monster = True
+            # print('일반몬스터')
+            # self.dungeon_meet_monster(self.int_floor, str_my_gard)
+            self.bool_meet_dungeon_monster = True
             self.int_turn += 1
-            return 1, self.meet_monster(self.int_floor, str_my_gard)
+            return '일반몬스터', self.dungeon_meet_monster(self.int_floor, str_my_gard)
         elif ratio <= 45:
-            print('아군수호대 조우')
-            return'아군수호대 조우', self.meet_ally_gard()
+            # print('아군수호대')
+            # self.dungeon_meet_ally_gard()
+            return '아군수호대', self.dungeon_meet_ally_gard()
         elif ratio <= 60:
-            print('적군수호대 조우')
-            # self.bool_meet_enemy_gard = True
+            print('적군수호대')
+            self.bool_meet_enemy_gard = True
+            # self.dungeon_meet_enemy_gard(self.int_floor, str_my_gard)
             self.int_turn += 1
-            return 3, self.meet_enemy_gard(self.int_floor, str_my_gard)
+            return '적군수호대', self.dungeon_meet_enemy_gard(self.int_floor, str_my_gard)
         else:
-            print('그냥이동')
-            return 4
+            print('이동')
+            return '이동'
 
     # 일반몬스터 만남(1~10마리)
-    def meet_monster(self, int_floor, str_my_gard):
+    def dungeon_meet_monster(self, int_floor, str_my_gard):
         self.int_floor = int_floor
         int_monster_count = random.randint(1, 10)
         # 일반몬스터 구성
@@ -147,40 +150,36 @@ class DungeonClass:
         print(self.int_floor, '층', '일반몬 구성:', self.dict_maze_monster, '내 수호대 구성:', self.dict_gard)
         return self.int_floor, self.dict_maze_monster, self.dict_gard
 
-    # 아군 수호대 만남-9종류의 포션 중 하나 나눔받음
-    def meet_ally_gard(self):
-        list_ = []
-        #9개의 포션, 장비들 중 하나 드랍
-        print('아군수호대를 만났다')
-        ally_drop_item = random.choice(['HP_potion_high', 'HP_potion_middle', 'HP_potion_low',
-                                        'MP_potion_high', 'MP_potion_middle', 'MP_potion_low',
-                                        'All_potion_high', 'All_potion_middle', 'All_potion_low'])
-        # 차후 GUI 연결하고 개수 1개 늘어나도록
-        if ally_drop_item == 'HP_potion_high':
-            ally_drop_potion = 'HP대'
-        elif ally_drop_item == 'HP_potion_middle':
-            ally_drop_potion = 'HP중'
-        elif ally_drop_item == 'HP_potion_low':
-            ally_drop_potion = 'HP소'
-        elif ally_drop_item == 'MP_potion_high':
-            ally_drop_potion = 'MP대'
-        elif ally_drop_item == 'MP_potion_middle':
-            ally_drop_potion = 'MP중'
-        elif ally_drop_item == 'MP_potion_low':
-            ally_drop_potion = 'MP소'
-        elif ally_drop_item == 'All_potion_high':
-            ally_drop_potion = 'ALL대'
-        elif ally_drop_item == 'All_potion_middle':
-            ally_drop_potion = 'ALL중'
-        else:
-            ally_drop_potion = 'ALL소'
-        print('아군수호대로부터 {}를 나눔받았다.'.format(ally_drop_item))
-        print('아군수호대로부터 {}를 나눔받았다.'.format(ally_drop_potion))
-        list_.append(ally_drop_item)
-        return list_
+    # 아군 수호대 만남-9종류의 포션과 장비 중 나눔받음
+    def dungeon_meet_ally_gard(self):
+        list_ally_drop = []
+        drop_cnt = random.randint(1, 3)
+        list_ally_drop_potion = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                'all_potion_high', 'all_potion_middle', 'all_potion_low'], k = drop_cnt)
+        list_ally_drop_equip = random.choices(['black_armor', 'black_cape', 'black_glove', 'black_pants', 'blue_armor',
+                                               'blue_cape', 'blue_glove','blue_hood', 'blue_pants', 'bronze_armor',
+                                               'bronze_bow', 'bronze_pants','bronze_shield', 'bronze_staff',
+                                               'bronze_sword', 'bronze_wand', 'chain_armor', 'chain_pants',
+                                               'chain_shield', 'cow_armor', 'cow_cape', 'cow_glove', 'cow_helmet',
+                                               'cow_pants', 'croc_cape', 'croc_glove', 'diamond_gem', 'gold_armor',
+                                               'gold_bow','gold_helmet', 'gold_pants', 'gold_staff', 'gold_sword',
+                                               'gold_wand', 'high_chain_glove','horse_armor', 'horse_cape',
+                                               'horse_glove', 'horse_helmet', 'horse_pants', 'iron_armor',
+                                               'iron_pants', 'iron_shield', 'leather_shield', 'low_chain_glove',
+                                               'middle_chain_glove', 'red_armor', 'red_cape', 'red_glove', 'red_hood',
+                                               'red_pants', 'ruby_gem', 'silver_armor', 'silver_bow', 'silver_helmet',
+                                               'silver_pants', 'silver_staff', 'silver_sword', 'silver_wand',
+                                               'stone_gem'], k=drop_cnt)
+        for i in list_ally_drop_potion:
+            list_ally_drop.append(i)
+        for j in list_ally_drop_equip:
+            list_ally_drop.append(j)
+        print(list_ally_drop)
+        return list_ally_drop
 
     # 적군수호대 만남
-    def meet_enemy_gard(self, int_floor, str_my_gard):
+    def dungeon_meet_enemy_gard(self, int_floor, str_my_gard):
         # 전투시작
         self.int_floor = int_floor
         if self.int_floor == 1:
@@ -213,31 +212,44 @@ class DungeonClass:
 
 
         # 나의 수호대, 시연님 상속
-        self.dict_gard = {'gard': str_my_gard,
-                          'location': {'region': '', 'x': 0, 'y': 0},
-                          'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 200,
-                                      'skill': {10: 'slice_chop'}},
-                          'archer': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 300,
-                                     'skill': {10: 'target_shot',
-                                               15: 'dual_shot',
-                                               20: 'master_shot'}},
-                          'swordman': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 250,
-                                       'skill': {10: 'slice_chop'}},
-                          'wizard_red': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 150,
-                                         'skill': {1: ['heal_normal', 'fire_ball'],
-                                                   15: ['heal_greater', 'fire_wall'],
-                                                   20: 'thunder_breaker',
-                                                   25: 'bilzzard',
-                                                   30: 'heal_all'}},
-                          'wizard_black': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 200,
-                                           'skill': {1: 'fire_ball',
-                                                     15: 'fire_wall',
-                                                     20: 'thunder_breaker',
-                                                     25: 'bilzzard'}},
-                          'wizard_white': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 100,
-                                           'skill': {1: 'heal_normal',
-                                                     15: 'heal_greater',
-                                                     30: 'heal_all'}}}
+        self.dict_user_gard = {'gard': '',
+                               'location': {'region': '', 'x': 0, 'y': 0},
+                               'warrior': {'survival': True,
+                                           'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+                                           'equipment': ['silver_helmet', 'bronze_armor', 'bronze_shield',
+                                                         'bronze_sword'],
+                                           'skill': {10: 'slice_chop'}},
+                               'archer': {'survival': True,
+                                          'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 300,
+                                          'equipment': [],
+                                          'skill': {10: 'target_shot',
+                                                    15: 'dual_shot',
+                                                    20: 'master_shot'}},
+                               'swordman': {'survival': True,
+                                            'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 250,
+                                            'equipment': [],
+                                            'skill': {10: 'slice_chop'}},
+                               'wizard_red': {'survival': True,
+                                              'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 150,
+                                              'equipment': [],
+                                              'skill': {1: ['heal_normal', 'fire_ball'],
+                                                        15: ['heal_greater', 'fire_wall'],
+                                                        20: 'thunder_breaker',
+                                                        25: 'bilzzard',
+                                                        30: 'heal_all'}},
+                               'wizard_black': {'survival': True,
+                                                'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+                                                'equipment': [],
+                                                'skill': {1: 'fire_ball',
+                                                          15: 'fire_wall',
+                                                          20: 'thunder_breaker',
+                                                          25: 'bilzzard'}},
+                               'wizard_white': {'survival': True,
+                                                'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 100,
+                                                'equipment': [],
+                                                'skill': {1: 'heal_normal',
+                                                          15: 'heal_greater',
+                                                          30: 'heal_all'}}}
 
         self.dict_enemy_gard = {'gard': str_enemy_gard,
                                 'warrior': {'lv': list_enemy_lvs[0], 'hp': 300*int_hp_up, 'mp': 0,
@@ -267,7 +279,7 @@ class DungeonClass:
         return self.int_floor, self.dict_enemy_gard, self.dict_gard
 
     # 던전 보스 위치
-    def boss_location(self, int_floor):
+    def dungeon_boss_location(self, int_floor):
         # if self.current_floor == 1:
         #     self.boss_x = random.randint(0, self.first_width-1)
         #     self.boss_y = random.randint(0, self.first_width-1)
@@ -304,7 +316,7 @@ class DungeonClass:
 
     # 던전 각 층 내 보스와 부하들 종류
     # 던전 보스 위치와 내 수호대의 위치가 동일한 경우 보스전 시작
-    def boss_match(self, int_floor):
+    def dungeon_boss_match(self, int_floor):
         self.int_floor = int_floor
         # 부하 몬스터들(0~6마리) 속성
         int_cnt = random.randint(0, 6)
@@ -350,7 +362,7 @@ class DungeonClass:
         return self.int_floor, self.dict_boss_monster
 
     # 텔레포트 사용
-    def use_teleport(self, int_floor):
+    def dungeon_use_teleport(self, int_floor):
         # self.dict_teleport_stock = dict_teleport_stock
         self.int_floor = int_floor
         if self.int_floor == 1:
@@ -371,23 +383,23 @@ class DungeonClass:
         return self.dict_teleport_stock
 
     # 필드로 텔레포트 사용시 필드 이동 위치
-    def teleport_location(self):
-        self.tele_x = random.randint(0, 19)
-        self.tele_y = random.randint(0, 19)
+    def dungeon_teleport_location(self):
+        self.tele_x = random.randint(1, 20)
+        self.tele_y = random.randint(1, 20)
         print('텔레포트를 사용해 필드({},{})로 이동'.format(self.tele_y, self.tele_x))
         return self.tele_y, self.tele_x
 
     # 텔레포트 사용 후 재입장시 이동위치
-    def reentry_maze(self):
+    def dungeon_reentry_maze(self):
         # self.int_floor = int_floor
-        self.reentry_maze_x = random.randint(1, self.list_widths[self.int_floor-1])
-        self.reentry_maze_y = random.randint(1, self.list_widths[self.int_floor-1])
-        print('{}층 {},{}로 재입장'.format(self.int_floor, self.reentry_maze_y, self.reentry_maze_x))
-        self.use_teleport(self.int_floor)
-        return self.reentry_maze_y, self.reentry_maze_x
+        self.dungeon_reentry_maze_x = random.randint(1, self.list_widths[self.int_floor-1])
+        self.dungeon_reentry_maze_y = random.randint(1, self.list_widths[self.int_floor-1])
+        print('{}층 {},{}로 재입장'.format(self.int_floor, self.dungeon_reentry_maze_y, self.dungeon_reentry_maze_x))
+        self.dungeon_use_teleport(self.int_floor)
+        return self.dungeon_reentry_maze_y, self.dungeon_reentry_maze_x
 
     # 다음층으로 가는 계단 좌표
-    def next_maze_entrance(self, int_floor):
+    def dungeon_next_maze_entrance(self, int_floor):
         self.int_floor = int_floor
         self.int_next_entrance_x = random.randint(1, self.list_widths[self.int_floor-1])
         self.int_next_entrance_y = random.randint(1, self.list_widths[self.int_floor-1])
@@ -395,16 +407,16 @@ class DungeonClass:
         return self.int_next_entrance_y, self.int_next_entrance_x
 
     # 7번째 전투까지는 다음 던전으로 가는 입구 유지, 8번째부터 계단 랜덤 재배치
-    def change_entrance_location(self, int_floor, int_turn):
+    def dungeon_change_entrance_location(self, int_floor, int_turn):
         if int_turn > 7:
-            self.next_maze_entrance(int_floor)
+            self.dungeon_next_maze_entrance(int_floor)
         else:
             print('계단 입구 유지')
 
 
     # 보스 처치 유무 확인
     # 보스 죽인후 다음층 이동
-    def next_maze(self, int_floor, bool_death_boss):
+    def dungeon_next_maze(self, int_floor, bool_death_boss):
         if bool_death_boss:
             self.int_floor = int_floor
             self.int_floor += 1
@@ -428,7 +440,7 @@ class DungeonClass:
     #     return self.int_floor, self.int_escape_y, self.int_escape_x
 
     #8층 복이 위치(구출하고 게임엔딩)
-    def boki_location(self):
+    def dungeon_boki_location(self):
         if self.int_floor == 8:
             int_boki_x = random.randint(1, 4)
             int_boki_y = random.randint(1, 4)
@@ -438,86 +450,86 @@ class DungeonClass:
             print('8층 아님')
 
 
-# # DungeonClass().meet_monster(1)
+# # DungeonClass().dungeon_meet_monster(1)
 # class_a = DungeonClass()
 # # 8층 복이 구출
-# class_a.boki_location(8)
+# class_a.dungeon_boki_location(8)
 # # 전투 중 도망 성공해 던전으로 나옴
 # class_a.escape_location(6)
 # # 다음층 이동(보스 죽인 경우 다음층 이동, 보스 못해치웠으면 이동 불가)
-# class_a.next_maze(4, True)
-# class_a.next_maze(4, False)
+# class_a.dungeon_next_maze(4, True)
+# class_a.dungeon_next_maze(4, False)
 # # 텔레포트 사용
-# class_a.use_teleport(4)
-# class_a.use_teleport(5)
-# class_a.teleport_location()
+# class_a.dungeon_use_teleport(4)
+# class_a.dungeon_use_teleport(5)
+# class_a.dungeon_teleport_location()
 # # 다시 던전 안으로 재입장
-# class_a.reentry_maze()
+# class_a.dungeon_reentry_maze()
 # # 보스위치
 # print('던전 각 층 보스위치')
-# class_a.boss_location(1)
-# class_a.boss_location(2)
-# class_a.boss_location(3)
-# class_a.boss_location(4)
-# class_a.boss_location(5)
-# class_a.boss_location(6)
-# class_a.boss_location(7)
+# class_a.dungeon_boss_location(1)
+# class_a.dungeon_boss_location(2)
+# class_a.dungeon_boss_location(3)
+# class_a.dungeon_boss_location(4)
+# class_a.dungeon_boss_location(5)
+# class_a.dungeon_boss_location(6)
+# class_a.dungeon_boss_location(7)
 # print()
 # # 보스전
-# class_a.boss_match(1)
-# class_a.boss_match(2)
-# class_a.boss_match(3)
-# class_a.boss_match(4)
-# class_a.boss_match(5)
-# class_a.boss_match(6)
-# class_a.boss_match(7)
+# class_a.dungeon_boss_match(1)
+# class_a.dungeon_boss_match(2)
+# class_a.dungeon_boss_match(3)
+# class_a.dungeon_boss_match(4)
+# class_a.dungeon_boss_match(5)
+# class_a.dungeon_boss_match(6)
+# class_a.dungeon_boss_match(7)
 # print()
 # # 던전 일반몬스터 만남
-# class_a.meet_monster(1, 'star_gard')
+# class_a.dungeon_meet_monster(1, 'star_gard')
 # print()
 # # 아군 수호대 만남
-# class_a.meet_ally_gard()
+# class_a.dungeon_meet_ally_gard()
 # print()
 # # 적군 수호대 만남
-# class_a.meet_enemy_gard(3, 'moon_gard')
+# class_a.dungeon_meet_enemy_gard(3, 'moon_gard')
 # print()
 # # 클래스, 메소드 호출 시 인자 없어도 괄호 붙이기
 # # print(DungeonClass().dict_teleport_stock)
-# # DungeonClass().meet_monster(2)
-# class_a.move_event(1, 'light_gard')
-# class_a.next_maze_entrance(6)
-# class_a.change_entrance_location(6, 10)
+# # DungeonClass().dungeon_meet_monster(2)
+# class_a.dungeon_move_event(1, 'light_gard')
+# class_a.dungeon_next_maze_entrance(6)
+# class_a.dungeon_change_entrance_location(6, 10)
 
 # class_b = DungeonClass()
 # print('>>>던전 맵 내 이동시 이벤트')
-# class_b.move_event(class_b.int_floor, 'moon_gard')
+# class_b.dungeon_move_event(class_b.int_floor, 'moon_gard')
 # print()
 # print('>>>보스몬스터 위치')
-# class_b.boss_location(class_b.int_floor)
+# class_b.dungeon_boss_location(class_b.int_floor)
 # print()
 # print('>>>보스몬스터 위치에 도달한 경우 전투 시작')
-# class_b.boss_match(class_b.int_floor)
+# class_b.dungeon_boss_match(class_b.int_floor)
 # print()
 # print('>>>다음층 계단 입구 위치')
-# class_b.next_maze_entrance(class_b.int_floor)
+# class_b.dungeon_next_maze_entrance(class_b.int_floor)
 # print()
 # print('>>>다음층 입구 도달시 보스처치 유무에 따른 결과')
-# class_b.next_maze(class_b.int_floor, bool_death_boss=True)
-# class_b.next_maze(class_b.int_floor, bool_death_boss=False)
-# class_b.change_entrance_location(class_b.int_floor, int_turn=7)
-# class_b.change_entrance_location(class_b.int_floor, int_turn=8)
+# class_b.dungeon_next_maze(class_b.int_floor, bool_death_boss=True)
+# class_b.dungeon_next_maze(class_b.int_floor, bool_death_boss=False)
+# class_b.dungeon_change_entrance_location(class_b.int_floor, int_turn=7)
+# class_b.dungeon_change_entrance_location(class_b.int_floor, int_turn=8)
 # print(class_b.int_floor, '층')
 # print()
 # print('>>>텔레포트 사용')
-# class_b.use_teleport(class_b.int_floor)
-# class_b.teleport_location()
-# class_b.reentry_maze()
+# class_b.dungeon_use_teleport(class_b.int_floor)
+# class_b.dungeon_teleport_location()
+# class_b.dungeon_reentry_maze()
 # print(class_b.int_floor)
 # print()
 # print('>>>이상복 구출')
-# class_b.boki_location()
+# class_b.dungeon_boki_location()
 # class_b.int_floor = 8
-# class_b.boki_location()
+# class_b.dungeon_boki_location()
 
 
 
