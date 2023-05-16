@@ -50,8 +50,10 @@ class ItemClass():
 
     # 아이템 획득
     def get_item(self, list_item, dict_item):
-        for equip in list_item:
+        for item in list_item:
             for k, v in dict_item.items():
-                if k == equip:
-                    v[1] += 1
+                if k == item:
+                    v['count'] += 1
         return dict_item
+
+

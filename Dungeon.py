@@ -102,42 +102,18 @@ class mazeClass:
             return '이동'
 
     # 일반몬스터 만남(1~10마리)
-    def maze_meet_monster(self, int_floor, str_my_gard):
+    def maze_meet_monster(self, int_floor, dict_user_gard):
         int_floor = int_floor
         int_monster_count = random.randint(1, 10)
         # 일반몬스터 구성
-        self.dict_maze_monster = {'int_cnt': int_monster_count,
+        dict_maze_monster = {'int_cnt': int_monster_count,
                                   'list_hp': random.sample(range(200, 1000), int_monster_count),
                                   'list_area_monster': random.choices(['area_fire', 'area_water', 'area_forest', 'area_snow'], k=int_monster_count),
-                                  'list_damage': random.choices([0.05, 0.1], k=int_monster_count)
-                                  }
+                                  'list_damage': random.choices([0.05, 0.1], k=int_monster_count)}
         #시연님 상속받기
-        self.dict_gard = {'gard': str_my_gard,
-                          'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
-                                      'skill':{10:'slice_chop'}, 'power': 200},
-                          'archer': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
-                                     'skill': {10: 'target_shot',
-                                               15: 'dual_shot',
-                                               20: 'master_shot'}, 'power': 300},
-                          'swordman': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
-                                       'skill': {10: 'slice_chop'}, 'power': 250},
-                          'wizard_red': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
-                                         'skill': {1: ['heal_normal', 'fire_ball'],
-                                                   15: ['heal_greater', 'fire_wall'],
-                                                   20: 'thunder_breaker',
-                                                   25: 'bilzzard',
-                                                   30: 'heal_all'}, 'power': 150},
-                          'wizard_black': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
-                                           'skill': {1: 'fire_ball',
-                                                     15: 'fire_wall',
-                                                     20: 'thunder_breaker',
-                                                     25: 'bilzzard'}, 'power': 200},
-                          'wizard_white': {'lv': 1, 'hp': 300, 'mp': 0, 'list_item': {'portion', 'meteorite'},
-                                           'skill': {1: 'heal_normal',
-                                                     15: 'heal_greater',
-                                                     30: 'heal_all'}, 'power': 100}}
-        print(int_floor, '층', '일반몬 구성:', self.dict_maze_monster, '내 수호대 구성:', self.dict_gard)
-        return int_floor, self.dict_maze_monster, self.dict_gard
+
+        # print(int_floor, '층', '일반몬 구성:', dict_maze_monster, '내 수호대 구성:', dict_user_gard)
+        return int_floor, dict_maze_monster, dict_user_gard
 
     # 아군 수호대 만남-9종류의 포션과 장비 중 나눔받음
     def maze_meet_ally_gard(self):
@@ -164,11 +140,11 @@ class mazeClass:
             list_ally_drop.append(i)
         for j in list_ally_drop_equip:
             list_ally_drop.append(j)
-        print(list_ally_drop)
+        # print(list_ally_drop)
         return list_ally_drop
 
     # 적군수호대 만남
-    def maze_meet_enemy_gard(self, int_floor, str_my_gard):
+    def maze_meet_enemy_gard(self, int_floor, dict_user_gard):
         # 전투시작
         if int_floor == 1:
             list_enemy_lvs = random.choices(range(20, 25), k=6)
@@ -189,55 +165,17 @@ class mazeClass:
             list_enemy_lvs = random.choices(range(50, 100), k=6)
             int_hp_up = 1.3 * 1.4 * 1.5 * 1.6
 
-        if str_my_gard == 'light_gard':
+        if dict_user_gard['gard'] == 'light_gard':
             str_enemy_gard = random.choice(['moon_gard', 'star_gard', 'forest_gard'])
-        elif str_my_gard == 'moon_gard':
+        elif dict_user_gard['gard'] == 'moon_gard':
             str_enemy_gard = random.choice(['light_gard', 'star_gard', 'forest_gard'])
-        elif str_my_gard == 'star_gard':
+        elif dict_user_gard['gard'] == 'star_gard':
             str_enemy_gard = random.choice(['light_gard', 'moon_gard', 'forest_gard'])
-        elif str_my_gard == 'forest_gard':
+        elif dict_user_gard['gard'] == 'forest_gard':
             str_enemy_gard = random.choice(['light_gard', 'star_gard', 'moon_gard'])
 
 
-        # 나의 수호대, 시연님 상속
-        dict_user_gard = {'gard': str_my_gard,
-                               'location': {'region': '', 'x': 0, 'y': 0},
-                               'warrior': {'survival': True,
-                                           'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
-                                           'equipment': ['silver_helmet', 'bronze_armor', 'bronze_shield',
-                                                         'bronze_sword'],
-                                           'skill': {10: 'slice_chop'}},
-                               'archer': {'survival': True,
-                                          'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 300,
-                                          'equipment': [],
-                                          'skill': {10: 'target_shot',
-                                                    15: 'dual_shot',
-                                                    20: 'master_shot'}},
-                               'swordman': {'survival': True,
-                                            'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 250,
-                                            'equipment': [],
-                                            'skill': {10: 'slice_chop'}},
-                               'wizard_red': {'survival': True,
-                                              'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 150,
-                                              'equipment': [],
-                                              'skill': {1: ['heal_normal', 'fire_ball'],
-                                                        15: ['heal_greater', 'fire_wall'],
-                                                        20: 'thunder_breaker',
-                                                        25: 'bilzzard',
-                                                        30: 'heal_all'}},
-                               'wizard_black': {'survival': True,
-                                                'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
-                                                'equipment': [],
-                                                'skill': {1: 'fire_ball',
-                                                          15: 'fire_wall',
-                                                          20: 'thunder_breaker',
-                                                          25: 'bilzzard'}},
-                               'wizard_white': {'survival': True,
-                                                'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 100,
-                                                'equipment': [],
-                                                'skill': {1: 'heal_normal',
-                                                          15: 'heal_greater',
-                                                          30: 'heal_all'}}}
+
 
         # dict_enemy_gard = {'gard': str_enemy_gard,
         #                         'warrior': {'lv': list_enemy_lvs[0], 'hp': 300*int_hp_up, 'mp': 0,
@@ -301,7 +239,7 @@ class mazeClass:
                                                 'skill': {1: 'heal_normal',
                                                           15: 'heal_greater',
                                                           30: 'heal_all'}}}
-        print(int_floor,'층', '적수호대:', dict_enemy_gard, '나의 수호대:', dict_user_gard)
+        # print(int_floor,'층', '적수호대:', dict_enemy_gard, '나의 수호대:', dict_user_gard)
         return int_floor, dict_enemy_gard, dict_user_gard
 
     # 던전 보스 위치
@@ -432,37 +370,37 @@ class mazeClass:
             print('8층 아님')
 
 
-class_b = mazeClass()
-print('>>>던전 맵 내 이동시 이벤트')
-class_b.maze_move_event(class_b.int_floor, 'moon_gard')
-print()
-print('>>>보스몬스터 위치')
-class_b.maze_boss_location(class_b.int_floor)
-print()
-print('>>>보스몬스터 위치에 도달한 경우 전투 시작')
-class_b.maze_boss_match(class_b.int_floor)
-print()
-print('>>>다음층 계단 입구 위치')
-class_b.maze_next_maze_entrance(class_b.int_floor)
-print()
-print('>>>다음층 입구 도달시 보스처치 유무에 따른 결과')
-class_b.maze_next_maze(class_b.int_floor, bool_death_boss=True)
-class_b.maze_next_maze(class_b.int_floor, bool_death_boss=False)
-class_b.maze_change_entrance_location(class_b.int_floor, int_turn=7)
-class_b.maze_change_entrance_location(class_b.int_floor, int_turn=8)
-print(class_b.int_floor, '층')
-print()
-print('>>>텔레포트 사용')
-class_b.maze_use_teleport(class_b.int_floor, class_b.return_dict_teleport_stock())
-class_b.maze_teleport_location()
-class_b.maze_reentry_maze()
-print(class_b.int_floor)
-print()
-print('>>>이상복 구출')
-class_b.maze_boki_location()
-class_b.int_floor = 8
-class_b.maze_boki_location()
-
+# class_b = mazeClass()
+# print('>>>던전 맵 내 이동시 이벤트')
+# class_b.maze_move_event(class_b.int_floor, 'moon_gard')
+# print()
+# print('>>>보스몬스터 위치')
+# class_b.maze_boss_location(class_b.int_floor)
+# print()
+# print('>>>보스몬스터 위치에 도달한 경우 전투 시작')
+# class_b.maze_boss_match(class_b.int_floor)
+# print()
+# print('>>>다음층 계단 입구 위치')
+# class_b.maze_next_maze_entrance(class_b.int_floor)
+# print()
+# print('>>>다음층 입구 도달시 보스처치 유무에 따른 결과')
+# class_b.maze_next_maze(class_b.int_floor, bool_death_boss=True)
+# class_b.maze_next_maze(class_b.int_floor, bool_death_boss=False)
+# class_b.maze_change_entrance_location(class_b.int_floor, int_turn=7)
+# class_b.maze_change_entrance_location(class_b.int_floor, int_turn=8)
+# print(class_b.int_floor, '층')
+# print()
+# print('>>>텔레포트 사용')
+# class_b.maze_use_teleport(class_b.int_floor, class_b.return_dict_teleport_stock())
+# class_b.maze_teleport_location()
+# class_b.maze_reentry_maze()
+# print(class_b.int_floor)
+# print()
+# print('>>>이상복 구출')
+# class_b.maze_boki_location()
+# class_b.int_floor = 8
+# class_b.maze_boki_location()
+#
 
 
 

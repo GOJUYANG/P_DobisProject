@@ -221,11 +221,11 @@ class FieldClass():
 #     print(f"랜덤 던전 좌표 X {rand_maze_door} Y {rand_maze_door_}")
 
 
-a = FieldClass()
-f = a.field_move_event()
-print(f)
-a.field_monster_population()
-a.field_hp_monster()
+# a = FieldClass()
+# f = a.field_move_event()
+# print(f)
+# a.field_monster_population()
+# a.field_hp_monster()
 # a.field_move_random_drop()
 # a.field_meet_ally_gard
 # a.field_monster_population()

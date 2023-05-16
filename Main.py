@@ -6,14 +6,20 @@ from PyQt5.QtCore import Qt
 from view.main_frame import Ui_MainWindow
 from Equipment import EquipmentClass
 from Item import ItemClass
+from Dungeon import mazeClass
+from Field import FieldClass
 
 
-class MainClass(QMainWindow, Ui_MainWindow, ItemClass):
+class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
 
-        self.in_cnt = 0
+        # 필드 전투 턴
+        self.field_turn = 0
+
+        # 던전 전투 턴
+        self.maze_turn = 0
 
         # 수호대 리스트
         self.list_gard = [{'빛': 'light_gard'}, {'달': 'moon_gard'}, {'별': 'star_gard'}, {'땅': 'earth_gard'}]
@@ -36,67 +42,66 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass):
 
         # 획득한 장비 리스트 / 변수명 :  아이템명, 보유개수, 효과, 이미지
         self.dict_equipment = {
-            'black_armor': {'name': '블랙 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'black_cape': {'name': '블랙 망토', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'black_glove': {'name': '블랙 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'black_pants': {'name': '블랙 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'blue_armor': {'name': '블루 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'blue_cape': {'name': '블루 망토', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'blue_glove': {'name': '블루 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'blue_hood': {'name': '블루 후드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'blue_pants': {'name': '블루 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'bronze_armor': {'name': '브론즈 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'bronze_bow': {'name': '브론즈 보우', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'bronze_pants': {'name': '브론즈 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'bronze_shield': {'name': '브론즈 쉴드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'bronze_staff': {'name': '브론즈 롱스태프', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'bronze_sword': {'name': '브론즈 소드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'bronze_wand': {'name': '브론즈 숏스태프', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'chain_armor': {'name': '체인 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'chain_pants': {'name': '체인 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'chain_shield': {'name': '체인 쉴드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'cow_armor': {'name': '소가죽 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'cow_cape': {'name': '소가죽 망토', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'cow_glove': {'name': '소가죽 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'cow_helmet': {'name': '소가죽 헬멧', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'cow_pants': {'name': '소가죽 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'croc_cape': {'name': '악어 망토', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'croc_glove': {'name': '악어 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'diamond_gem': {'name': '다이아 룬스태프', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'gold_armor': {'name': '골드 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'gold_bow': {'name': '골드 보우', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'gold_helmet': {'name': '골드 헬멧', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'gold_pants': {'name': '골드 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'gold_staff': {'name': '골드 롱스태프', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'gold_sword': {'name': '골드 소드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'gold_wand': {'name': '골드 숏스태프', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'high_chain_glove': {'name': '튼튼한 체인 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'horse_armor': {'name': '말가죽 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'horse_cape': {'name': '말가죽 망토', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'horse_glove': {'name': '말가죽 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'horse_helmet': {'name': '말가죽 헬멧', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'horse_pants': {'name': '말가죽 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'iron_armor': {'name': '아이언 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'iron_pants': {'name': '아이언 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'iron_shield': {'name': '아이언 쉴드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'leather_shield': {'name': '가죽 방패', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'low_chain_glove': {'name': '낡은 체인 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'middle_chain_glove': {'name': '체인 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'red_armor': {'name': '레드 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'red_cape': {'name': '레드 망토', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'red_glove': {'name': '레드 글로브', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'red_hood': {'name': '레드 후드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'red_pants': {'name': '레드 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'ruby_gem': {'name': '루비 룬스태프', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'silver_armor': {'name': '실버 아머', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'silver_bow': {'name': '실버 보우', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'silver_helmet': {'name': '실버 헬멧', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'silver_pants': {'name': '실버 팬츠', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'silver_staff': {'name': '실버 롱스태프', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'silver_sword': {'name': '실버 소드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'silver_wand': {'name': '실버 완드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''},
-            'stone_gem': {'name': '스톤 룬스태프', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 0, 'image': ''}
-        }
+            'black_armor': {'name': '블랙 아머', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'black_cape': {'name': '블랙 망토', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'black_glove': {'name': '블랙 글로브', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'black_pants': {'name': '블랙 팬츠', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'blue_armor': {'name': '블루 아머', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'blue_cape': {'name': '블루 망토', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'blue_glove': {'name': '블루 글로브', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'blue_hood': {'name': '블루 후드', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'blue_pants': {'name': '블루 팬츠', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'bronze_armor': {'name': '브론즈 아머', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'bronze_bow': {'name': '브론즈 보우', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 10, 'image': ''},
+            'bronze_pants': {'name': '브론즈 팬츠', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'bronze_shield': {'name': '브론즈 쉴드', 'count': 0, 'max_hp': 9, 'max_mp': 0, 'power': 0, 'image': ''},
+            'bronze_staff': {'name': '브론즈 롱스태프', 'count': 0, 'max_hp': 0, 'max_mp': 3, 'power': 7, 'image': ''},
+            'bronze_sword': {'name': '브론즈 소드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 10, 'image': ''},
+            'bronze_wand': {'name': '브론즈 숏스태프', 'count': 0, 'max_hp': 0, 'max_mp': 10, 'power': 0, 'image': ''},
+            'chain_armor': {'name': '체인 아머', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'chain_pants': {'name': '체인 팬츠', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'chain_shield': {'name': '체인 쉴드', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'cow_armor': {'name': '소가죽 아머', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'cow_cape': {'name': '소가죽 망토', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'cow_glove': {'name': '소가죽 글로브', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'cow_helmet': {'name': '소가죽 헬멧', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'cow_pants': {'name': '소가죽 팬츠', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'croc_cape': {'name': '악어 망토', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'croc_glove': {'name': '악어 글로브', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'diamond_gem': {'name': '다이아 룬스태프', 'count': 0, 'max_hp': 0, 'max_mp': 9, 'power': 9, 'image': ''},
+            'gold_armor': {'name': '골드 아머', 'count': 0, 'max_hp': 9, 'max_mp': 0, 'power': 0, 'image': ''},
+            'gold_bow': {'name': '골드 보우', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 30, 'image': ''},
+            'gold_helmet': {'name': '골드 헬멧', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'gold_pants': {'name': '골드 팬츠', 'count': 0, 'max_hp': 9, 'max_mp': 0, 'power': 0, 'image': ''},
+            'gold_staff': {'name': '골드 롱스태프', 'count': 0, 'max_hp': 0, 'max_mp': 9, 'power': 21, 'image': ''},
+            'gold_sword': {'name': '골드 소드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 30, 'image': ''},
+            'gold_wand': {'name': '골드 숏스태프', 'count': 0, 'max_hp': 0, 'max_mp': 30, 'power': 0, 'image': ''},
+            'high_chain_glove': {'name': '튼튼한 체인 글로브', 'count': 0, 'max_hp': 9, 'max_mp': 0, 'power': 0, 'image': ''},
+            'horse_armor': {'name': '말가죽 아머', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'horse_cape': {'name': '말가죽 망토', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'horse_glove': {'name': '말가죽 글로브', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'horse_helmet': {'name': '말가죽 헬멧', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'horse_pants': {'name': '말가죽 팬츠', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'iron_armor': {'name': '아이언 아머', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'iron_pants': {'name': '아이언 팬츠', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'iron_shield': {'name': '아이언 쉴드', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'leather_shield': {'name': '가죽 방패', 'count': 0, 'max_hp': 3, 'max_mp': 0, 'power': 0, 'image': ''},
+            'low_chain_glove': {'name': '낡은 체인 글로브', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'middle_chain_glove': {'name': '체인 글로브', 'count': 0, 'max_hp': 7, 'max_mp': 0, 'power': 0, 'image': ''},
+            'red_armor': {'name': '레드 아머', 'count': 0, 'max_hp': 1, 'max_mp': 0, 'power': 0, 'image': ''},
+            'red_cape': {'name': '레드 망토', 'count': 0, 'max_hp': 1, 'max_mp': 0, 'power': 0, 'image': ''},
+            'red_glove': {'name': '레드 글로브', 'count': 0, 'max_hp': 1, 'max_mp': 0, 'power': 0, 'image': ''},
+            'red_hood': {'name': '레드 후드', 'count': 0, 'max_hp': 1, 'max_mp': 0, 'power': 0, 'image': ''},
+            'red_pants': {'name': '레드 팬츠', 'count': 0, 'max_hp': 1, 'max_mp': 0, 'power': 0, 'image': ''},
+            'ruby_gem': {'name': '루비 룬스태프', 'count': 0, 'max_hp': 0, 'max_mp': 7, 'power': 7, 'image': ''},
+            'silver_armor': {'name': '실버 아머', 'count': 0, 'max_hp': 9, 'max_mp': 0, 'power': 0, 'image': ''},
+            'silver_bow': {'name': '실버 보우', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 20, 'image': ''},
+            'silver_helmet': {'name': '실버 헬멧', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
+            'silver_pants': {'name': '실버 팬츠', 'count': 0, 'max_hp': 9, 'max_mp': 0, 'power': 0, 'image': ''},
+            'silver_staff': {'name': '실버 롱스태프', 'count': 0, 'max_hp': 0, 'max_mp': 6, 'power': 14, 'image': ''},
+            'silver_sword': {'name': '실버 소드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 20, 'image': ''},
+            'silver_wand': {'name': '실버 완드', 'count': 0, 'max_hp': 0, 'max_mp': 20, 'power': 0, 'image': ''},
+            'stone_gem': {'name': '스톤 룬스태프', 'count': 0, 'max_hp': 0, 'max_mp': 5, 'power': 5, 'image': ''}}
 
         # 수호대
         self.dict_user_gard = {'gard': '',
@@ -200,33 +205,94 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass):
 
     # 키 입력 이벤트
     def keyPressEvent(self, event):
-        # 방향키 누를 때마다 라벨 위치 조정
-        if event.key() == Qt.Key_A:
-            self.x = self.img_gard.x() - int(self.stack_field.width() / 20)
-            if self.x < 0:
-                self.x = 0
-            self.img_gard.move(self.x, self.img_gard.y())
-            print(self.img_gard.x(), self.img_gard.y())
-        elif event.key() == Qt.Key_D:
-            self.x = self.img_gard.x() + int(self.stack_field.width() / 20)
-            if self.x > self.stack_field.width() - self.img_gard.width():
-                self.x = self.stack_field.width() - self.img_gard.width()
-            self.img_gard.move(self.x, self.img_gard.y())
-            print(self.img_gard.x(), self.img_gard.y())
-        elif event.key() == Qt.Key_W:
-            self.y = self.img_gard.y() - int(self.stack_field.height() / 20)
-            if self.y < 0:
-                self.y = 0
-            self.img_gard.move(self.img_gard.x(), self.y)
-            print(self.img_gard.x(), self.img_gard.y())
-        elif event.key() == Qt.Key_S:
-            self.y = self.img_gard.y() + int(self.stack_field.height() / 20)
-            if self.y > self.stack_field.height() - self.img_gard.height():
-                self.y = self.stack_field.height() - self.img_gard.height()
-            self.img_gard.move(self.img_gard.x(), self.y)
-            print(self.img_gard.x(), self.img_gard.y())
+        # 필드
+        if self.stackedWidget.currentWidget() == self.stack_field:
+            # 방향키 누를 때마다 라벨 위치 조정
+            if event.key() == Qt.Key_A:
+                self.x = self.img_gard.x() - int(self.stack_field.width() / 20)
+                if self.x < 0:
+                    self.x = 0
+                self.img_gard.move(self.x, self.img_gard.y())
+                print(self.img_gard.x(), self.img_gard.y())
+            elif event.key() == Qt.Key_D:
+                self.x = self.img_gard.x() + int(self.stack_field.width() / 20)
+                if self.x > self.stack_field.width() - self.img_gard.width():
+                    self.x = self.stack_field.width() - self.img_gard.width()
+                self.img_gard.move(self.x, self.img_gard.y())
+                print(self.img_gard.x(), self.img_gard.y())
+            elif event.key() == Qt.Key_W:
+                self.y = self.img_gard.y() - int(self.stack_field.height() / 20)
+                if self.y < 0:
+                    self.y = 0
+                self.img_gard.move(self.img_gard.x(), self.y)
+                print(self.img_gard.x(), self.img_gard.y())
+            elif event.key() == Qt.Key_S:
+                self.y = self.img_gard.y() + int(self.stack_field.height() / 20)
+                if self.y > self.stack_field.height() - self.img_gard.height():
+                    self.y = self.stack_field.height() - self.img_gard.height()
+                self.img_gard.move(self.img_gard.x(), self.y)
+                print(self.img_gard.x(), self.img_gard.y())
 
-        self.alarm_where_field(self.x, self.y)
+            self.alarm_where_field(self.x, self.y)
+
+            tuple_v = self.field_move_event(self.field_turn)
+
+            if tuple_v is not None:
+                if tuple_v[0] == '일반몬스터':
+                    print(tuple_v[1])
+                elif tuple_v[0] == '텐트':
+                    print(tuple_v[1])
+                elif tuple_v[0] == '아군수호대':
+                    print(tuple_v[1])
+                elif tuple_v[0] == '적군수호대':
+                    print(tuple_v[1], tuple_v[2])
+                elif tuple_v[0] == '아이템':
+                    print(tuple_v[1])
+            else:
+                pass
+
+
+        # 던전
+        elif self.stackedWidget.currentWidget() == self.stack_maze:
+            # 방향키 누를 때마다 라벨 위치 조정
+            if event.key() == Qt.Key_A:
+                self.x = self.img_gard.x() - int(self.stack_field.width() / 20)
+                if self.x < 0:
+                    self.x = 0
+                self.img_gard.move(self.x, self.img_gard.y())
+                print(self.img_gard.x(), self.img_gard.y())
+            elif event.key() == Qt.Key_D:
+                self.x = self.img_gard.x() + int(self.stack_field.width() / 20)
+                if self.x > self.stack_field.width() - self.img_gard.width():
+                    self.x = self.stack_field.width() - self.img_gard.width()
+                self.img_gard.move(self.x, self.img_gard.y())
+                print(self.img_gard.x(), self.img_gard.y())
+            elif event.key() == Qt.Key_W:
+                self.y = self.img_gard.y() - int(self.stack_field.height() / 20)
+                if self.y < 0:
+                    self.y = 0
+                self.img_gard.move(self.img_gard.x(), self.y)
+                print(self.img_gard.x(), self.img_gard.y())
+            elif event.key() == Qt.Key_S:
+                self.y = self.img_gard.y() + int(self.stack_field.height() / 20)
+                if self.y > self.stack_field.height() - self.img_gard.height():
+                    self.y = self.stack_field.height() - self.img_gard.height()
+                self.img_gard.move(self.img_gard.x(), self.y)
+                print(self.img_gard.x(), self.img_gard.y())
+
+            self.alarm_where_field(self.x, self.y)
+
+            tuple_v = self.maze_move_event()
+
+            if tuple_v is not None:
+                if tuple_v[0] == '일반몬스터':
+                    print(tuple_v[1])
+                elif tuple_v[0] == '아군수호대':
+                    print(tuple_v[1])
+                elif tuple_v[0] == '적군수호대':
+                    print(tuple_v[1], tuple_v[2])
+            else:
+                pass
 
     # 수호대 랜덤배치
     def random_assign_gard(self):

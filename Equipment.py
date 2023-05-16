@@ -5,6 +5,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from view.equipment import Ui_Equipment
 
+
 class EquipmentClass(QDialog, Ui_Equipment):
     def __init__(self, **kwargs):
         super().__init__()
@@ -108,6 +109,7 @@ class EquipmentClass(QDialog, Ui_Equipment):
                     self.dict_equipment[k]['count'] -= 1
                     break
 
+            self.apply_equip_effect()
             self.renew_equip_view()
         else:
             pass
@@ -124,8 +126,8 @@ class EquipmentClass(QDialog, Ui_Equipment):
                     self.dict_equipment[k]['count'] += 1
                     break
 
+            self.apply_equip_effect()
             self.renew_equip_view()
-
         else:
             pass
 
@@ -135,3 +137,12 @@ class EquipmentClass(QDialog, Ui_Equipment):
         self.list_unworn.clear()
         self.show_wear_equip()
         self.show_can_wear_equip()
+
+    # 장비 효과 적용
+    def apply_equip_effect(self):
+        for item in self.dict_user_gard[self.str_job]['equipment']:
+            for k, v in self.dict_equipment.items():
+                if k == item:
+                    self.dict_user_gard[self.str_job]['max_hp'] *= (100 + v['max_hp']) / 100
+                    self.dict_user_gard[self.str_job]['max_mp'] *= (100 + v['max_mp']) / 100
+                    self.dict_user_gard[self.str_job]['power'] *= (100 + v['power']) / 100
