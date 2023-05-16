@@ -94,19 +94,20 @@ class DungeonClass:
         ratio = random.randint(1, 100)
         if ratio <= 30:
             print('일반몬스터')
-            self.bool_meet_monster = True
-            self.meet_monster(self.int_floor, str_my_gard)
+            # self.bool_meet_monster = True
             self.int_turn += 1
+            return 1, self.meet_monster(self.int_floor, str_my_gard)
         elif ratio <= 45:
             print('아군수호대 조우')
-            self.meet_ally_gard()
+            return'아군수호대 조우', self.meet_ally_gard()
         elif ratio <= 60:
             print('적군수호대 조우')
-            self.bool_meet_enemy_gard = True
-            self.meet_enemy_gard(self.int_floor, str_my_gard)
+            # self.bool_meet_enemy_gard = True
             self.int_turn += 1
+            return 3, self.meet_enemy_gard(self.int_floor, str_my_gard)
         else:
             print('그냥이동')
+            return 4
 
     # 일반몬스터 만남(1~10마리)
     def meet_monster(self, int_floor, str_my_gard):
@@ -148,6 +149,7 @@ class DungeonClass:
 
     # 아군 수호대 만남-9종류의 포션 중 하나 나눔받음
     def meet_ally_gard(self):
+        list_ = []
         #9개의 포션, 장비들 중 하나 드랍
         print('아군수호대를 만났다')
         ally_drop_item = random.choice(['HP_potion_high', 'HP_potion_middle', 'HP_potion_low',
@@ -174,7 +176,8 @@ class DungeonClass:
             ally_drop_potion = 'ALL소'
         print('아군수호대로부터 {}를 나눔받았다.'.format(ally_drop_item))
         print('아군수호대로부터 {}를 나눔받았다.'.format(ally_drop_potion))
-        return ally_drop_item
+        list_.append(ally_drop_item)
+        return list_
 
     # 적군수호대 만남
     def meet_enemy_gard(self, int_floor, str_my_gard):
@@ -485,36 +488,36 @@ class DungeonClass:
 # class_a.next_maze_entrance(6)
 # class_a.change_entrance_location(6, 10)
 
-class_b = DungeonClass()
-print('>>>던전 맵 내 이동시 이벤트')
-class_b.move_event(class_b.int_floor, 'moon_gard')
-print()
-print('>>>보스몬스터 위치')
-class_b.boss_location(class_b.int_floor)
-print()
-print('>>>보스몬스터 위치에 도달한 경우 전투 시작')
-class_b.boss_match(class_b.int_floor)
-print()
-print('>>>다음층 계단 입구 위치')
-class_b.next_maze_entrance(class_b.int_floor)
-print()
-print('>>>다음층 입구 도달시 보스처치 유무에 따른 결과')
-class_b.next_maze(class_b.int_floor, bool_death_boss=True)
-class_b.next_maze(class_b.int_floor, bool_death_boss=False)
-class_b.change_entrance_location(class_b.int_floor, int_turn=7)
-class_b.change_entrance_location(class_b.int_floor, int_turn=8)
-print(class_b.int_floor, '층')
-print()
-print('>>>텔레포트 사용')
-class_b.use_teleport(class_b.int_floor)
-class_b.teleport_location()
-class_b.reentry_maze()
-print(class_b.int_floor)
-print()
-print('>>>이상복 구출')
-class_b.boki_location()
-class_b.int_floor = 8
-class_b.boki_location()
+# class_b = DungeonClass()
+# print('>>>던전 맵 내 이동시 이벤트')
+# class_b.move_event(class_b.int_floor, 'moon_gard')
+# print()
+# print('>>>보스몬스터 위치')
+# class_b.boss_location(class_b.int_floor)
+# print()
+# print('>>>보스몬스터 위치에 도달한 경우 전투 시작')
+# class_b.boss_match(class_b.int_floor)
+# print()
+# print('>>>다음층 계단 입구 위치')
+# class_b.next_maze_entrance(class_b.int_floor)
+# print()
+# print('>>>다음층 입구 도달시 보스처치 유무에 따른 결과')
+# class_b.next_maze(class_b.int_floor, bool_death_boss=True)
+# class_b.next_maze(class_b.int_floor, bool_death_boss=False)
+# class_b.change_entrance_location(class_b.int_floor, int_turn=7)
+# class_b.change_entrance_location(class_b.int_floor, int_turn=8)
+# print(class_b.int_floor, '층')
+# print()
+# print('>>>텔레포트 사용')
+# class_b.use_teleport(class_b.int_floor)
+# class_b.teleport_location()
+# class_b.reentry_maze()
+# print(class_b.int_floor)
+# print()
+# print('>>>이상복 구출')
+# class_b.boki_location()
+# class_b.int_floor = 8
+# class_b.boki_location()
 
 
 
