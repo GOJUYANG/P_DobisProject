@@ -1,73 +1,183 @@
+import os, sys
+import random
+import time
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-import random
+from PyQt5 import uic
 
-#self.dict_ 의 key값은 def__init__(self, **kwargs)에서 찾을 값들이다. 함께 딕셔너리의 value값들은 기본값이 존재하지 않는다면 ''처리 해둔다.
-#해당 딕셔너리에 key값들로 모여들 것들은 공통적으로 함께 묶여있어야할 값들이다. (ex, gard -> location -> warrior,archer,,,,,->lv,hp,max_hp,equipment,skill)
 
-### 클래스 화면 ###
-#전투화면은 QMainWindow의 stackedWidget에 해당한다.
+def resource_path(relative_path):
+    base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
-### 클래스 함수 ###
-# 도망
-# 받을 값 : 화면전환 후 위치할 필드/던전 좌표
+# 메인화면
+main = resource_path('../qt/boki_test.ui')
+main_class = uic.loadUiType(main)[0]
 
-# 턴제 방식
-# 생성 값 : self.enemy_turn = True, self.team_turn = True
+second = resource_path('../qt/attack.ui')
+second_class = uic.loadUiType(second)[0]
 
-# 전투가능/불능 상태 판단
-# 받을 값 : dict_user_gard_lv(job : lv)
-# 넘겨줄 값 : dict_user_gard_state{'warrior':True,'archer':True,'swordsman':True,'wizard_W':True,'wizard_R':True,'wizard_B':True}
 
-# 필드 일반 몬스터 조우
-# 받을 값(1): str_area
-# 받을 값(2): dict_user_gard[name, lv, hp, mp, list_item[potion,meteorite], skill, power]
-# 받을 값(3): dict_maze_monster[int_cnt, int_hp, list_area_monster, list_damage(일반공격, 스킬)]
-# 넘겨줄 값 : int_war_cnt, bool_run_mode
+class MY(QMainWindow, main_class, second_class):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.timer = QTimer()
 
-# 필드 수호대 조우
-# 받을 값(1): str_area
-# 받을 값(2): dict_user_gard[name, lv, hp, mp, list_item[potion,meteorite], skill, power]
-# 받을 값(3): enemy_gard[name, lv, hp, mp, skill, power]
-# 넘겨줄 값 : int_war_cnt, bool_run_mode
+        ### 임시 변수 ###
+        # self.lb_warrior1.hide()
+        # self.lb_warrior2.hide()
+        self.current_loc = 'fire_area'
+        self.int_btn_clicked_cnt = 0
+        self.int_survive = 0
 
-# 던전 일반몬스터 조우
-# 받을 값(1): int_floor
-# 받을 값(2): dict_user_gard[name, lv, hp, mp, list_item[potion,meteorite], skill, power]
-# 받을 값(3): dict_maze_monster[int_cnt, list_hp, list_area_monster, list_damage(일반공격, 스킬)]
-# 넘겨줄 값 : int_war_cnt, bool_run_mode
+        ### 변수 선언 ###
+        self.list_area = ['fire_area', 'water_area', 'forest_area', 'snow_area']
+        self.list_maze_floor = ['first', 'second', 'third', 'forth', 'fifth', 'sixth', 'seventh', 'eighth']
 
-# 던전 수호대 조우
-# 받을 값(1): int_floor
-# 받을 값(2): dict_user_gard[name, lv, hp, mp, list_item[potion,meteorite], skill, power]
-# 받을 값(3): enemy_gard[name, lv, hp, mp, skill, power]
-# 넘겨줄 값: int_war_cnt, bool_run_mode
+        self.list_attack_btn = [self.warrior_attack, self.archer_attack, self.swordsman_attack,
+                                self.wizard_r_attack, self.wizard_w_attack, self.wizard_b_attack]
 
-# 던전 보스몬스터 조우
-# 받을 값(1): int_floor
-# 받을 값(2): dict_user_gard[name, lv, hp, mp, list_item[potion,meteorite], skill, power]
-# 받을 값(3): dict_boss_monster[name, hp, attack, skill,list_field_monster:[int_cnt, list_hp, list_area]] ->area에 따른 기술사용은 BattleClass차원에서 처리?
-# 넘겨줄 값 : int_war_cnt,bool_run_mode
+        self.dict_job = {'warrior': {'survive': True}, 'archer': {'survive': False}, 'swordsman': {'survive': True},
+                         'wizard_w': {'survive': True}, 'wizard_b': {'survive': True}, 'wizard_r': {'survive': True}}
+        self.str_job = sorted(self.dict_job.keys())
 
-# 승리/패배
-# 필드 일반몬스터 상대
-# 넘겨줄 값 : dict_result_field = {'win' : [lv, mp, hp, exp, skill, power, list_item(포션,지역별 장비)], 'lose' : ??}
-# 필드 수호대 상대
-# 넘겨줄 값 : dict_result_field = {'win' : [lv, mp, hp, exp, skill, power, list_item(포션,지역별 장비)], 'lose' : ??}
-# 던전 일반몬스터 상대
-# 넘겨줄 값 : dict_result_maze = {'win' : [lv, mp, hp, exp, skill, power, list_item(포션,지역별 장비)], 'lose' : ??}
-# 던전 수호대 상대
-# 넘겨줄 값 : dict_result_maze = {'win' : [lv, mp, hp, exp, skill, power, list_item(포션,장비)], 'lose' : ??}
-# 던전 보스몬스터 상대
-# 넘겨줄 값 : dict_result = {'win' : [lv, mp, hp, exp, skill, power, list_item(부활포션,단서,장비)], 'lose' : ??}
+        self.num = random.choice(range(1, 11))
+        self.dict_field_monster = {'fire_area': {'survival': True,
+                                                 'cnt': self.num,
+                                                 'hp': random.choices(range(200, 1001), k=self.num),
+                                                 'skill': {'fire_attack', 'fire_ball'}}}
+        self.monster_li = []
+        self.list_enemy_btn = []
+        self.list_enemy_line = []
+        self.list_enemy_btn = self.groupBox.findChildren(QPushButton)
+        self.list_enemy_line = self.groupBox.findChildren(QLineEdit)
 
-# 치트키 (n턴 동안 무적)
+        self.list_job = [self.lb_warrior, self.lb_archer, self.lb_swordsman, self.lb_wizard_r, self.lb_wizard_w,
+                         self.lb_wizard_b]
+        self.list_job_name = ['lb_warrior', 'lb_archer', 'lb_swordsman', 'lb_wizard_r', 'lb_wizard_w', 'lb_wizard_b']
+        list_job_attack_btn = [self.warrior_attack, self.archer_attack, self.swordsman_attack,
+                               self.wizard_r_attack, self.wizard_w_attack, self.wizard_b_attack]
 
-# 만렙달성 (레벨만 초기화 되고 self.job의 mp,hp,demage,skill,equipment는 그대로 전승)
+        ### qt 연결 ###
+        for i in range(len(list_job_attack_btn)):
+            list_job_attack_btn[i].clicked.connect(lambda x, y=i: self.move_image_forward(x, y))
+            self.pushButton.clicked.connect(lambda x, y=i: self.battle_turn(x, y))
+            self.list_attack_btn[i].clicked.connect(lambda x, y=i: self.attack_btn_clicked(x, y))
 
-class BattelClass():
-    def __init__(self, **kwargs):
-        if 'dict_user_gard' in kwargs:
-            self.dict_user_gard = kwargs['dict_user_gard']
+        self.run_btn_0.clicked.connect(self.user_gard_run)
 
+        for i in range(0, 9):
+            self.enemy_0.clicked.connect(self.monster_attack)
+
+    ### 함수 선언 ###
+
+    # 1번 방식 : 캐릭터는 그자리 그대로, 모션만 주기
+    # def move_image_forward(self):
+    # QTimer.singleShot(800,self.lb_warrior0.hide)
+    # QTimer.singleShot(800,self.lb_warrior1.show)
+    # QTimer.singleShot(1600,self.lb_warrior1.hide)
+    # QTimer.singleShot(1600,self.lb_warrior2.show)
+    # QTimer.singleShot(2400,self.lb_warrior2.hide)
+    # QTimer.singleShot(2400, self.lb_warrior0.show)
+
+    # 2번 방식 : 위치가 바뀌면서 모션 수행
+    def move_image_forward(self, x, index):
+        self.index = index
+        self.current_pos = self.list_job[index].pos()
+        if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error가 난다면 숫자조정필요.)
+            print(self.current_pos.x())
+            print(self.current_pos.y())
+            self.list_job[index].setPixmap(QPixmap(f'../data/{self.list_job_name[index]}/attack1.png'))
+            self.list_job[index].move(self.current_pos.x(), self.current_pos.y() - 200)
+            QTimer.singleShot(1000, self.move_image_forward2)
+        return self.index
+
+    def move_image_forward2(self):
+        # index = self.move_image_forward(self.x, self.index)
+        if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error가 난다면 숫자조정필요.)
+            self.list_job[self.index].setPixmap(QPixmap(f'../data/{self.list_job_name[self.index]}/attack2.png'))
+            self.list_job[self.index].move(self.current_pos.x(), self.current_pos.y() - 300)
+            QTimer.singleShot(1000, self.move_image_back)
+            self.timer.stop()
+        return self.index
+
+    def move_image_back(self):
+        # index = self.move_image_forward2()
+        if self.current_pos.x() < 900:  # 원래 위치로 돌아가는 x 좌표
+            self.list_job[self.index].setPixmap(QPixmap(f'../data/{self.list_job_name[self.index]}/walk1.png'))
+            self.list_job[self.index].move(self.current_pos.x(), self.current_pos.y())
+            self.timer.stop()
+
+    def monster_attack(self):
+        self.battle_dialog.append("두번째 몬스터가 전사에게 **데미지를 먹었습니다.")
+
+    # 전투가능한 구성원의 버튼이 활성화된다.
+    def battle_turn(self, x, num):
+        if self.current_loc in self.list_area:
+            area = self.current_loc.split('_')
+            self.battle_dialog.setText(f"{area[0]}지역에서 벌어진 전투 시작!")
+        elif self.current_loc in self.list_maze_floor:
+            self.battle_dialog.setText(f"{self.current_loc}층에서 벌어진 전투 시작!")
+
+        for i in range(num):
+            if self.str_job[i] in self.dict_job:
+                if self.dict_job[self.str_job[i]]['survive'] == True:
+                    self.list_attack_btn[num].setEnabled(True)
+                    self.int_survive = i + 1
+                if self.dict_job[self.str_job[i]]['survive'] == False:
+                    self.list_attack_btn[num].setDisabled(True)
+
+        for k in range(self.num):
+            self.list_enemy_line[k].setText(f"몬스터 HP: {str(self.dict_field_monster['fire_area']['hp'][k])}")
+            if self.dict_field_monster['fire_area']['hp'][k] < 400:
+                self.monster_li.append('small_dragon')
+            elif self.dict_field_monster['fire_area']['hp'][k] < 600:
+                self.monster_li.append('lizard')
+            elif self.dict_field_monster['fire_area']['hp'][k] < 800:
+                self.monster_li.append('medusa')
+            elif self.dict_field_monster['fire_area']['hp'][k] < 1000:
+                self.monster_li.append('jinn')
+            self.battle_dialog.append(
+                f"HP: {str(self.dict_field_monster['fire_area']['hp'][k])}의 {self.monster_li[k]}를 만났다!")
+            pixmap = QPixmap(f'../data/PNG/{self.monster_li[k]}.png')
+            pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
+            icon = QIcon()
+            icon.addPixmap(pixmap)
+            self.list_enemy_btn[k].setIcon(icon)
+            self.list_enemy_btn[k].setIconSize(QSize(100, 100))
+
+    # def enemy_btn_clicked(self):
+
+    # 한번 누른 구성원의 버튼은 몬스터의 턴이 끝날때 까지 비활성화된다. -> 몬스터의 턴 값 재정의
+    def attack_btn_clicked(self, x, num):
+        self.list_attack_btn[num].setEnabled(x)
+        self.int_btn_clicked_cnt += 1
+        if self.int_btn_clicked_cnt == self.int_survive:
+            for i, str_job in enumerate(self.dict_job):
+                if self.dict_job[str_job]['survive'] == True:
+                    self.list_attack_btn[i].setDisabled(x)
+                    self.int_btn_clicked_cnt = 0
+
+    def user_gard_run(self):
+        num = random.choice(range(1, 101))
+        sucess_rate = list(range(0, 31))
+        sucess_rate_num = random.choice(sucess_rate)
+        if sucess_rate_num < num:
+            self.battle_dialog.append(f"""{100 - sucess_rate_num}%확률로 도망에 실패했습니다.
+전투화면이 유지됩니다.""")
+            self.bool_run_mode = False
+        elif sucess_rate_num >= num:
+            self.battle_dialog.append(f"""{sucess_rate_num}%확률로 도망에 성공했습니다.
+{self.current_loc}화면으로 돌아갑니다.""")
+            self.bool_run_mode = True
+            return self.bool_run_mode
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    ex = MY()
+    ex.show()
+    app.exec_()
