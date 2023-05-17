@@ -157,9 +157,12 @@ class MY(QMainWindow, main_class, second_class):
 
     # 전투가능한 구성원의 [공격][스킬]버튼이 활성화
     def battle_monster(self):
-        list_frame = self.findChildren(QFrame)[7:]
-        area = self.current_loc.split('_')
-        self.battle_dialog.setText(f"{area[0]}지역에서 벌어진 전투 시작!")
+        if self.bool_meet_monster == True:
+            list_frame = self.findChildren(QFrame)[7:]
+            area = self.current_loc.split('_')
+            self.battle_dialog.setText(f"{area[0]}지역에서 벌어진 전투 시작!")
+        elif self.bool_meet_enemy_monster == True:
+            self.battle_dialog.setText(f"{self.current_loc}층에서 벌어진 전투 시작!")  #->불의지역/물의지역/숲의지역/눈의지역에서 각각 차출된다는 것 표현해야함.
 
         for i in range(6):
             if self.str_job[i] in self.dict_user_gard.keys():
