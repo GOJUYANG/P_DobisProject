@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1223</width>
-    <height>863</height>
+    <width>1215</width>
+    <height>871</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -114,7 +114,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QFrame" name="frame_5">
+       <widget class="QFrame" name="frame_1">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -189,7 +189,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="mp_job_1">
+            <widget class="QProgressBar" name="mp_warrior">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 QProgressBar::chunk {background-color: rgb(0, 0, 255);}
@@ -242,7 +242,7 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="hp_job_1">
+            <widget class="QProgressBar" name="hp_warrior">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 
@@ -268,7 +268,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="lv_job_1">
+            <widget class="QLabel" name="lv_warrior">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -290,7 +290,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="job_1">
+            <widget class="QLabel" name="warrior">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -306,7 +306,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="name_job_1">
+            <widget class="QLabel" name="name_warrior">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -329,28 +329,28 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pb_skill_job_1">
+            <widget class="QPushButton" name="pb_skill_warrior">
              <property name="text">
               <string>스킬</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QPushButton" name="pb_atk_job_1">
+            <widget class="QPushButton" name="pb_atk_warrior">
              <property name="text">
               <string>공격</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pb_equip_job_1">
+            <widget class="QPushButton" name="pb_equip_warrior">
              <property name="text">
               <string>장비</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="pb_run_job_1">
+            <widget class="QPushButton" name="pb_run_warrior">
              <property name="text">
               <string>도망</string>
              </property>
@@ -362,7 +362,7 @@ QProgressBar::chunk {background-color: #FF0000;}
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_6">
+       <widget class="QFrame" name="frame_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -437,7 +437,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="mp_job_2">
+            <widget class="QProgressBar" name="mp_archer">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 QProgressBar::chunk {background-color: rgb(0, 0, 255);}
@@ -490,7 +490,7 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="hp_job_2">
+            <widget class="QProgressBar" name="hp_archer">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 
@@ -516,7 +516,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="lv_job_2">
+            <widget class="QLabel" name="lv_archer">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -538,7 +538,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="job_2">
+            <widget class="QLabel" name="archer">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -554,7 +554,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="name_job_2">
+            <widget class="QLabel" name="name_archer">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -577,28 +577,28 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pb_skill_job_2">
+            <widget class="QPushButton" name="pb_skill_archer">
              <property name="text">
               <string>스킬</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QPushButton" name="pb_atk_job_2">
+            <widget class="QPushButton" name="pb_atk_archer">
              <property name="text">
               <string>공격</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pb_equip_job_2">
+            <widget class="QPushButton" name="pb_equip_archer">
              <property name="text">
               <string>장비</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="pb_run_job_2">
+            <widget class="QPushButton" name="pb_run_archer">
              <property name="text">
               <string>도망</string>
              </property>
@@ -610,7 +610,7 @@ QProgressBar::chunk {background-color: #FF0000;}
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_7">
+       <widget class="QFrame" name="frame_3">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -685,7 +685,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="mp_job_3">
+            <widget class="QProgressBar" name="mp_swordsman">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 QProgressBar::chunk {background-color: rgb(0, 0, 255);}
@@ -738,7 +738,7 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="hp_job_3">
+            <widget class="QProgressBar" name="hp_swordsman">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 
@@ -764,7 +764,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="lv_job_3">
+            <widget class="QLabel" name="lv_swordsman">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -786,7 +786,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="job_3">
+            <widget class="QLabel" name="swordsman">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -802,7 +802,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="name_job_3">
+            <widget class="QLabel" name="name_swordsman">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -825,28 +825,28 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pb_skill_job_3">
+            <widget class="QPushButton" name="pb_skill_swordsman">
              <property name="text">
               <string>스킬</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QPushButton" name="pb_atk_job_3">
+            <widget class="QPushButton" name="pb_atk_swordsman">
              <property name="text">
               <string>공격</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pb_equip_job_3">
+            <widget class="QPushButton" name="pb_equip_swordsman">
              <property name="text">
               <string>장비</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="pb_run_job_3">
+            <widget class="QPushButton" name="pb_run_swordsman">
              <property name="text">
               <string>도망</string>
              </property>
@@ -858,7 +858,7 @@ QProgressBar::chunk {background-color: #FF0000;}
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_8">
+       <widget class="QFrame" name="frame_4">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -933,7 +933,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="hp_job_4">
+            <widget class="QProgressBar" name="hp_wizard_red">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 
@@ -959,7 +959,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="lv_job_4">
+            <widget class="QLabel" name="lv_wizard_red">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -981,7 +981,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="job_4">
+            <widget class="QLabel" name="wizard_red">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -997,7 +997,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="name_job_4">
+            <widget class="QLabel" name="name_wizard_red">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -1020,28 +1020,28 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pb_skill_job_4">
+            <widget class="QPushButton" name="pb_skill_wizard_red">
              <property name="text">
               <string>스킬</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QPushButton" name="pb_atk_job_4">
+            <widget class="QPushButton" name="pb_atk_wizard_red">
              <property name="text">
               <string>공격</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pb_equip_job_4">
+            <widget class="QPushButton" name="pb_equip_wizard_red">
              <property name="text">
               <string>장비</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="pb_run_job_4">
+            <widget class="QPushButton" name="pb_run_wizard_red">
              <property name="text">
               <string>도망</string>
              </property>
@@ -1083,7 +1083,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="mp_job_4">
+            <widget class="QProgressBar" name="mp_wizard_red">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 QProgressBar::chunk {background-color: rgb(0, 0, 255);}
@@ -1106,7 +1106,7 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_9">
+       <widget class="QFrame" name="frame_5">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -1181,7 +1181,7 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="mp_job_5">
+            <widget class="QProgressBar" name="mp_wizard_black">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 QProgressBar::chunk {background-color: rgb(0, 0, 255);}
@@ -1234,7 +1234,7 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="hp_job_5">
+            <widget class="QProgressBar" name="hp_wizard_black">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 
@@ -1260,7 +1260,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="lv_job_5">
+            <widget class="QLabel" name="lv_wizard_black">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -1282,7 +1282,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="job_5">
+            <widget class="QLabel" name="wizard_black">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -1298,7 +1298,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="name_job_5">
+            <widget class="QLabel" name="name_wizard_black">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -1321,28 +1321,28 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pb_skill_job_5">
+            <widget class="QPushButton" name="pb_skill_wizard_black">
              <property name="text">
               <string>스킬</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QPushButton" name="pb_atk_job_5">
+            <widget class="QPushButton" name="pb_atk_wizard_black">
              <property name="text">
               <string>공격</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pb_equip_job_5">
+            <widget class="QPushButton" name="pb_equip_wizard_black">
              <property name="text">
               <string>장비</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="pb_run_job_5">
+            <widget class="QPushButton" name="pb_run_wizard_black">
              <property name="text">
               <string>도망</string>
              </property>
@@ -1354,7 +1354,7 @@ QProgressBar::chunk {background-color: #FF0000;}
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_10">
+       <widget class="QFrame" name="frame_6">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -1429,7 +1429,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="mp_job_6">
+            <widget class="QProgressBar" name="mp_wizard_white">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 QProgressBar::chunk {background-color: rgb(0, 0, 255);}
@@ -1482,7 +1482,7 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="hp_job_6">
+            <widget class="QProgressBar" name="hp_wizard_white">
              <property name="styleSheet">
               <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
 
@@ -1508,7 +1508,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="lv_job_6">
+            <widget class="QLabel" name="lv_wizard_white">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -1530,7 +1530,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="job_6">
+            <widget class="QLabel" name="wizard_white">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -1546,7 +1546,7 @@ QProgressBar::chunk {background-color: #FF0000;}
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="name_job_6">
+            <widget class="QLabel" name="name_wizard_white">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
@@ -1569,28 +1569,28 @@ QProgressBar::chunk {background-color: #FF0000;}
             <number>0</number>
            </property>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pb_skill_job_6">
+            <widget class="QPushButton" name="pb_skill_wizard_white">
              <property name="text">
               <string>스킬</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QPushButton" name="pb_atk_job_6">
+            <widget class="QPushButton" name="pb_atk_wizard_white">
              <property name="text">
               <string>공격</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pb_equip_job_6">
+            <widget class="QPushButton" name="pb_equip_wizard_white">
              <property name="text">
               <string>장비</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="pb_run_job_6">
+            <widget class="QPushButton" name="pb_run_wizard_white">
              <property name="text">
               <string>도망</string>
              </property>
@@ -1681,6 +1681,13 @@ QProgressBar::chunk {background-color: #FF0000;}
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pb_use_item">
+        <property name="text">
+         <string>사용</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QListWidget" name="list_log">
         <property name="minimumSize">
          <size>
@@ -1705,7 +1712,7 @@ QProgressBar::chunk {background-color: #FF0000;}
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1223</width>
+     <width>1215</width>
      <height>22</height>
     </rect>
    </property>
