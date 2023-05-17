@@ -80,19 +80,12 @@ class FieldClass():
 
     #
     def random_maze_door(self, turn):  # 랜덤한 위치에 던전 입구 생성
-        if turn == 0:
-            rand_maze_door = random.randint(1, 20)
-            rand_maze_door_ = random.randint(1, 20)
-            print(f"랜덤 던전 좌표 X {rand_maze_door} Y {rand_maze_door_}")
-            return rand_maze_door, rand_maze_door_
-
-        elif turn == 11:
-            rand_maze_door = random.randint(1, 20)
-            rand_maze_door_ = random.randint(1, 20)
-            print(f"랜덤 던전 재생성 좌표 X {rand_maze_door} Y {rand_maze_door_}")
-            turn = 0
-
-            return rand_maze_door, rand_maze_door_, turn
+        if turn == 0 or turn == 11:
+            rand_maze_door_x = random.randint(1, 19)
+            rand_maze_door_y = random.randint(1, 20)
+            if turn == 11:
+                turn = 0
+            return rand_maze_door_x, rand_maze_door_y, turn
 
     def field_meet_enemy_gard(self, str_my_gard):
         int_hp_up = 1.2
@@ -167,14 +160,10 @@ class FieldClass():
 
     def field_move_event(self, turn):  # 이동 중 이벤트 발생
         ratio = random.randint(1, 100)
-        if ratio <= 10:
-            print('Tent 획득')
-            return '텐트', ['tent']
 
-        elif 10 < ratio <= 20:
-            print('아군수호대 조우')
-            return '아군수호대', self.field_meet_ally_gard(self.return_list_move_drop(), self.return_move_meet_equipment())
-
+        if 0 < ratio <= 20:
+            print('이동')
+            return None
         elif 20 < ratio <= 30:
             print('적군수호대 조우')
             turn += 1
@@ -191,9 +180,14 @@ class FieldClass():
             turn += 1
             return '일반몬스터', bool_meet_monster, turn
             # 전투전 좌표 저장
-        elif 80 < ratio <= 100:
-            print('이동')
-            return None
+
+        elif 80 < ratio <= 90:
+            print('Tent 획득')
+            return '텐트', ['tent']
+
+        elif 90 < ratio <= 100:
+            print('아군수호대 조우')
+            return '아군수호대', self.field_meet_ally_gard(self.return_list_move_drop(), self.return_move_meet_equipment())
 
     # def back_position(self): # 도망 , 전투 후 전투전 위치로
     # 몬스터 출현 했을때 좌표 저장했을때의 위치로 돌아가기
@@ -213,12 +207,11 @@ class FieldClass():
     #     self.dict_field_monster['snow_area']
     #     print(self.dict_field_monster['snow_area'])
 
-
 # def random_maze_door(self): # 랜덤한 위치에 던전 입구 생성
 #     # if self.turn <= 10: # 10 턴 마다 던전입구 재생성
-#     rand_maze_door = random.randint(0, 20)
-#     rand_maze_door_ = random.randint(0, 20)
-#     print(f"랜덤 던전 좌표 X {rand_maze_door} Y {rand_maze_door_}")
+#     rand_maze_door_x = random.randint(0, 20)
+#     rand_maze_door_y = random.randint(0, 20)
+#     print(f"랜덤 던전 좌표 X {rand_maze_door_x} Y {rand_maze_door_y}")
 
 
 # a = FieldClass()

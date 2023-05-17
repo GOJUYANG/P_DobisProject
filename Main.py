@@ -8,6 +8,7 @@ from Equipment import EquipmentClass
 from Item import ItemClass
 from Dungeon import mazeClass
 from Field import FieldClass
+from Dialog import *
 
 
 class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
@@ -15,11 +16,17 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         super().__init__()
         self.setupUi(self)
 
+        # 필드 지역
+        self.field_area = ''
+
         # 필드 전투 턴
         self.field_turn = 0
 
         # 던전 전투 턴
         self.maze_turn = 0
+
+        # 던전 층
+        self.maze_floor = 1
 
         # 수호대 리스트
         self.list_gard = [{'빛': 'light_gard'}, {'달': 'moon_gard'}, {'별': 'star_gard'}, {'땅': 'earth_gard'}]
@@ -41,7 +48,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                           'mp_potion_low': {'name': 'MP포션(하)', 'count': 0, 'image': 'img_src/item/파란1.png'}}
 
         # 획득한 장비 리스트 / 변수명 :  아이템명, 보유개수, 효과, 이미지
-        self.dict_equipment = {
+        self.dict_equip = {
             'black_armor': {'name': '블랙 아머', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
             'black_cape': {'name': '블랙 망토', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
             'black_glove': {'name': '블랙 글로브', 'count': 0, 'max_hp': 5, 'max_mp': 0, 'power': 0, 'image': ''},
@@ -108,21 +115,20 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                                'location': {'region': '', 'x': 0, 'y': 0},
                                'warrior': {'survival': True,
                                            'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
-                                           'equipment': ['silver_helmet', 'bronze_armor', 'bronze_shield',
-                                                         'bronze_sword'],
+                                           'equipment': [],
                                            'skill': {10: 'slice_chop'}},
                                'archer': {'survival': True,
-                                          'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 300,
+                                          'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 300,
                                           'equipment': [],
                                           'skill': {10: 'target_shot',
                                                     15: 'dual_shot',
                                                     20: 'master_shot'}},
-                               'swordman': {'survival': True,
-                                            'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 250,
-                                            'equipment': [],
-                                            'skill': {10: 'slice_chop'}},
+                               'swordsman': {'survival': True,
+                                             'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 250,
+                                             'equipment': [],
+                                             'skill': {10: 'slice_chop'}},
                                'wizard_red': {'survival': True,
-                                              'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 150,
+                                              'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 100, 'max_mp': 100, 'power': 150,
                                               'equipment': [],
                                               'skill': {1: ['heal_normal', 'fire_ball'],
                                                         15: ['heal_greater', 'fire_wall'],
@@ -130,14 +136,16 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                                                         25: 'bilzzard',
                                                         30: 'heal_all'}},
                                'wizard_black': {'survival': True,
-                                                'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+                                                'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
+                                                'power': 200,
                                                 'equipment': [],
                                                 'skill': {1: 'fire_ball',
                                                           15: 'fire_wall',
                                                           20: 'thunder_breaker',
                                                           25: 'bilzzard'}},
                                'wizard_white': {'survival': True,
-                                                'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 100,
+                                                'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
+                                                'power': 100,
                                                 'equipment': [],
                                                 'skill': {1: 'heal_normal',
                                                           15: 'heal_greater',
@@ -145,42 +153,55 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
         # 필드에 이미지 넣기
         self.forest_area.setPixmap(
-            QPixmap('./img_src/forest_map.jpg').scaled(self.forest_area.width(), self.forest_area.height(),
-                                                       Qt.KeepAspectRatio))
+            QPixmap('./img_src/map/forest_map.jpg').scaled(self.forest_area.width(), self.forest_area.height(),
+                                                           Qt.KeepAspectRatio))
         self.forest_area.setScaledContents(True)
         self.fire_area.setPixmap(
-            QPixmap('./img_src/fire_map.jpg').scaled(self.fire_area.width(), self.fire_area.height(),
-                                                     Qt.KeepAspectRatio))
+            QPixmap('./img_src/map/fire_map.jpg').scaled(self.fire_area.width(), self.fire_area.height(),
+                                                         Qt.KeepAspectRatio))
         self.fire_area.setScaledContents(True)
         self.snow_area.setPixmap(
-            QPixmap('./img_src/snow_map.gif').scaled(self.snow_area.width(), self.snow_area.height(),
-                                                     Qt.KeepAspectRatio))
+            QPixmap('./img_src/map/snow_map.gif').scaled(self.snow_area.width(), self.snow_area.height(),
+                                                         Qt.KeepAspectRatio))
         self.snow_area.setScaledContents(True)
         self.water_area.setPixmap(
-            QPixmap('./img_src/water_map.jpg').scaled(self.water_area.width(), self.water_area.height(),
-                                                      Qt.KeepAspectRatio))
+            QPixmap('./img_src/map/water_map.jpg').scaled(self.water_area.width(), self.water_area.height(),
+                                                          Qt.KeepAspectRatio))
         self.water_area.setScaledContents(True)
 
         # 시그널
-        self.pb_equip_job_1.clicked.connect(lambda: self.click_equip_button('warrior'))
-        self.pb_equip_job_2.clicked.connect(lambda: self.click_equip_button('archer'))
-        self.pb_equip_job_3.clicked.connect(lambda: self.click_equip_button('swordman'))
-        self.pb_equip_job_4.clicked.connect(lambda: self.click_equip_button('wizard_red'))
-        self.pb_equip_job_5.clicked.connect(lambda: self.click_equip_button('wizard_black'))
-        self.pb_equip_job_6.clicked.connect(lambda: self.click_equip_button('wizard_white'))
+        self.pb_equip_warrior.clicked.connect(lambda: self.click_equip_button('warrior'))
+        self.pb_equip_archer.clicked.connect(lambda: self.click_equip_button('archer'))
+        self.pb_equip_swordsman.clicked.connect(lambda: self.click_equip_button('swordsman'))
+        self.pb_equip_wizard_red.clicked.connect(lambda: self.click_equip_button('wizard_red'))
+        self.pb_equip_wizard_black.clicked.connect(lambda: self.click_equip_button('wizard_black'))
+        self.pb_equip_wizard_white.clicked.connect(lambda: self.click_equip_button('wizard_white'))
+
+        self.pb_use_item.clicked.connect(self.click_use_item_button)
+
+        self.action_field.triggered.connect(lambda: self.change_page(0))
+        self.action_maze_floor_1.triggered.connect(lambda: self.change_page(1))
+        self.action_maze_floor_2.triggered.connect(lambda: self.change_page(2))
+        self.action_maze_floor_3.triggered.connect(lambda: self.change_page(3))
+        self.action_maze_floor_4.triggered.connect(lambda: self.change_page(4))
+        self.action_maze_floor_5.triggered.connect(lambda: self.change_page(5))
+        self.action_maze_floor_6.triggered.connect(lambda: self.change_page(6))
+        self.action_maze_floor_7.triggered.connect(lambda: self.change_page(7))
+        self.action_maze_floor_8.triggered.connect(lambda: self.change_page(8))
+        self.action_battle.triggered.connect(lambda: self.change_page(9))
 
         # 수호대 랜덤지정
         self.random_assign_gard()
 
         # 수호대 필드 랜덤배치
+        self.stackedWidget.setCurrentIndex(0)
         self.img_gard = QLabel(self.stack_field)
         self.x, self.y = self.random_assign_field()
-        print(self.x, self.y)
         self.img_gard.move(self.x, self.y)
         self.alarm_where_field(self.x, self.y)
 
         # 수호대 사이즈 조절
-        self.img_gard.resize(int(self.stack_field.width() / 20), int(self.stack_field.height() / 20))
+        self.img_gard.resize(int(1230 / 20), int(630 / 20))
         self.img_gard.setPixmap(QPixmap('./img_src/character.png'))
         self.img_gard.setScaledContents(True)
         if self.dict_user_gard['gard'] == 'light_gard':
@@ -196,103 +217,203 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # 아이템창에 아이템 넣기
         self.renew_item_view()
 
+        # 수호대 상태 업데이트
+        self.renew_user_status()
+
+    def change_page(self, page):
+        if page == 0 or page == 9:
+            if page == 9:
+                page = 2
+            self.stackedWidget.setCurrentIndex(page)
+        else:
+            # 던전 이미지 바꾸기
+
+            # 수호대 필드 랜덤배치
+            self.img_gard = QLabel(self.stack_maze)
+            self.x, self.y = self.random_assign_maze()
+            self.img_gard.move(self.x, self.y)
+
+            # 수호대 사이즈 조절
+            self.img_gard.resize(int(1230 / 20), int(630 / 20))
+            self.img_gard.setPixmap(QPixmap('./img_src/character.png'))
+            self.img_gard.setScaledContents(True)
+
+            self.maze_floor = page
+
+            self.stackedWidget.setCurrentIndex(1)
+            self.lb_maze.setPixmap(
+                QPixmap(f'./img_src/maze_map/maze_{page}.png').scaled(self.stack_maze.width(), self.stack_maze.height(),
+                                                                      Qt.KeepAspectRatio))
+            self.lb_maze.setScaledContents(True)
+
     # 화면 크기 조절 이벤트
     def resizeEvent(self, event):
-        print(self.stack_field.width(), self.stack_field.height())
-        if self.img_gard.isVisible():
-            self.img_gard.resize(int(self.stack_field.width() / 20), int(self.stack_field.height() / 20))
-            self.img_gard.move(self.x - int(self.img_gard.width() / 2), self.y - int(self.img_gard.height() / 2))
+        print(self.stackedWidget.width(), self.stackedWidget.height())
+        if self.stackedWidget.currentWidget() == self.stack_field:
+            if self.img_gard.isVisible():
+                self.img_gard.resize(int(self.stackedWidget.width() / 20), int(self.stackedWidget.height() / 20))
+                self.img_gard.move(self.x - int(self.img_gard.width() / 2), self.y - int(self.img_gard.height() / 2))
+        elif self.stackedWidget.currentWidget() == self.stack_maze:
+            if self.img_gard.isVisible():
+                self.img_gard.resize(int(self.stackedWidget.width() / 20), int(self.stackedWidget.height() / 20))
+                self.img_gard.move(self.x - int(self.img_gard.width() / 2), self.y - int(self.img_gard.height() / 2))
 
     # 키 입력 이벤트
     def keyPressEvent(self, event):
-        # 필드
-        if self.stackedWidget.currentWidget() == self.stack_field:
-            # 방향키 누를 때마다 라벨 위치 조정
-            if event.key() == Qt.Key_A:
-                self.x = self.img_gard.x() - int(self.stack_field.width() / 20)
-                if self.x < 0:
-                    self.x = 0
-                self.img_gard.move(self.x, self.img_gard.y())
-                print(self.img_gard.x(), self.img_gard.y())
-            elif event.key() == Qt.Key_D:
-                self.x = self.img_gard.x() + int(self.stack_field.width() / 20)
-                if self.x > self.stack_field.width() - self.img_gard.width():
-                    self.x = self.stack_field.width() - self.img_gard.width()
-                self.img_gard.move(self.x, self.img_gard.y())
-                print(self.img_gard.x(), self.img_gard.y())
-            elif event.key() == Qt.Key_W:
-                self.y = self.img_gard.y() - int(self.stack_field.height() / 20)
-                if self.y < 0:
-                    self.y = 0
-                self.img_gard.move(self.img_gard.x(), self.y)
-                print(self.img_gard.x(), self.img_gard.y())
-            elif event.key() == Qt.Key_S:
-                self.y = self.img_gard.y() + int(self.stack_field.height() / 20)
-                if self.y > self.stack_field.height() - self.img_gard.height():
-                    self.y = self.stack_field.height() - self.img_gard.height()
-                self.img_gard.move(self.img_gard.x(), self.y)
-                print(self.img_gard.x(), self.img_gard.y())
+        if event.key() in [Qt.Key_A, Qt.Key_D, Qt.Key_W, Qt.Key_S]:
+            # 필드
+            if self.stackedWidget.currentWidget() == self.stack_field:
+                # 방향키 누를 때마다 라벨 위치 조정
+                if event.key() == Qt.Key_A:
+                    self.x = self.img_gard.x() - int(self.stack_field.width() / 20)
+                    if self.x < 0:
+                        self.x = 0
+                    self.img_gard.move(self.x, self.img_gard.y())
+                    print(self.img_gard.x(), self.img_gard.y())
+                elif event.key() == Qt.Key_D:
+                    self.x = self.img_gard.x() + int(self.stack_field.width() / 20)
+                    if self.x > self.stack_field.width() - self.img_gard.width():
+                        self.x = self.stack_field.width() - self.img_gard.width()
+                    self.img_gard.move(self.x, self.img_gard.y())
+                    print(self.img_gard.x(), self.img_gard.y())
+                elif event.key() == Qt.Key_W:
+                    self.y = self.img_gard.y() - int(self.stack_field.height() / 20)
+                    if self.y < 0:
+                        self.y = 0
+                    self.img_gard.move(self.img_gard.x(), self.y)
+                    print(self.img_gard.x(), self.img_gard.y())
+                elif event.key() == Qt.Key_S:
+                    self.y = self.img_gard.y() + int(self.stack_field.height() / 20)
+                    if self.y > self.stack_field.height() - self.img_gard.height():
+                        self.y = self.stack_field.height() - self.img_gard.height()
+                    self.img_gard.move(self.img_gard.x(), self.y)
+                    print(self.img_gard.x(), self.img_gard.y())
 
-            self.alarm_where_field(self.x, self.y)
+                self.alarm_where_field(self.x, self.y)
 
-            tuple_v = self.field_move_event(self.field_turn)
+                tuple_v = self.field_move_event(self.field_turn)
 
-            if tuple_v is not None:
-                if tuple_v[0] == '일반몬스터':
-                    print(tuple_v[1])
-                elif tuple_v[0] == '텐트':
-                    print(tuple_v[1])
-                elif tuple_v[0] == '아군수호대':
-                    print(tuple_v[1])
-                elif tuple_v[0] == '적군수호대':
-                    print(tuple_v[1], tuple_v[2])
-                elif tuple_v[0] == '아이템':
-                    print(tuple_v[1])
-            else:
-                pass
+                if tuple_v is not None:
+                    if tuple_v[0] == '일반몬스터':
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area} 몬스터를 만났습니다')
+                    elif tuple_v[0] == '텐트':
+                        self.dict_item['tent']['count'] += 1
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), '텐트를 획득했습니다')
+                    elif tuple_v[0] == '아군수호대':
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), '아군 수호대를 만났습니다.')
+                        self.dict_item, self.dict_equip = self.get_item(tuple_v[1], self.dict_item, self.dict_equip)
+                    elif tuple_v[0] == '적군수호대':
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), '적군 수호대를 만났습니다.')
+                    elif tuple_v[0] == '아이템':
+                        self.dict_item, self.dict_equip = self.get_item(tuple_v[1], self.dict_item, self.dict_equip)
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), '아이템을 획득했습니다')
+                    self.renew_item_view()
+                else:
+                    pass
+            # 던전
+            elif self.stackedWidget.currentWidget() == self.stack_maze:
+                # 방향키 누를 때마다 라벨 위치 조정
+                if event.key() == Qt.Key_A:
+                    self.x = self.img_gard.x() - int(self.stack_maze.width() / 20)
+                    if self.x < 0:
+                        self.x = 0
+                    self.img_gard.move(self.x, self.img_gard.y())
+                    print(self.img_gard.x(), self.img_gard.y())
+                elif event.key() == Qt.Key_D:
+                    self.x = self.img_gard.x() + int(self.stack_maze.width() / 20)
+                    if self.x > self.stack_maze.width() - self.img_gard.width():
+                        self.x = self.stack_maze.width() - self.img_gard.width()
+                    self.img_gard.move(self.x, self.img_gard.y())
+                    print(self.img_gard.x(), self.img_gard.y())
+                elif event.key() == Qt.Key_W:
+                    self.y = self.img_gard.y() - int(self.stack_maze.height() / 20)
+                    if self.y < 0:
+                        self.y = 0
+                    self.img_gard.move(self.img_gard.x(), self.y)
+                    print(self.img_gard.x(), self.img_gard.y())
+                elif event.key() == Qt.Key_S:
+                    self.y = self.img_gard.y() + int(self.stack_maze.height() / 20)
+                    if self.y > self.stack_maze.height() - self.img_gard.height():
+                        self.y = self.stack_maze.height() - self.img_gard.height()
+                    self.img_gard.move(self.img_gard.x(), self.y)
+                    print(self.img_gard.x(), self.img_gard.y())
 
+                tuple_v = self.maze_move_event(self.maze_floor, self.dict_user_gard, self.maze_turn)
 
-        # 던전
-        elif self.stackedWidget.currentWidget() == self.stack_maze:
-            # 방향키 누를 때마다 라벨 위치 조정
-            if event.key() == Qt.Key_A:
-                self.x = self.img_gard.x() - int(self.stack_field.width() / 20)
-                if self.x < 0:
-                    self.x = 0
-                self.img_gard.move(self.x, self.img_gard.y())
-                print(self.img_gard.x(), self.img_gard.y())
-            elif event.key() == Qt.Key_D:
-                self.x = self.img_gard.x() + int(self.stack_field.width() / 20)
-                if self.x > self.stack_field.width() - self.img_gard.width():
-                    self.x = self.stack_field.width() - self.img_gard.width()
-                self.img_gard.move(self.x, self.img_gard.y())
-                print(self.img_gard.x(), self.img_gard.y())
-            elif event.key() == Qt.Key_W:
-                self.y = self.img_gard.y() - int(self.stack_field.height() / 20)
-                if self.y < 0:
-                    self.y = 0
-                self.img_gard.move(self.img_gard.x(), self.y)
-                print(self.img_gard.x(), self.img_gard.y())
-            elif event.key() == Qt.Key_S:
-                self.y = self.img_gard.y() + int(self.stack_field.height() / 20)
-                if self.y > self.stack_field.height() - self.img_gard.height():
-                    self.y = self.stack_field.height() - self.img_gard.height()
-                self.img_gard.move(self.img_gard.x(), self.y)
-                print(self.img_gard.x(), self.img_gard.y())
+                if tuple_v is not None:
+                    if tuple_v[0] == '일반몬스터':
+                        print(tuple_v[1])
+                    elif tuple_v[0] == '아군수호대':
+                        print(tuple_v[1])
+                    elif tuple_v[0] == '적군수호대':
+                        print(tuple_v[1], tuple_v[2])
+                else:
+                    pass
 
-            self.alarm_where_field(self.x, self.y)
+    # 유저 스텟 갱신
+    def renew_user_status(self):
+        self.hp_warrior.setValue(int(self.dict_user_gard['warrior']['hp']))
+        self.hp_warrior.setMaximum(int(self.dict_user_gard['warrior']['max_hp']))
+        self.mp_warrior.setValue(0)
 
-            tuple_v = self.maze_move_event()
+        self.hp_archer.setValue(int(self.dict_user_gard['archer']['hp']))
+        self.hp_archer.setMaximum(int(self.dict_user_gard['archer']['max_hp']))
+        self.mp_archer.setValue(int(self.dict_user_gard['archer']['mp']))
+        self.mp_archer.setMaximum(int(self.dict_user_gard['archer']['max_mp']))
 
-            if tuple_v is not None:
-                if tuple_v[0] == '일반몬스터':
-                    print(tuple_v[1])
-                elif tuple_v[0] == '아군수호대':
-                    print(tuple_v[1])
-                elif tuple_v[0] == '적군수호대':
-                    print(tuple_v[1], tuple_v[2])
-            else:
-                pass
+        self.hp_swordsman.setValue(int(self.dict_user_gard['swordsman']['hp']))
+        self.hp_swordsman.setMaximum(int(self.dict_user_gard['swordsman']['max_hp']))
+        self.mp_swordsman.setValue(int(self.dict_user_gard['swordsman']['mp']))
+        self.mp_swordsman.setMaximum(int(self.dict_user_gard['swordsman']['max_mp']))
+
+        self.hp_wizard_red.setValue(int(self.dict_user_gard['wizard_red']['hp']))
+        self.hp_wizard_red.setMaximum(int(self.dict_user_gard['wizard_red']['max_hp']))
+        self.mp_wizard_red.setValue(int(self.dict_user_gard['wizard_red']['mp']))
+        self.mp_wizard_red.setMaximum(int(self.dict_user_gard['wizard_red']['max_mp']))
+
+        self.hp_wizard_black.setValue(int(self.dict_user_gard['wizard_black']['hp']))
+        self.hp_wizard_black.setMaximum(int(self.dict_user_gard['wizard_black']['max_hp']))
+        self.mp_wizard_black.setValue(int(self.dict_user_gard['wizard_black']['mp']))
+        self.mp_wizard_black.setMaximum(int(self.dict_user_gard['wizard_black']['max_mp']))
+
+        self.hp_wizard_white.setValue(int(self.dict_user_gard['wizard_white']['hp']))
+        self.hp_wizard_white.setMaximum(int(self.dict_user_gard['wizard_white']['max_hp']))
+        self.mp_wizard_white.setValue(int(self.dict_user_gard['wizard_white']['mp']))
+        self.mp_wizard_white.setMaximum(int(self.dict_user_gard['wizard_white']['max_mp']))
+
+    # 아이템 사용 버튼 클릭
+    def click_use_item_button(self):
+        if self.list_item.currentItem() is not None:
+            item = self.list_item.currentItem().text().split(':')[0].strip()
+            for k, v in self.dict_item.items():
+                if v['name'] == item:
+                    str_item = k
+                    break
+
+            choice_dlg = Choice_Jop_Dialog()
+            if item not in ['부활포션', '텐트']:
+                choice_dlg.exec_()
+            str_job = choice_dlg.job
+
+            self.dict_item, self.dict_user_gard, msg = self.use_item(str_job, str_item, self.dict_item,
+                                                                     self.dict_user_gard)
+            self.renew_log_view(QIcon('./img_src/alarm.png'), msg)
+            self.renew_item_view()
+            self.renew_user_status()
+        else:
+            dlg = CustomDialog('사용할 아이템을 선택해주세요!')
+            dlg.exec_()
+
+    # 운석배치
+    def location_meteor(self):
+        rand_meteor_door_x = random.randint(1, 19) * int(self.stack_field.width() / 20)
+        rand_meteor_door_y = random.randint(1, 19) * int(self.stack_field.width() / 20)
+
+    # 던전입구 배치
+    def location_maze_door(self):
+        maze_door_x, maze_door_y, self.field_turn = self.random_maze_door(self.field_turn)
+        maze_door_x *= int(self.stack_field.width() / 20)
+        maze_door_y *= int(self.stack_field.width() / 20)
 
     # 수호대 랜덤배치
     def random_assign_gard(self):
@@ -305,8 +426,14 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
     # 필드(집결지) 랜덤배치
     def random_assign_field(self):
-        self.int_x = random.randint(1, 20) * int(self.stack_field.width() / 20)
-        self.int_y = random.randint(1, 20) * int(self.stack_field.width() / 20)
+        self.int_x = random.randint(1, 19) * int(self.stack_field.width() / 20)
+        self.int_y = random.randint(1, 19) * int(self.stack_field.width() / 20)
+        return self.int_x, self.int_y
+
+    # 던전 랜덤배치
+    def random_assign_maze(self):
+        self.int_x = random.randint(1, 19) * int(self.stack_maze.width() / 20)
+        self.int_y = random.randint(1, 19) * int(self.stack_maze.width() / 20)
         return self.int_x, self.int_y
 
     def alarm_where_field(self, int_x, int_y):
@@ -317,6 +444,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = False
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'불의 지역에 입장하였습니다.')
+            self.field_area = '불의 지역'
         if int_x + self.img_gard.width() > self.stack_field.width() / 2 and int_y < self.stack_field.height() / 2 and not \
                 self.dict_field['눈']:
             self.dict_field['불'] = False
@@ -324,6 +452,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = False
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'눈의 지역에 입장하였습니다.')
+            self.field_area = '눈의 지역'
         if int_x < self.stack_field.width() / 2 and int_y + self.img_gard.height() > self.stack_field.height() / 2 and not \
                 self.dict_field['숲']:
             self.dict_field['불'] = False
@@ -331,6 +460,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = True
             self.dict_field['물'] = False
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'숲의 지역에 입장하였습니다.')
+            self.field_area = '숲의 지역'
         if int_x + self.img_gard.width() > self.stack_field.width() / 2 and int_y + self.img_gard.height() > self.stack_field.height() / 2 and not \
                 self.dict_field['물']:
             self.dict_field['불'] = False
@@ -338,6 +468,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = True
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'물의 지역에 입장하였습니다.')
+            self.field_area = '물의 지역'
 
     # 로그창 갱신
     def renew_log_view(self, q_icon, str_msg):
@@ -348,22 +479,26 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
     # 아이템창 갱신
     def renew_item_view(self):
+        self.list_item.clear()
         for k, v in self.dict_item.items():
-            # if v['count'] > 0:
-            item = QListWidgetItem(f"{v['name']} : {v['count']}개")
-            item.setIcon(QIcon(f"{v['image']}"))
-            self.list_item.addItem(item)
+            if v['count'] > 0:
+                item = QListWidgetItem(f"{v['name']} : {v['count']}개")
+                item.setIcon(QIcon(f"{v['image']}"))
+                self.list_item.addItem(item)
 
-    # 장비창 띄우기
+    # 장비 버튼 클릭
     def click_equip_button(self, str_job):
-        dlg = EquipmentClass(str_job=str_job, dict_user_gard=self.dict_user_gard, dict_equipment=self.dict_equipment)
+        dlg = EquipmentClass(str_job=str_job, dict_user_gard=self.dict_user_gard, dict_equip=self.dict_equip)
         dlg.exec_()
 
         # 갱신
+
         self.dict_user_gard = dlg.dict_user_gard
-        self.dict_equipment = dlg.dict_equipment
+        self.dict_equip = dlg.dict_equip
+
         print(self.dict_user_gard)
-        print(self.dict_equipment)
+
+        self.renew_user_status()
 
     # 타 수호대와의 조우
     def meet_other_guardian(self):

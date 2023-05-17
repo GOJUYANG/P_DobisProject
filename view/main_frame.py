@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1215, 871)
+        MainWindow.resize(1484, 871)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
@@ -27,9 +27,6 @@ class Ui_MainWindow(object):
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedWidget.setLineWidth(0)
         self.stackedWidget.setObjectName("stackedWidget")
-        self.stack_battle = QtWidgets.QWidget()
-        self.stack_battle.setObjectName("stack_battle")
-        self.stackedWidget.addWidget(self.stack_battle)
         self.stack_field = QtWidgets.QWidget()
         self.stack_field.setObjectName("stack_field")
         self.gridLayout_16 = QtWidgets.QGridLayout(self.stack_field)
@@ -55,7 +52,18 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.stack_field)
         self.stack_maze = QtWidgets.QWidget()
         self.stack_maze.setObjectName("stack_maze")
+        self.gridLayout_15 = QtWidgets.QGridLayout(self.stack_maze)
+        self.gridLayout_15.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout_15.setSpacing(0)
+        self.gridLayout_15.setObjectName("gridLayout_15")
+        self.lb_maze = QtWidgets.QLabel(self.stack_maze)
+        self.lb_maze.setText("")
+        self.lb_maze.setObjectName("lb_maze")
+        self.gridLayout_15.addWidget(self.lb_maze, 0, 0, 1, 1)
         self.stackedWidget.addWidget(self.stack_maze)
+        self.stack_battle = QtWidgets.QWidget()
+        self.stack_battle.setObjectName("stack_battle")
+        self.stackedWidget.addWidget(self.stack_battle)
         self.gridLayout.addWidget(self.stackedWidget, 2, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 0, 1, 1)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -92,10 +100,24 @@ class Ui_MainWindow(object):
         self.mp_1.setObjectName("mp_1")
         self.horizontalLayout_4.addWidget(self.mp_1)
         self.mp_warrior = QtWidgets.QProgressBar(self.frame_1)
-        self.mp_warrior.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
-        self.mp_warrior.setProperty("value", 24)
+        self.mp_warrior.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+"background-color: rgb(0, 0, 255);\n"
+" }")
+        self.mp_warrior.setMaximum(999999999)
+        self.mp_warrior.setProperty("value", 50)
         self.mp_warrior.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_warrior.setObjectName("mp_warrior")
         self.horizontalLayout_4.addWidget(self.mp_warrior)
@@ -116,11 +138,27 @@ class Ui_MainWindow(object):
         self.hp_1.setObjectName("hp_1")
         self.horizontalLayout_3.addWidget(self.hp_1)
         self.hp_warrior = QtWidgets.QProgressBar(self.frame_1)
-        self.hp_warrior.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
-        self.hp_warrior.setProperty("value", 24)
+        self.hp_warrior.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+" background-color: rgb(255, 0, 0);\n"
+" }")
+        self.hp_warrior.setMaximum(999999999)
+        self.hp_warrior.setProperty("value", 12423423)
+        self.hp_warrior.setTextVisible(True)
+        self.hp_warrior.setOrientation(QtCore.Qt.Horizontal)
+        self.hp_warrior.setInvertedAppearance(False)
         self.hp_warrior.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_warrior.setObjectName("hp_warrior")
         self.horizontalLayout_3.addWidget(self.hp_warrior)
@@ -193,10 +231,24 @@ class Ui_MainWindow(object):
         self.mp_2.setObjectName("mp_2")
         self.horizontalLayout_5.addWidget(self.mp_2)
         self.mp_archer = QtWidgets.QProgressBar(self.frame_2)
-        self.mp_archer.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
-        self.mp_archer.setProperty("value", 24)
+        self.mp_archer.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+"background-color: rgb(0, 0, 255);\n"
+" }")
+        self.mp_archer.setMaximum(999999999)
+        self.mp_archer.setProperty("value", 50)
         self.mp_archer.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_archer.setObjectName("mp_archer")
         self.horizontalLayout_5.addWidget(self.mp_archer)
@@ -217,11 +269,24 @@ class Ui_MainWindow(object):
         self.hp_2.setObjectName("hp_2")
         self.horizontalLayout_6.addWidget(self.hp_2)
         self.hp_archer = QtWidgets.QProgressBar(self.frame_2)
-        self.hp_archer.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
-        self.hp_archer.setProperty("value", 24)
+        self.hp_archer.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+" background-color: rgb(255, 0, 0);\n"
+" }")
+        self.hp_archer.setMaximum(999999999)
+        self.hp_archer.setProperty("value", 12423423)
         self.hp_archer.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_archer.setObjectName("hp_archer")
         self.horizontalLayout_6.addWidget(self.hp_archer)
@@ -294,10 +359,24 @@ class Ui_MainWindow(object):
         self.mp_3.setObjectName("mp_3")
         self.horizontalLayout_8.addWidget(self.mp_3)
         self.mp_swordsman = QtWidgets.QProgressBar(self.frame_3)
-        self.mp_swordsman.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
-        self.mp_swordsman.setProperty("value", 24)
+        self.mp_swordsman.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+"background-color: rgb(0, 0, 255);\n"
+" }")
+        self.mp_swordsman.setMaximum(999999999)
+        self.mp_swordsman.setProperty("value", 50)
         self.mp_swordsman.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_swordsman.setObjectName("mp_swordsman")
         self.horizontalLayout_8.addWidget(self.mp_swordsman)
@@ -318,11 +397,24 @@ class Ui_MainWindow(object):
         self.hp_3.setObjectName("hp_3")
         self.horizontalLayout_9.addWidget(self.hp_3)
         self.hp_swordsman = QtWidgets.QProgressBar(self.frame_3)
-        self.hp_swordsman.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
-        self.hp_swordsman.setProperty("value", 24)
+        self.hp_swordsman.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+" background-color: rgb(255, 0, 0);\n"
+" }")
+        self.hp_swordsman.setMaximum(999999999)
+        self.hp_swordsman.setProperty("value", 12423423)
         self.hp_swordsman.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_swordsman.setObjectName("hp_swordsman")
         self.horizontalLayout_9.addWidget(self.hp_swordsman)
@@ -395,11 +487,24 @@ class Ui_MainWindow(object):
         self.hp_4.setObjectName("hp_4")
         self.horizontalLayout_12.addWidget(self.hp_4)
         self.hp_wizard_red = QtWidgets.QProgressBar(self.frame_4)
-        self.hp_wizard_red.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
-        self.hp_wizard_red.setProperty("value", 24)
+        self.hp_wizard_red.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+" background-color: rgb(255, 0, 0);\n"
+" }")
+        self.hp_wizard_red.setMaximum(999999999)
+        self.hp_wizard_red.setProperty("value", 12423423)
         self.hp_wizard_red.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_wizard_red.setObjectName("hp_wizard_red")
         self.horizontalLayout_12.addWidget(self.hp_wizard_red)
@@ -456,10 +561,24 @@ class Ui_MainWindow(object):
         self.mp_4.setObjectName("mp_4")
         self.horizontalLayout_11.addWidget(self.mp_4)
         self.mp_wizard_red = QtWidgets.QProgressBar(self.frame_4)
-        self.mp_wizard_red.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
-        self.mp_wizard_red.setProperty("value", 24)
+        self.mp_wizard_red.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+"background-color: rgb(0, 0, 255);\n"
+" }")
+        self.mp_wizard_red.setMaximum(999999999)
+        self.mp_wizard_red.setProperty("value", 50)
         self.mp_wizard_red.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_wizard_red.setObjectName("mp_wizard_red")
         self.horizontalLayout_11.addWidget(self.mp_wizard_red)
@@ -496,10 +615,24 @@ class Ui_MainWindow(object):
         self.mp_5.setObjectName("mp_5")
         self.horizontalLayout_14.addWidget(self.mp_5)
         self.mp_wizard_black = QtWidgets.QProgressBar(self.frame_5)
-        self.mp_wizard_black.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
-        self.mp_wizard_black.setProperty("value", 24)
+        self.mp_wizard_black.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+"background-color: rgb(0, 0, 255);\n"
+" }")
+        self.mp_wizard_black.setMaximum(999999999)
+        self.mp_wizard_black.setProperty("value", 50)
         self.mp_wizard_black.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_wizard_black.setObjectName("mp_wizard_black")
         self.horizontalLayout_14.addWidget(self.mp_wizard_black)
@@ -520,11 +653,24 @@ class Ui_MainWindow(object):
         self.hp_5.setObjectName("hp_5")
         self.horizontalLayout_15.addWidget(self.hp_5)
         self.hp_wizard_black = QtWidgets.QProgressBar(self.frame_5)
-        self.hp_wizard_black.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
-        self.hp_wizard_black.setProperty("value", 24)
+        self.hp_wizard_black.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+" background-color: rgb(255, 0, 0);\n"
+" }")
+        self.hp_wizard_black.setMaximum(999999999)
+        self.hp_wizard_black.setProperty("value", 12423423)
         self.hp_wizard_black.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_wizard_black.setObjectName("hp_wizard_black")
         self.horizontalLayout_15.addWidget(self.hp_wizard_black)
@@ -555,15 +701,15 @@ class Ui_MainWindow(object):
         self.pb_skill_wizard_black = QtWidgets.QPushButton(self.frame_5)
         self.pb_skill_wizard_black.setObjectName("pb_skill_wizard_black")
         self.gridLayout_12.addWidget(self.pb_skill_wizard_black, 0, 1, 1, 1)
-        self.pb_atk_wizard_black = QtWidgets.QPushButton(self.frame_5)
-        self.pb_atk_wizard_black.setObjectName("pb_atk_wizard_black")
-        self.gridLayout_12.addWidget(self.pb_atk_wizard_black, 0, 0, 1, 1)
         self.pb_equip_wizard_black = QtWidgets.QPushButton(self.frame_5)
         self.pb_equip_wizard_black.setObjectName("pb_equip_wizard_black")
         self.gridLayout_12.addWidget(self.pb_equip_wizard_black, 1, 0, 1, 1)
         self.pb_run_wizard_black = QtWidgets.QPushButton(self.frame_5)
         self.pb_run_wizard_black.setObjectName("pb_run_wizard_black")
         self.gridLayout_12.addWidget(self.pb_run_wizard_black, 1, 1, 1, 1)
+        self.pb_atk_wizard_black = QtWidgets.QPushButton(self.frame_5)
+        self.pb_atk_wizard_black.setObjectName("pb_atk_wizard_black")
+        self.gridLayout_12.addWidget(self.pb_atk_wizard_black, 0, 0, 1, 1)
         self.gridLayout_11.addLayout(self.gridLayout_12, 3, 0, 1, 1)
         self.horizontalLayout.addWidget(self.frame_5)
         self.frame_6 = QtWidgets.QFrame(self.centralwidget)
@@ -597,10 +743,24 @@ class Ui_MainWindow(object):
         self.mp_6.setObjectName("mp_6")
         self.horizontalLayout_17.addWidget(self.mp_6)
         self.mp_wizard_white = QtWidgets.QProgressBar(self.frame_6)
-        self.mp_wizard_white.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"QProgressBar::chunk {background-color: rgb(0, 0, 255);}\n"
-"")
-        self.mp_wizard_white.setProperty("value", 24)
+        self.mp_wizard_white.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+"background-color: rgb(0, 0, 255);\n"
+" }")
+        self.mp_wizard_white.setMaximum(999999999)
+        self.mp_wizard_white.setProperty("value", 50)
         self.mp_wizard_white.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.mp_wizard_white.setObjectName("mp_wizard_white")
         self.horizontalLayout_17.addWidget(self.mp_wizard_white)
@@ -621,11 +781,24 @@ class Ui_MainWindow(object):
         self.hp_6.setObjectName("hp_6")
         self.horizontalLayout_18.addWidget(self.hp_6)
         self.hp_wizard_white = QtWidgets.QProgressBar(self.frame_6)
-        self.hp_wizard_white.setStyleSheet("QProgressBar{text-align:center;font-weight:bold;}\n"
-"\n"
-"QProgressBar::chunk {background-color: #FF0000;}\n"
-"")
-        self.hp_wizard_white.setProperty("value", 24)
+        self.hp_wizard_white.setStyleSheet("QProgressBar{\n"
+"  background-color: rgb(255, 255, 255);\n"
+"  color:rgb(200,200,200);\n"
+"  border-style: none;\n"
+"  border-bottom-right-radius: 10px;\n"
+"  border-bottom-left-radius: 10px;\n"
+"  border-top-right-radius: 10px;\n"
+"  border-top-left-radius: 10px;\n"
+"  text-align: center;}\n"
+"QProgressBar::chunk{\n"
+" border-bottom-right-radius: 10px;\n"
+" border-bottom-left-radius: 10px;\n"
+" border-top-right-radius: 10px;\n"
+" border-top-left-radius: 10px;\n"
+" background-color: rgb(255, 0, 0);\n"
+" }")
+        self.hp_wizard_white.setMaximum(999999999)
+        self.hp_wizard_white.setProperty("value", 12423423)
         self.hp_wizard_white.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.hp_wizard_white.setObjectName("hp_wizard_white")
         self.horizontalLayout_18.addWidget(self.hp_wizard_white)
@@ -716,15 +889,58 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addLayout(self.verticalLayout, 0, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1215, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1484, 22))
         self.menubar.setObjectName("menubar")
+        self.menu = QtWidgets.QMenu(self.menubar)
+        self.menu.setObjectName("menu")
+        self.menu_page = QtWidgets.QMenu(self.menu)
+        self.menu_page.setObjectName("menu_page")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.actionprev = QtWidgets.QAction(MainWindow)
+        self.actionprev.setObjectName("actionprev")
+        self.actionnext = QtWidgets.QAction(MainWindow)
+        self.actionnext.setObjectName("actionnext")
+        self.action_next = QtWidgets.QAction(MainWindow)
+        self.action_next.setObjectName("action_next")
+        self.action_field = QtWidgets.QAction(MainWindow)
+        self.action_field.setObjectName("action_field")
+        self.action_maze_floor_1 = QtWidgets.QAction(MainWindow)
+        self.action_maze_floor_1.setObjectName("action_maze_floor_1")
+        self.action_maze_floor_2 = QtWidgets.QAction(MainWindow)
+        self.action_maze_floor_2.setObjectName("action_maze_floor_2")
+        self.action_maze_floor_3 = QtWidgets.QAction(MainWindow)
+        self.action_maze_floor_3.setObjectName("action_maze_floor_3")
+        self.action_maze_floor_4 = QtWidgets.QAction(MainWindow)
+        self.action_maze_floor_4.setObjectName("action_maze_floor_4")
+        self.action_maze_floor_5 = QtWidgets.QAction(MainWindow)
+        self.action_maze_floor_5.setObjectName("action_maze_floor_5")
+        self.action_maze_floor_6 = QtWidgets.QAction(MainWindow)
+        self.action_maze_floor_6.setObjectName("action_maze_floor_6")
+        self.action_maze_floor_7 = QtWidgets.QAction(MainWindow)
+        self.action_maze_floor_7.setObjectName("action_maze_floor_7")
+        self.action_maze_floor_8 = QtWidgets.QAction(MainWindow)
+        self.action_maze_floor_8.setObjectName("action_maze_floor_8")
+        self.action_battle = QtWidgets.QAction(MainWindow)
+        self.action_battle.setObjectName("action_battle")
+        self.menu_page.addAction(self.action_field)
+        self.menu_page.addAction(self.action_maze_floor_1)
+        self.menu_page.addAction(self.action_maze_floor_2)
+        self.menu_page.addAction(self.action_maze_floor_3)
+        self.menu_page.addAction(self.action_maze_floor_4)
+        self.menu_page.addAction(self.action_maze_floor_5)
+        self.menu_page.addAction(self.action_maze_floor_6)
+        self.menu_page.addAction(self.action_maze_floor_7)
+        self.menu_page.addAction(self.action_maze_floor_8)
+        self.menu_page.addAction(self.action_battle)
+        self.menu.addAction(self.menu_page.menuAction())
+        self.menu.addAction(self.action_next)
+        self.menubar.addAction(self.menu.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
         self.stack_item.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -736,72 +952,87 @@ class Ui_MainWindow(object):
         self.snow_area.setText(_translate("MainWindow", "눈"))
         self.forest_area.setText(_translate("MainWindow", "숲"))
         self.mp_1.setText(_translate("MainWindow", "MP"))
-        self.mp_warrior.setFormat(_translate("MainWindow", "%p%"))
+        self.mp_warrior.setFormat(_translate("MainWindow", "%v"))
         self.hp_1.setText(_translate("MainWindow", "HP"))
-        self.hp_warrior.setFormat(_translate("MainWindow", "%p%"))
+        self.hp_warrior.setFormat(_translate("MainWindow", "%v"))
         self.lv_warrior.setText(_translate("MainWindow", "레벨"))
-        self.warrior.setText(_translate("MainWindow", "직업"))
+        self.warrior.setText(_translate("MainWindow", "전사"))
         self.name_warrior.setText(_translate("MainWindow", "이름"))
         self.pb_skill_warrior.setText(_translate("MainWindow", "스킬"))
         self.pb_atk_warrior.setText(_translate("MainWindow", "공격"))
         self.pb_equip_warrior.setText(_translate("MainWindow", "장비"))
         self.pb_run_warrior.setText(_translate("MainWindow", "도망"))
         self.mp_2.setText(_translate("MainWindow", "MP"))
-        self.mp_archer.setFormat(_translate("MainWindow", "%p%"))
+        self.mp_archer.setFormat(_translate("MainWindow", "%v"))
         self.hp_2.setText(_translate("MainWindow", "HP"))
-        self.hp_archer.setFormat(_translate("MainWindow", "%p%"))
+        self.hp_archer.setFormat(_translate("MainWindow", "%v"))
         self.lv_archer.setText(_translate("MainWindow", "레벨"))
-        self.archer.setText(_translate("MainWindow", "직업"))
+        self.archer.setText(_translate("MainWindow", "궁수"))
         self.name_archer.setText(_translate("MainWindow", "이름"))
         self.pb_skill_archer.setText(_translate("MainWindow", "스킬"))
         self.pb_atk_archer.setText(_translate("MainWindow", "공격"))
         self.pb_equip_archer.setText(_translate("MainWindow", "장비"))
         self.pb_run_archer.setText(_translate("MainWindow", "도망"))
         self.mp_3.setText(_translate("MainWindow", "MP"))
-        self.mp_swordsman.setFormat(_translate("MainWindow", "%p%"))
+        self.mp_swordsman.setFormat(_translate("MainWindow", "%v"))
         self.hp_3.setText(_translate("MainWindow", "HP"))
-        self.hp_swordsman.setFormat(_translate("MainWindow", "%p%"))
+        self.hp_swordsman.setFormat(_translate("MainWindow", "%v"))
         self.lv_swordsman.setText(_translate("MainWindow", "레벨"))
-        self.swordsman.setText(_translate("MainWindow", "직업"))
+        self.swordsman.setText(_translate("MainWindow", "검사"))
         self.name_swordsman.setText(_translate("MainWindow", "이름"))
         self.pb_skill_swordsman.setText(_translate("MainWindow", "스킬"))
         self.pb_atk_swordsman.setText(_translate("MainWindow", "공격"))
         self.pb_equip_swordsman.setText(_translate("MainWindow", "장비"))
         self.pb_run_swordsman.setText(_translate("MainWindow", "도망"))
         self.hp_4.setText(_translate("MainWindow", "HP"))
-        self.hp_wizard_red.setFormat(_translate("MainWindow", "%p%"))
+        self.hp_wizard_red.setFormat(_translate("MainWindow", "%v"))
         self.lv_wizard_red.setText(_translate("MainWindow", "레벨"))
-        self.wizard_red.setText(_translate("MainWindow", "직업"))
+        self.wizard_red.setText(_translate("MainWindow", "적법사"))
         self.name_wizard_red.setText(_translate("MainWindow", "이름"))
         self.pb_skill_wizard_red.setText(_translate("MainWindow", "스킬"))
         self.pb_atk_wizard_red.setText(_translate("MainWindow", "공격"))
         self.pb_equip_wizard_red.setText(_translate("MainWindow", "장비"))
         self.pb_run_wizard_red.setText(_translate("MainWindow", "도망"))
         self.mp_4.setText(_translate("MainWindow", "MP"))
-        self.mp_wizard_red.setFormat(_translate("MainWindow", "%p%"))
+        self.mp_wizard_red.setFormat(_translate("MainWindow", "%v"))
         self.mp_5.setText(_translate("MainWindow", "MP"))
-        self.mp_wizard_black.setFormat(_translate("MainWindow", "%p%"))
+        self.mp_wizard_black.setFormat(_translate("MainWindow", "%v"))
         self.hp_5.setText(_translate("MainWindow", "HP"))
-        self.hp_wizard_black.setFormat(_translate("MainWindow", "%p%"))
+        self.hp_wizard_black.setFormat(_translate("MainWindow", "%v"))
         self.lv_wizard_black.setText(_translate("MainWindow", "레벨"))
-        self.wizard_black.setText(_translate("MainWindow", "직업"))
+        self.wizard_black.setText(_translate("MainWindow", "흑법사"))
         self.name_wizard_black.setText(_translate("MainWindow", "이름"))
         self.pb_skill_wizard_black.setText(_translate("MainWindow", "스킬"))
-        self.pb_atk_wizard_black.setText(_translate("MainWindow", "공격"))
         self.pb_equip_wizard_black.setText(_translate("MainWindow", "장비"))
         self.pb_run_wizard_black.setText(_translate("MainWindow", "도망"))
+        self.pb_atk_wizard_black.setText(_translate("MainWindow", "공격"))
         self.mp_6.setText(_translate("MainWindow", "MP"))
-        self.mp_wizard_white.setFormat(_translate("MainWindow", "%p%"))
+        self.mp_wizard_white.setFormat(_translate("MainWindow", "%v"))
         self.hp_6.setText(_translate("MainWindow", "HP"))
-        self.hp_wizard_white.setFormat(_translate("MainWindow", "%p%"))
+        self.hp_wizard_white.setFormat(_translate("MainWindow", "%v"))
         self.lv_wizard_white.setText(_translate("MainWindow", "레벨"))
-        self.wizard_white.setText(_translate("MainWindow", "직업"))
+        self.wizard_white.setText(_translate("MainWindow", "백법사"))
         self.name_wizard_white.setText(_translate("MainWindow", "이름"))
         self.pb_skill_wizard_white.setText(_translate("MainWindow", "스킬"))
         self.pb_atk_wizard_white.setText(_translate("MainWindow", "공격"))
         self.pb_equip_wizard_white.setText(_translate("MainWindow", "장비"))
         self.pb_run_wizard_white.setText(_translate("MainWindow", "도망"))
         self.pb_use_item.setText(_translate("MainWindow", "사용"))
+        self.menu.setTitle(_translate("MainWindow", "메뉴"))
+        self.menu_page.setTitle(_translate("MainWindow", "page"))
+        self.actionprev.setText(_translate("MainWindow", "prev"))
+        self.actionnext.setText(_translate("MainWindow", "next"))
+        self.action_next.setText(_translate("MainWindow", "exit"))
+        self.action_field.setText(_translate("MainWindow", "field"))
+        self.action_maze_floor_1.setText(_translate("MainWindow", "maze floor 1"))
+        self.action_maze_floor_2.setText(_translate("MainWindow", "maze floor 2"))
+        self.action_maze_floor_3.setText(_translate("MainWindow", "maze floor 3"))
+        self.action_maze_floor_4.setText(_translate("MainWindow", "maze floor 4"))
+        self.action_maze_floor_5.setText(_translate("MainWindow", "maze floor 5"))
+        self.action_maze_floor_6.setText(_translate("MainWindow", "maze floor 6"))
+        self.action_maze_floor_7.setText(_translate("MainWindow", "maze floor 7"))
+        self.action_maze_floor_8.setText(_translate("MainWindow", "maze floor 8"))
+        self.action_battle.setText(_translate("MainWindow", "battle"))
 
 
 if __name__ == "__main__":

@@ -83,12 +83,12 @@ class mazeClass:
     def return_dict_teleport_stock(self):
         dict_teleport_stock = {'first': 5, 'second': 5, 'third': 5, 'fourth': 5, 'fifth': 5, 'sixth': 5, 'seventh': 5}
         return dict_teleport_stock
-    def maze_move_event(self, int_floor, str_my_gard, int_turn):
+    def maze_move_event(self, int_floor, dict_user_gard, int_turn):
         ratio = random.randint(1, 100)
         if ratio <= 30:
             bool_meet_maze_monster = True
             int_turn += 1
-            return '일반몬스터', self.maze_meet_monster(int_floor, str_my_gard), bool_meet_maze_monster, int_turn
+            return '일반몬스터', self.maze_meet_monster(int_floor, dict_user_gard), bool_meet_maze_monster, int_turn
         elif ratio <= 45:
 
             return '아군수호대', self.maze_meet_ally_gard()
@@ -96,7 +96,7 @@ class mazeClass:
             print('적군수호대')
             bool_meet_enemy_gard = True
             int_turn += 1
-            return '적군수호대', self.maze_meet_enemy_gard(int_floor, str_my_gard), bool_meet_enemy_gard, int_turn
+            return '적군수호대', self.maze_meet_enemy_gard(int_floor, dict_user_gard), bool_meet_enemy_gard, int_turn
         else:
             print('이동')
             return '이동'

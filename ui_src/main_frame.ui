@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1215</width>
+    <width>1484</width>
     <height>871</height>
    </rect>
   </property>
@@ -41,9 +41,8 @@
          <number>0</number>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
-        <widget class="QWidget" name="stack_battle"/>
         <widget class="QWidget" name="stack_field">
          <layout class="QGridLayout" name="gridLayout_16">
           <property name="leftMargin">
@@ -103,7 +102,33 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="stack_maze"/>
+        <widget class="QWidget" name="stack_maze">
+         <layout class="QGridLayout" name="gridLayout_15">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lb_maze">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="stack_battle"/>
        </widget>
       </item>
      </layout>
@@ -191,18 +216,34 @@
            <item>
             <widget class="QProgressBar" name="mp_warrior">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-QProgressBar::chunk {background-color: rgb(0, 0, 255);}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+background-color: rgb(0, 0, 255);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>50</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -244,19 +285,43 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
            <item>
             <widget class="QProgressBar" name="hp_warrior">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-
-QProgressBar::chunk {background-color: #FF0000;}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+ background-color: rgb(255, 0, 0);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>12423423</number>
+             </property>
+             <property name="textVisible">
+              <bool>true</bool>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="invertedAppearance">
+              <bool>false</bool>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -298,7 +363,7 @@ QProgressBar::chunk {background-color: #FF0000;}
               </size>
              </property>
              <property name="text">
-              <string>직업</string>
+              <string>전사</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -439,18 +504,34 @@ QProgressBar::chunk {background-color: #FF0000;}
            <item>
             <widget class="QProgressBar" name="mp_archer">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-QProgressBar::chunk {background-color: rgb(0, 0, 255);}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+background-color: rgb(0, 0, 255);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>50</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -492,19 +573,34 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
            <item>
             <widget class="QProgressBar" name="hp_archer">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-
-QProgressBar::chunk {background-color: #FF0000;}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+ background-color: rgb(255, 0, 0);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>12423423</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -546,7 +642,7 @@ QProgressBar::chunk {background-color: #FF0000;}
               </size>
              </property>
              <property name="text">
-              <string>직업</string>
+              <string>궁수</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -687,18 +783,34 @@ QProgressBar::chunk {background-color: #FF0000;}
            <item>
             <widget class="QProgressBar" name="mp_swordsman">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-QProgressBar::chunk {background-color: rgb(0, 0, 255);}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+background-color: rgb(0, 0, 255);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>50</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -740,19 +852,34 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
            <item>
             <widget class="QProgressBar" name="hp_swordsman">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-
-QProgressBar::chunk {background-color: #FF0000;}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+ background-color: rgb(255, 0, 0);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>12423423</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -794,7 +921,7 @@ QProgressBar::chunk {background-color: #FF0000;}
               </size>
              </property>
              <property name="text">
-              <string>직업</string>
+              <string>검사</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -935,19 +1062,34 @@ QProgressBar::chunk {background-color: #FF0000;}
            <item>
             <widget class="QProgressBar" name="hp_wizard_red">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-
-QProgressBar::chunk {background-color: #FF0000;}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+ background-color: rgb(255, 0, 0);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>12423423</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -989,7 +1131,7 @@ QProgressBar::chunk {background-color: #FF0000;}
               </size>
              </property>
              <property name="text">
-              <string>직업</string>
+              <string>적법사</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1085,18 +1227,34 @@ QProgressBar::chunk {background-color: #FF0000;}
            <item>
             <widget class="QProgressBar" name="mp_wizard_red">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-QProgressBar::chunk {background-color: rgb(0, 0, 255);}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+background-color: rgb(0, 0, 255);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>50</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -1183,18 +1341,34 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
            <item>
             <widget class="QProgressBar" name="mp_wizard_black">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-QProgressBar::chunk {background-color: rgb(0, 0, 255);}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+background-color: rgb(0, 0, 255);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>50</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -1236,19 +1410,34 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
            <item>
             <widget class="QProgressBar" name="hp_wizard_black">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-
-QProgressBar::chunk {background-color: #FF0000;}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+ background-color: rgb(255, 0, 0);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>12423423</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -1290,7 +1479,7 @@ QProgressBar::chunk {background-color: #FF0000;}
               </size>
              </property>
              <property name="text">
-              <string>직업</string>
+              <string>흑법사</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1327,13 +1516,6 @@ QProgressBar::chunk {background-color: #FF0000;}
              </property>
             </widget>
            </item>
-           <item row="0" column="0">
-            <widget class="QPushButton" name="pb_atk_wizard_black">
-             <property name="text">
-              <string>공격</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pb_equip_wizard_black">
              <property name="text">
@@ -1345,6 +1527,13 @@ QProgressBar::chunk {background-color: #FF0000;}
             <widget class="QPushButton" name="pb_run_wizard_black">
              <property name="text">
               <string>도망</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QPushButton" name="pb_atk_wizard_black">
+             <property name="text">
+              <string>공격</string>
              </property>
             </widget>
            </item>
@@ -1431,18 +1620,34 @@ QProgressBar::chunk {background-color: #FF0000;}
            <item>
             <widget class="QProgressBar" name="mp_wizard_white">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-QProgressBar::chunk {background-color: rgb(0, 0, 255);}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+background-color: rgb(0, 0, 255);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>50</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -1484,19 +1689,34 @@ QProgressBar::chunk {background-color: rgb(0, 0, 255);}
            <item>
             <widget class="QProgressBar" name="hp_wizard_white">
              <property name="styleSheet">
-              <string notr="true">QProgressBar{text-align:center;font-weight:bold;}
-
-QProgressBar::chunk {background-color: #FF0000;}
-</string>
+              <string notr="true">QProgressBar{
+  background-color: rgb(255, 255, 255);
+  color:rgb(200,200,200);
+  border-style: none;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  text-align: center;}
+QProgressBar::chunk{
+ border-bottom-right-radius: 10px;
+ border-bottom-left-radius: 10px;
+ border-top-right-radius: 10px;
+ border-top-left-radius: 10px;
+ background-color: rgb(255, 0, 0);
+ }</string>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
              </property>
              <property name="value">
-              <number>24</number>
+              <number>12423423</number>
              </property>
              <property name="textDirection">
               <enum>QProgressBar::TopToBottom</enum>
              </property>
              <property name="format">
-              <string>%p%</string>
+              <string>%v</string>
              </property>
             </widget>
            </item>
@@ -1538,7 +1758,7 @@ QProgressBar::chunk {background-color: #FF0000;}
               </size>
              </property>
              <property name="text">
-              <string>직업</string>
+              <string>백법사</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1712,12 +1932,100 @@ QProgressBar::chunk {background-color: #FF0000;}
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1215</width>
+     <width>1484</width>
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>메뉴</string>
+    </property>
+    <widget class="QMenu" name="menu_page">
+     <property name="title">
+      <string>page</string>
+     </property>
+     <addaction name="action_field"/>
+     <addaction name="action_maze_floor_1"/>
+     <addaction name="action_maze_floor_2"/>
+     <addaction name="action_maze_floor_3"/>
+     <addaction name="action_maze_floor_4"/>
+     <addaction name="action_maze_floor_5"/>
+     <addaction name="action_maze_floor_6"/>
+     <addaction name="action_maze_floor_7"/>
+     <addaction name="action_maze_floor_8"/>
+     <addaction name="action_battle"/>
+    </widget>
+    <addaction name="menu_page"/>
+    <addaction name="action_next"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionprev">
+   <property name="text">
+    <string>prev</string>
+   </property>
+  </action>
+  <action name="actionnext">
+   <property name="text">
+    <string>next</string>
+   </property>
+  </action>
+  <action name="action_next">
+   <property name="text">
+    <string>exit</string>
+   </property>
+  </action>
+  <action name="action_field">
+   <property name="text">
+    <string>field</string>
+   </property>
+  </action>
+  <action name="action_maze_floor_1">
+   <property name="text">
+    <string>maze floor 1</string>
+   </property>
+  </action>
+  <action name="action_maze_floor_2">
+   <property name="text">
+    <string>maze floor 2</string>
+   </property>
+  </action>
+  <action name="action_maze_floor_3">
+   <property name="text">
+    <string>maze floor 3</string>
+   </property>
+  </action>
+  <action name="action_maze_floor_4">
+   <property name="text">
+    <string>maze floor 4</string>
+   </property>
+  </action>
+  <action name="action_maze_floor_5">
+   <property name="text">
+    <string>maze floor 5</string>
+   </property>
+  </action>
+  <action name="action_maze_floor_6">
+   <property name="text">
+    <string>maze floor 6</string>
+   </property>
+  </action>
+  <action name="action_maze_floor_7">
+   <property name="text">
+    <string>maze floor 7</string>
+   </property>
+  </action>
+  <action name="action_maze_floor_8">
+   <property name="text">
+    <string>maze floor 8</string>
+   </property>
+  </action>
+  <action name="action_battle">
+   <property name="text">
+    <string>battle</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

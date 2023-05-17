@@ -1,59 +1,75 @@
+from PyQt5.QtGui import QIcon
+
 class ItemClass():
     def __init__(self):
-        # 직업 리스트
-        self.list_job = ['warrior', 'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white']
-
-    # 체력회복
-    def use_hp_potion(self, str_job, str_item, dict_grad):
-        if str_item == 'HP_potion_high':
-            dict_grad[str_job]['HP'] += dict_grad[str_job]['Max_HP'] * 0.7
-        elif str_item == 'HP_potion_middle':
-            dict_grad[str_job]['HP'] += dict_grad[str_job]['Max_HP'] * 0.5
-        elif str_item == 'HP_potion_low':
-            dict_grad[str_job]['HP'] += dict_grad[str_job]['Max_HP'] * 0.3
-        return dict_grad
-
-    # 마나회복
-    def use_mp_potion(self, str_job, str_item, dict_grad):
-        if str_item == 'MP_potion_high':
-            dict_grad[str_job]['MP'] += dict_grad[str_job]['Max_MP'] * 0.7
-        elif str_item == 'MP_potion_middle':
-            dict_grad[str_job]['MP'] += dict_grad[str_job]['Max_MP'] * 0.5
-        elif str_item == 'MP_potion_low':
-            dict_grad[str_job]['MP'] += dict_grad[str_job]['Max_MP'] * 0.3
-        return dict_grad
-
-    # 체력,마나회복
-    def use_all_potion(self, str_job, str_item, dict_grad):
-        if str_item == 'All_potion_high':
-            dict_grad[str_job]['HP'] += dict_grad[str_job]['Max_HP'] * 0.7
-            dict_grad[str_job]['MP'] += dict_grad[str_job]['Max_MP'] * 0.7
-        elif str_item == 'All_potion_middle':
-            dict_grad[str_job]['HP'] += dict_grad[str_job]['Max_HP'] * 0.5
-            dict_grad[str_job]['MP'] += dict_grad[str_job]['Max_MP'] * 0.5
-        elif str_item == 'All_potion_low':
-            dict_grad[str_job]['HP'] += dict_grad[str_job]['Max_HP'] * 0.3
-            dict_grad[str_job]['MP'] += dict_grad[str_job]['Max_MP'] * 0.3
-        return dict_grad
-
-    # 전투불능 상태인 클래스 모두 부활
-    def use_resurrection_potion(self, dict_grad):
-        for job in self.list_job:
-            dict_grad[job]['survival'] = True
-        return dict_grad
-
-    # 텐트 사용: 구성원 전부 체력 100% 회복
-    def use_tent(self, str_job, dict_grad):
-        for job in self.list_job:
-            dict_grad[job]['hp'] = dict_grad[str_job]['max_hp']
-        return dict_grad
+        pass
 
     # 아이템 획득
-    def get_item(self, list_item, dict_item):
+    def get_item(self, list_item, dict_item, dict_equip):
+        # 소모품
         for item in list_item:
             for k, v in dict_item.items():
                 if k == item:
                     v['count'] += 1
-        return dict_item
+        # 장비
+        for equip in list_item:
+            for k, v in dict_equip.items():
+                if k == equip:
+                    v['count'] += 1
+        return dict_item, dict_equip
 
+    # 아이템 사용
+    def use_item(self, str_job, str_item, dict_item, dict_user_gard):
+        # 직업 리스트
+        list_job = ['warrior', 'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white']
 
+        if str_item == 'revival_potion':
+            for job in list_job:
+                dict_user_gard[job]['survival'] = True
+                msg  = '부활포션을 사용하였습니다.'
+        elif str_item == 'tent':
+            for job in list_job:
+                dict_user_gard[job]['hp'] = dict_user_gard[job]['max_hp']
+                msg  = '텐트를 사용하였습니다.'
+        elif str_item == 'hp_potion_high':
+            dict_user_gard[str_job]['hp'] += dict_user_gard[str_job]['max_hp'] * 0.7
+            msg  = 'HP포션(상)을 사용하였습니다.'
+        elif str_item == 'hp_potion_middle':
+            dict_user_gard[str_job]['hp'] += dict_user_gard[str_job]['max_hp'] * 0.5
+            msg  = 'HP포션(중)을 사용하였습니다.'
+        elif str_item == 'hp_potion_low':
+            dict_user_gard[str_job]['hp'] += dict_user_gard[str_job]['max_hp'] * 0.3
+            msg  = 'HP포션(하)을 사용하였습니다.'
+        elif str_item == 'mp_potion_high':
+            dict_user_gard[str_job]['mp'] += dict_user_gard[str_job]['max_mp'] * 0.7
+            msg  = 'MP포션(상)을 사용하였습니다.'
+        elif str_item == 'mp_potion_middle':
+            dict_user_gard[str_job]['mp'] += dict_user_gard[str_job]['max_mp'] * 0.5
+            msg  = 'MP포션(중)을 사용하였습니다.'
+        elif str_item == 'mp_potion_low':
+            dict_user_gard[str_job]['mp'] += dict_user_gard[str_job]['max_mp'] * 0.3
+            msg  = 'MP포션(하)을 사용하였습니다.'
+        elif str_item == 'all_potion_high':
+            dict_user_gard[str_job]['hp'] += dict_user_gard[str_job]['max_hp'] * 0.7
+            dict_user_gard[str_job]['mp'] += dict_user_gard[str_job]['max_mp'] * 0.7
+            msg  = 'ALL포션(상)을 사용하였습니다.'
+        elif str_item == 'all_potion_middle':
+            dict_user_gard[str_job]['hp'] += dict_user_gard[str_job]['max_hp'] * 0.5
+            dict_user_gard[str_job]['mp'] += dict_user_gard[str_job]['max_mp'] * 0.5
+            msg  = 'ALL포션(중)을 사용하였습니다.'
+        elif str_item == 'all_potion_low':
+            dict_user_gard[str_job]['hp'] += dict_user_gard[str_job]['max_hp'] * 0.3
+            dict_user_gard[str_job]['mp'] += dict_user_gard[str_job]['max_mp'] * 0.3
+            msg  = 'ALL포션(하)을 사용하였습니다.'
+        else:
+            pass
+
+        if str_job != '':
+            if dict_user_gard[str_job]['hp'] > dict_user_gard[str_job]['max_hp']:
+                dict_user_gard[str_job]['hp'] = dict_user_gard[str_job]['max_hp']
+            if dict_user_gard[str_job]['mp'] > dict_user_gard[str_job]['max_mp']:
+                dict_user_gard[str_job]['mp'] = dict_user_gard[str_job]['max_mp']
+
+        dict_item[str_item]['count'] -= 1
+
+        return dict_item, dict_user_gard, msg
