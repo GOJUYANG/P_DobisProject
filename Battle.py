@@ -611,6 +611,117 @@ class MY(QMainWindow, main_class, second_class):
             self.bool_run_mode = True
             return self.bool_run_mode
 
+
+    # bool_meet_maze_monster, bool_meet_monster
+    # 필드에서 일반몬스터 만났을때 승리한 후 아이템 얻는 함수
+    def field_battle_get_items(self, str_area, bool_meet_monster, bool_war_result, dict_field_monster):
+        if (bool_meet_monster == True) and (bool_war_result == True):
+            int_mul = random.randint(1, 3)
+            if str_area == 'area_fire':
+                fire_cnt = dict_field_monster['area_fire']['int_cnt']
+                list_fire_drop_item = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                      'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                      'all_potion_high', 'all_potion_middle', 'all_potion_low',
+                                                      'silver_helmet', 'bronze_armor', 'iron_shield', 'bronze_bow',
+                                                      'red_glove', 'red_cape', 'bronze_pants'], k=fire_cnt * int_mul)
+                return list_fire_drop_item
+            elif str_area == 'area_water':
+                water_cnt = dict_field_monster['area_water']['int_cnt']
+                list_water_drop_item = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                       'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                       'all_potion_high', 'all_potion_middle', 'all_potion_low',
+                                                       'red_hood', 'bronze_shield', 'bronze_bow', 'red_glove',
+                                                       'red_cape', 'red_pants'], k=water_cnt * int_mul)
+                return list_water_drop_item
+            elif str_area == 'area_forest':
+                forest_cnt = dict_field_monster['area_forest']['int_cnt']
+                list_forest_drop_item = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                        'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                        'all_potion_high', 'all_potion_middle', 'all_potion_low',
+                                                        'cow_helmet', 'cow_armor', 'leather_shield', 'stone_gem',
+                                                        'bronze_wand', 'bronze_staff', 'cow_glove', 'cow_cape',
+                                                        'cow_pants'], k=forest_cnt * int_mul)
+                return list_forest_drop_item
+            else:   # 'area_snow'인 경우
+                snow_cnt = dict_field_monster['area_snow']['int_cnt']
+                list_snow_drop_item = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                      'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                      'all_potion_high', 'all_potion_middle', 'all_potion_low',
+                                                      'silver_helmet', 'chain_armor', 'red_armor', 'chain_shield',
+                                                      'bronze_sword', 'low_chain_glove', 'cow_cape', 'chain_pants'],
+                                                     k=snow_cnt * int_mul)
+                return list_snow_drop_item
+            # list_field_battle_get_items = []
+            # list_field_battle_get_items.extend(list_fire_drop_item)
+            # list_field_battle_get_items.extend(list_water_drop_item)
+            # list_field_battle_get_items.extend(list_forest_drop_item)
+            # list_field_battle_get_items.extend(list_snow_drop_item)
+            # return list_field_battle_get_items
+        else:
+            pass
+
+    # 던전에서 일반몬스터 만났을때 승리한 후 아이템 얻는 함수
+    def maze_battle_get_items(self, bool_meet_maze_monster, bool_war_result, dict_maze_monster):
+        if (bool_meet_maze_monster == True) and (bool_war_result == True):
+            int_mul = random.randint(1, 3)
+            fire_cnt = dict_maze_monster['list_area_monster'].count('area_fire')
+            list_fire_drop_item = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                  'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                  'all_potion_high', 'all_potion_middle', 'all_potion_low',
+                                                  'silver_helmet', 'bronze_armor', 'iron_shield', 'bronze_bow',
+                                                  'red_glove', 'red_cape', 'bronze_pants'], k=fire_cnt*int_mul)
+            water_cnt = dict_maze_monster['list_area_monster'].count('area_water')
+            list_water_drop_item = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                   'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                   'all_potion_high', 'all_potion_middle', 'all_potion_low',
+                                                   'red_hood', 'bronze_shield', 'bronze_bow', 'red_glove',
+                                                   'red_cape', 'red_pants'], k=water_cnt*int_mul)
+            forest_cnt = dict_maze_monster['list_area_monster'].count('area_forest')
+            list_forest_drop_item = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                    'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                    'all_potion_high', 'all_potion_middle', 'all_potion_low',
+                                                    'cow_helmet', 'cow_armor', 'leather_shield', 'stone_gem',
+                                                    'bronze_wand', 'bronze_staff', 'cow_glove', 'cow_cape',
+                                                    'cow_pants'], k=forest_cnt*int_mul)
+            snow_cnt = dict_maze_monster['list_area_monster'].count('area_snow')
+            list_snow_drop_item = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                                  'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                                  'all_potion_high', 'all_potion_middle', 'all_potion_low',
+                                                  'silver_helmet', 'chain_armor', 'red_armor', 'chain_shield',
+                                                  'bronze_sword', 'low_chain_glove', 'cow_cape', 'chain_pants'], k=snow_cnt*int_mul)
+            list_maze_battle_get_items = []
+            list_maze_battle_get_items.extend(list_fire_drop_item)
+            list_maze_battle_get_items.extend(list_water_drop_item)
+            list_maze_battle_get_items.extend(list_forest_drop_item)
+            list_maze_battle_get_items.extend(list_snow_drop_item)
+            return list_maze_battle_get_items
+        else:
+            pass
+
+    # 타수호대 전투 승리한 후 아이템 얻는 함수
+    def gard_battle_get_items(self, bool_war_result):
+        list_all_items = ['silver_helmet', 'cow_helmet', 'red_hood', 'bronze_armor',
+                          'chain_armor', 'cow_armor', 'red_armor', 'bronze_shield',
+                          'iron_shield', 'chain_shield', 'leather_shield', 'bronze_sword',
+                          'stone_gem', 'bronze_wand', 'bronze_staff', 'bronze_bow',
+                          'low_chain_glove', 'cow_glove', 'red_glove', 'cow_cape',
+                          'red_cape', 'bronze_pants', 'chain_pants', 'cow_pants',
+                          'red_pants', 'gold_helmet', 'horse_helmet', 'blue_hood',
+                          'silver_armor', 'iron_armor', 'horse_armor', 'blue_armor',
+                          'silver_sword', 'ruby_gem', 'silver_wand', 'silver_staff',
+                          'silver_bow', 'middle_chain_glove', 'horse_glove', 'blue_glove',
+                          'horse_cape', 'blue_cape', 'silver_pants', 'iron_pants',
+                          'horse_pants', 'blue_pants', 'hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                          'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                          'all_potion_high', 'all_potion_middle', 'all_potion_low']
+        if bool_war_result:
+            list_gard_battle_get_items = random.choices(list_all_items, k=6)
+            return list_gard_battle_get_items
+        else:
+            pass
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = MY()
