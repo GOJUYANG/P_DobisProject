@@ -2,6 +2,7 @@ import os, sys
 import random
 import time
 
+import keyboard
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -27,23 +28,44 @@ class MY(QMainWindow, main_class, second_class):
     ### 임시 변수 ###
         # self.lb_warrior1.hide()
         # self.lb_warrior2.hide()
-        self.current_loc = 'fire_area' #test용 (from 시연님 받아올값)
         self.int_btn_clicked_cnt = 0 #수호대의 캐릭터 중 survival:True 수와 비교하여 버튼 활성화/비활성화를 체크하기 위함.
         self.int_survival = 0 #수호대 캐릭터 중 survival:True 숫자
         self.int_war_cnt = 0 #전투횟수
 
-        self.list_area = ['fire_area', 'water_area', 'forest_area', 'snow_area']
+        self.list_area = ['area_fire', 'area_water', 'area_forest', 'area_snow']
         self.list_maze_floor = [1,2,3,4,5,6,7,8]
-        self.num = random.choice(range(1,11))
-        self.dict_field_monster = {'fire_area': {'survival': True,
-                                                 'cnt': self.num,
-                                                 'hp':random.choices(range(200,1001),k=self.num),
-                                                 'skill': ['fire_attack', 'fire_ball']}}
+        # self.current_loc = random.choice(self.list_area)         #from시연님(값 받아오기)
+        self.current_loc = random.choice(self.list_maze_floor)     #from시연님(값 받아오기)
+
+        ## 필드 ##
         self.bool_meet_gard= False
-        self.bool_meet_monster= True
+        self.bool_meet_monster= False
+
+        self.num = random.choice(range(1,11))
+        self.dict_field_monster = {'area_fire': {'cnt': self.num,
+                                                 'hp':random.choices(range(200,1001),k=self.num),
+                                                 'skill': ['fire_attack', 'fire_ball']},
+                                   'area_water': {'cnt': self.num,
+                                                 'hp': random.choices(range(200, 1001), k=self.num),
+                                                 'skill': ['aqua_attack', 'aqua_ball']},
+                                   'area_forest': {'cnt': self.num,
+                                                 'hp': random.choices(range(200, 1001), k=self.num),
+                                                 'skill': ['air_attack', 'air_ball']},
+                                   'area_snow': {'cnt': self.num,
+                                                 'hp': random.choices(range(200, 1001), k=self.num),
+                                                 'skill': ['ice_attack', 'snow_ball']}}
+
+        ## 던전 ##
         self.bool_meet_maze_gard= False
-        self.bool_meet_enemy_monster= False
+        self.bool_meet_enemy_monster= True
         self.bool_meet_boss_monster= False
+
+        # int_monster_count와 dict_maze_monster는 DungeonClass에서 상속받을 변수
+        self.int_monster_count = random.randint(1, 10)
+        self.dict_maze_monster = {'int_cnt': self.int_monster_count,
+                                  'list_hp': random.sample(range(200, 1000), self.int_monster_count),
+                                  'list_area_monster': random.choices(['area_fire', 'area_water', 'area_forest', 'area_snow'], k=self.int_monster_count),
+                                  'list_damage': random.choices([0.05, 0.1], k=self.int_monster_count)}
 
     ### 변수 선언 ###
         self.dict_user_gard = {'gard': '',
@@ -85,8 +107,7 @@ class MY(QMainWindow, main_class, second_class):
                                                           15: 'heal_greater',
                                                           30: 'heal_all'}}}
         self.str_job = []
-        self.str_job.extend([sorted(self.dict_user_gard.keys())[4],
-                             'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white'])
+        self.str_job.extend([sorted(self.dict_user_gard.keys())[4],'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white'])
 
         self.list_job_name = ['warrior', 'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white']
         self.monster_li = []
@@ -118,18 +139,55 @@ class MY(QMainWindow, main_class, second_class):
             # list_frame[i].findChildren(QPushButton)[2].clicked.connect(lambda x, y=i: self.skill_choice(x, y))
             list_frame[i].findChildren(QPushButton)[3].clicked.connect(self.user_gard_run)
 
+        if self.bool_meet_monster == True:
+            for i in range(self.num):
+                list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_choice(x, y))
+        elif self.bool_meet_enemy_monster == True:
+            for i in range(self.int_monster_count):
+                list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_choice(x, y))
+
         self.war_start.clicked.connect(self.battle_location)
         self.war_start.clicked.connect(self.equip_btn_disabled)
-
-        for i in range(self.num):
-            list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_choice(x, y))
 
     ### 함수 선언 ###
 
     #전투결과(승패) 반환
-    # def war_result(self):
-    #승리한다면 아이템 획득/bool_boss_death
-    #패배한다면 각 캐릭터 전투가능상태 확인
+    def show_war_result(self):
+        died = 0
+        if self.current_loc in self.list_area:
+            if self.bool_meet_gard == True:
+                print("if - 조우한 수호대의 모든 구성원이 hp가 0이라면 return self.war_result = True")
+                print("elif - 유저 수호대의 모든 구성원의 hp가 0이라면 return self.war_result = False")
+            elif self.bool_meet_monster == True:
+                for c in range(self.num):
+                    if self.dict_field_monster['hp'][c] == 0:
+                        war_result = True
+                        self.battle_dialog.append("일반몬스터와의 전투에서 승리했습니다!")
+                    for d in self.str_job:
+                        if self.dict_user_gard[d]['survival'] == False:
+                            died += 1
+                        if died == self.int_survival:
+                            war_result = False
+                            self.battle_dialog.append("일반몬스터와의 전투에서 패배했습니다..")
+        if self.current_loc in self.list_maze_floor:
+            if self.bool_meet_maze_gard == True:
+                print("if - 조우한 수호대의 모든 구성원이 hp가 0이라면 return self.war_result = True")
+                print("elif - 유저 수호대의 모든 구성원의 hp가 0이라면 return self.war_result = False")
+            elif self.bool_meet_enemy_monster == True:
+                for g in range(self.int_monster_count):
+                    if self.dict_maze_monster['list_hp'][g] == 0:
+                        war_result = True
+                        self.battle_dialog.append("일반몬스터와의 전투에서 승리했습니다!")
+                for h in self.str_job:
+                    if self.dict_user_gard[h]['survival'] == False:
+                        died += 1
+                    if died == self.int_survival:
+                        war_result = False
+                        self.battle_dialog.append("일반몬스터와의 전투에서 패배했습니다..")
+            elif self.bool_meet_boss_monster == True:
+                print("if - 조우한 보스의 hp가 0이라면 return self.war_result = True, bool_boss_death = True")
+                print("elif - 유저 수호대의 모든 구성원의 hp가 0이라면 return self.war_result = False")
+        return war_result
 
     # 전투 횟수 카운트
     def war_cnt(self):
@@ -144,26 +202,20 @@ class MY(QMainWindow, main_class, second_class):
     def battle_location(self):
         if self.current_loc in self.list_area:
             if self.bool_meet_gard == True:
-                # self.battle_area_gard()
+                self.battle_area_gard()
             elif self.bool_meet_monster == True:
                 self.battle_monster()
         if self.current_loc in self.list_maze_floor:
             if self.bool_meet_maze_gard == True:
-                # self.battle_maze_gard()
+                self.battle_maze_gard()
             elif self.bool_meet_enemy_monster == True:
                 self.battle_monster()
             elif self.bool_meet_boss_monster == True:
-                # self.battle_maze_boss()
+                self.battle_maze_boss()
 
-    # 전투가능한 구성원의 [공격][스킬]버튼이 활성화
+    # [필드/던전]몬스터 조우 - 전투가능한 구성원의 [공격][스킬]버튼이 활성화
     def battle_monster(self):
-        if self.bool_meet_monster == True:
-            list_frame = self.findChildren(QFrame)[7:]
-            area = self.current_loc.split('_')
-            self.battle_dialog.setText(f"{area[0]}지역에서 벌어진 전투 시작!")
-        elif self.bool_meet_enemy_monster == True:
-            self.battle_dialog.setText(f"{self.current_loc}층에서 벌어진 전투 시작!")  #->불의지역/물의지역/숲의지역/눈의지역에서 각각 차출된다는 것 표현해야함.
-
+        list_frame = self.findChildren(QFrame)[7:]
         for i in range(6):
             if self.str_job[i] in self.dict_user_gard.keys():
                 if self.dict_user_gard[self.str_job[i]]['survival'] == True:
@@ -176,24 +228,205 @@ class MY(QMainWindow, main_class, second_class):
                     list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
 
-        for k in range(self.num):
-            self.list_enemy_line[k].setText(f"몬스터 HP: {str(self.dict_field_monster['fire_area']['hp'][k])}")
-            if self.dict_field_monster['fire_area']['hp'][k] < 400:
-                self.monster_li.append('small_dragon')
-            elif self.dict_field_monster['fire_area']['hp'][k] < 600:
-                self.monster_li.append('lizard')
-            elif self.dict_field_monster['fire_area']['hp'][k] < 800:
-                self.monster_li.append('medusa')
-            elif self.dict_field_monster['fire_area']['hp'][k] < 1000:
-                self.monster_li.append('jinn')
-            self.battle_dialog.append(
-                f"HP: {str(self.dict_field_monster['fire_area']['hp'][k])}의 {self.monster_li[k]}를 만났다!")
-            pixmap = QPixmap(f'../data/PNG/{self.monster_li[k]}.png')
-            pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
-            icon = QIcon()
-            icon.addPixmap(pixmap)
-            self.list_enemy_btn[k].setIcon(icon)
-            self.list_enemy_btn[k].setIconSize(QSize(100, 100))
+        if self.bool_meet_monster == True:
+            area = self.current_loc.split('_')
+            self.battle_dialog.setText(f"{area[0]}지역에서 벌어진 전투 시작!")
+            for k in range(self.num):
+                self.list_enemy_line[k].setText(f"몬스터 HP: {str(self.dict_field_monster[self.current_loc]['hp'][k])}")
+                if self.current_loc == 'area_fire':
+                    if self.dict_field_monster[self.current_loc]['hp'][k] <= 250:
+                        self.monster_li.append('small_dragon[1]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 300:
+                        self.monster_li.append('small_dragon[2]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 400:
+                        self.monster_li.append('small_dragon[3]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 500:
+                        self.monster_li.append('small_dragon[4]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 600:
+                        self.monster_li.append('small_dragon[5]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 700:
+                        self.monster_li.append('demon[1]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 800:
+                        self.monster_li.append('demon[2]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 900:
+                        self.monster_li.append('demon[3]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 950:
+                        self.monster_li.append('demon[4]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 1000:
+                        self.monster_li.append('demon[5]')
+                elif self.current_loc == 'area_water':
+                    if self.dict_field_monster[self.current_loc]['hp'][k] <= 250:
+                        self.monster_li.append('dragon[1]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 300:
+                        self.monster_li.append('dragon[2]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 400:
+                        self.monster_li.append('dragon[3]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 500:
+                        self.monster_li.append('dragon[4]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 600:
+                        self.monster_li.append('dragon[5]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 700:
+                        self.monster_li.append('jinn[1]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 800:
+                        self.monster_li.append('jinn[2]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 900:
+                        self.monster_li.append('jinn[3]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 950:
+                        self.monster_li.append('jinn[4]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 1000:
+                        self.monster_li.append('jinn[5]')
+                elif self.current_loc == 'area_forest':
+                    if self.dict_field_monster[self.current_loc]['hp'][k] <= 250:
+                        self.monster_li.append('lizard[1]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 300:
+                        self.monster_li.append('lizard[2]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 400:
+                        self.monster_li.append('lizard[3]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 500:
+                        self.monster_li.append('lizard[4]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 600:
+                        self.monster_li.append('lizard[5]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 700:
+                        self.monster_li.append('medusa[1]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 800:
+                        self.monster_li.append('medusa[2]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 900:
+                        self.monster_li.append('medusa[3]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 950:
+                        self.monster_li.append('medusa[4]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 1000:
+                        self.monster_li.append('medusa[5]')
+                elif self.current_loc == 'area_snow':
+                    if self.dict_field_monster[self.current_loc]['hp'][k] <= 250:
+                        self.monster_li.append('snow[1]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 300:
+                        self.monster_li.append('snow[2]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 400:
+                        self.monster_li.append('snow[3]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 500:
+                        self.monster_li.append('snow[4]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 600:
+                        self.monster_li.append('snow[5]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 700:
+                        self.monster_li.append('snow[6]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 800:
+                        self.monster_li.append('snow[7]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 900:
+                        self.monster_li.append('snow[8]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 950:
+                        self.monster_li.append('snow[9]')
+                    elif self.dict_field_monster[self.current_loc]['hp'][k] <= 1000:
+                        self.monster_li.append('snow[10]')
+                self.battle_dialog.append(
+                    f"HP: {str(self.dict_field_monster[self.current_loc]['hp'][k])}의 {self.monster_li[k]}를 만났다!")
+                pixmap = QPixmap(f'../data/{self.current_loc}/{self.monster_li[k]}.png')
+                pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
+                icon = QIcon()
+                icon.addPixmap(pixmap)
+                self.list_enemy_btn[k].setIcon(icon)
+                self.list_enemy_btn[k].setIconSize(QSize(100, 100))
+
+        elif self.bool_meet_enemy_monster == True:
+            self.battle_dialog.setText(f"{self.current_loc}층에서 벌어진 전투 시작!")
+            for k in range(self.int_monster_count):
+                self.list_enemy_line[k].setText(f"몬스터 HP: {self.dict_maze_monster['list_hp'][k]}")
+                if self.dict_maze_monster['list_hp'][k] <= 250:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('small_dragon[1]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('dragon[1]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('lizard[1]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[1]')
+                elif self.dict_maze_monster['list_hp'][k] <= 300:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('small_dragon[2]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('dragon[2]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('lizard[2]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[2]')
+                elif self.dict_maze_monster['list_hp'][k] <= 400:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('small_dragon[3]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('dragon[3]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('lizard[3]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[3]')
+                elif self.dict_maze_monster['list_hp'][k] <= 500:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('small_dragon[4]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('dragon[4]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('lizard[4]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[4]')
+                elif self.dict_maze_monster['list_hp'][k] <= 600:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('small_dragon[5]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('dragon[5]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('lizard[5]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[5]')
+                elif self.dict_maze_monster['list_hp'][k] <= 700:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('demon[1]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('jinn[1]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('medusa[1]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[6]')
+                elif self.dict_maze_monster['list_hp'][k] <= 800:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('demon[2]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('jinn[2]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('medusa[2]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[7]')
+                elif self.dict_maze_monster['list_hp'][k] <= 900:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('demon[3]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('jinn[3]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('medusa[3]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[8]')
+                elif self.dict_maze_monster['list_hp'][k] <= 950:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('demon[4]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('jinn[4]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('medusa[4]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[9]')
+                elif self.dict_maze_monster['list_hp'][k] <= 1000:
+                    if self.dict_maze_monster['list_area_monster'][k] == 'area_fire':
+                        self.monster_li.append('demon[5]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_water':
+                        self.monster_li.append('jinn[5]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_forest':
+                        self.monster_li.append('medusa[5]')
+                    elif self.dict_maze_monster['list_area_monster'][k] == 'area_snow':
+                        self.monster_li.append('snow[10]')
+                self.battle_dialog.append(f"HP: {self.dict_maze_monster['list_hp'][k]}의 {self.monster_li[k]}를 만났다!")
+                pixmap = QPixmap(f'../data/{self.dict_maze_monster["list_area_monster"][k]}/{self.monster_li[k]}.png')
+                pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
+                icon = QIcon()
+                icon.addPixmap(pixmap)
+                self.list_enemy_btn[k].setIcon(icon)
+                self.list_enemy_btn[k].setIconSize(QSize(100, 100))
 
     # 한번 누른 구성원의 버튼은 몬스터의 턴이 끝날때 까지 비활성화된다. -> 몬스터의 턴 값 재정의
     def attack_btn_clicked(self, x, num):
@@ -242,27 +475,64 @@ class MY(QMainWindow, main_class, second_class):
     def monster_choice(self, x, index):
         name, damage = self.atk_job, self.selected_option
         self.battle_dialog.append(f"{name}이/가{self.monster_li[index]}을/를 공격해 {damage}데미지를 입혔다.")
-        self.dict_field_monster[self.current_loc]['hp'][index] = self.dict_field_monster['fire_area']['hp'][index] - damage
-        self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster[self.current_loc]['hp'][index]}")
+        if self.bool_meet_monster == True:
+            self.dict_field_monster[self.current_loc]['hp'][index] = self.dict_field_monster[self.current_loc]['hp'][index] - damage
+            self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster[self.current_loc]['hp'][index]}")
+            if self.dict_field_monster[self.current_loc]['hp'][index] <= 0:
+                self.dict_field_monster[self.current_loc]['hp'][index] = 0
+                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster[self.current_loc]['hp'][index]}")
+                self.list_enemy_btn[index].setDisabled(True)
+
+        elif self.bool_meet_enemy_monster == True:
+            self.dict_maze_monster['list_hp'][index] = self.dict_maze_monster['list_hp'][index] - damage
+            self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index]}")
+            if self.dict_maze_monster['list_hp'][index] <= 0:
+                self.dict_maze_monster['list_hp'][index] = 0
+                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index]}")
+                self.list_enemy_btn[index].setDisabled(True)
         QTimer.singleShot(2000, self.monster_atk)
-        if self.dict_field_monster[self.current_loc]['hp'][index] <= 0:
-            self.list_enemy_btn[index].setDisabled(True)
 
     def monster_atk(self):
-        atk_monster = random.randint(0, len(self.dict_field_monster[self.current_loc]['hp']) - 1)
         list_target = []
         for k in self.str_job:
             if self.dict_user_gard[k]['survival'] == True:
                 list_target.append(k)
-        int_monster_attack = random.randint(0, 1)
-        int_monster_target = random.randint(0, len(list_target)-1)
-        monster_damage = self.dict_field_monster[self.current_loc]['skill'][int_monster_attack]
-        if monster_damage[6] == 'a':
-            self.dict_user_gard[list_target[int_monster_target]]['hp'] -= self.dict_field_monster[self.current_loc]['hp'][atk_monster] * 0.05
-        elif monster_damage[6] == 'b':
-            self.dict_user_gard[list_target[int_monster_target]]['hp'] -= self.dict_field_monster[self.current_loc]['hp'][atk_monster] * 0.1
-        self.battle_dialog.append(f"""{self.current_loc}의 {self.monster_li[atk_monster]}가 {monster_damage}공격을 걸었다!
-그 영향으로 {list_target[random.randint(0, len(list_target))]}의 hp가 {self.dict_user_gard[list_target[int_monster_target]]['hp']:.1f}로 떨어졌다!""")
+        int_monster_skill_c = random.randint(0, 1)
+        int_monster_target_c = random.randint(0, len(list_target) - 1)
+        atk_monster = random.randint(0, len(self.monster_li) - 1)
+        if self.bool_meet_monster == True:
+            # atk_monster = random.randint(0, len(self.dict_field_monster[self.current_loc]['hp']) - 1)
+            monster_damage = self.dict_field_monster[self.current_loc]['skill'][int_monster_skill_c]
+            if monster_damage[6] == 'a':
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_field_monster[self.current_loc]['hp'][atk_monster] * 0.05
+            elif monster_damage[6] == 'b':
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_field_monster[self.current_loc]['hp'][atk_monster] * 0.1
+            self.battle_dialog.append(f"""{self.current_loc}의 {self.monster_li[atk_monster]}가 {monster_damage}공격을 걸었다!
+그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!""")
+            if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                self.dict_user_gard[list_target[int_monster_target_c]]['survival'] = False
+                self.battle_dialog.append(f"앗! 우리의 {self.dict_user_gard[list_target[int_monster_target_c]]}가 전투불능상태가 되었습니다.")
+            self.show_war_result()
+            self.battle_monster() #디버깅 필요 점심이후
+
+        elif self.bool_meet_enemy_monster == True:
+            monster_damage = self.dict_maze_monster['list_damage'][atk_monster]
+            str_damage_name = self.dict_maze_monster['list_area_monster'][atk_monster].split('_')
+            if monster_damage == 0.05:
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * self.dict_maze_monster['list_damage'][atk_monster]
+                str_damage_name = str_damage_name[1] + '_attack'
+            elif monster_damage == 0.1:
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * self.dict_maze_monster['list_damage'][atk_monster]
+                str_damage_name = str_damage_name[1] + '_ball'
+            self.battle_dialog.append(f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
+그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!""")
+            if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                self.dict_user_gard[list_target[int_monster_target_c]]['survival'] = False
+                self.battle_dialog.append(f"앗! 우리의 {self.dict_user_gard[list_target[int_monster_target_c]]}가 전투불능상태가 되었습니다.")
+            self.show_war_result()
+            self.battle_monster()
 
     # 각 캐릭터의 [공격]버튼에 따른 이미지 모션 주는 함수 2가지
     #1번 방식 : 캐릭터는 그자리 그대로, 모션만 주기
