@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1484</width>
-    <height>871</height>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,7 @@
          <number>0</number>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>9</number>
         </property>
         <widget class="QWidget" name="stack_field">
          <layout class="QGridLayout" name="gridLayout_16">
@@ -60,18 +60,8 @@
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="fire_area">
-            <property name="lineWidth">
-             <number>0</number>
-            </property>
-            <property name="text">
-             <string>불</string>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="1">
-           <widget class="QLabel" name="water_area">
+           <widget class="QLabel" name="area_water">
             <property name="lineWidth">
              <number>0</number>
             </property>
@@ -81,7 +71,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLabel" name="snow_area">
+           <widget class="QLabel" name="area_snow">
             <property name="lineWidth">
              <number>0</number>
             </property>
@@ -91,7 +81,7 @@
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="forest_area">
+           <widget class="QLabel" name="area_forest">
             <property name="lineWidth">
              <number>0</number>
             </property>
@@ -100,9 +90,19 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="area_fire">
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="text">
+             <string>불</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="stack_maze">
+        <widget class="QWidget" name="stack_maze_1">
          <layout class="QGridLayout" name="gridLayout_15">
           <property name="leftMargin">
            <number>0</number>
@@ -119,16 +119,16 @@
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="0" column="0">
-           <widget class="QLabel" name="lb_maze">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
+        <widget class="QWidget" name="stack_maze_2"/>
         <widget class="QWidget" name="stack_battle"/>
+        <widget class="QWidget" name="stack_maze_3"/>
+        <widget class="QWidget" name="stack_maze_4"/>
+        <widget class="QWidget" name="stack_maze_5"/>
+        <widget class="QWidget" name="stack_maze_6"/>
+        <widget class="QWidget" name="stack_maze_7"/>
+        <widget class="QWidget" name="stack_maze_8"/>
        </widget>
       </item>
      </layout>
@@ -202,6 +202,11 @@
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>MP</string>
              </property>
@@ -270,6 +275,11 @@ background-color: rgb(0, 0, 255);
                <width>30</width>
                <height>0</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>HP</string>
@@ -342,9 +352,14 @@ QProgressBar::chunk{
              </property>
              <property name="maximumSize">
               <size>
-               <width>30</width>
+               <width>100</width>
                <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>레벨</string>
@@ -362,24 +377,13 @@ QProgressBar::chunk{
                <height>30</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>전사</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="name_warrior">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>이름</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -395,6 +399,11 @@ QProgressBar::chunk{
            </property>
            <item row="0" column="1">
             <widget class="QPushButton" name="pb_skill_warrior">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>스킬</string>
              </property>
@@ -402,6 +411,11 @@ QProgressBar::chunk{
            </item>
            <item row="0" column="0">
             <widget class="QPushButton" name="pb_atk_warrior">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>공격</string>
              </property>
@@ -409,6 +423,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pb_equip_warrior">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>장비</string>
              </property>
@@ -416,6 +435,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="1">
             <widget class="QPushButton" name="pb_run_warrior">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>도망</string>
              </property>
@@ -490,6 +514,11 @@ QProgressBar::chunk{
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>MP</string>
              </property>
@@ -559,6 +588,11 @@ background-color: rgb(0, 0, 255);
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>HP</string>
              </property>
@@ -621,9 +655,14 @@ QProgressBar::chunk{
              </property>
              <property name="maximumSize">
               <size>
-               <width>30</width>
+               <width>100</width>
                <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>레벨</string>
@@ -641,24 +680,13 @@ QProgressBar::chunk{
                <height>30</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>궁수</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="name_archer">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>이름</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -674,6 +702,11 @@ QProgressBar::chunk{
            </property>
            <item row="0" column="1">
             <widget class="QPushButton" name="pb_skill_archer">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>스킬</string>
              </property>
@@ -681,6 +714,11 @@ QProgressBar::chunk{
            </item>
            <item row="0" column="0">
             <widget class="QPushButton" name="pb_atk_archer">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>공격</string>
              </property>
@@ -688,6 +726,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pb_equip_archer">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>장비</string>
              </property>
@@ -695,6 +738,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="1">
             <widget class="QPushButton" name="pb_run_archer">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>도망</string>
              </property>
@@ -724,6 +772,11 @@ QProgressBar::chunk{
           <width>16777215</width>
           <height>200</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
         </property>
         <property name="frameShape">
          <enum>QFrame::Box</enum>
@@ -769,6 +822,11 @@ QProgressBar::chunk{
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>MP</string>
              </property>
@@ -781,7 +839,7 @@ QProgressBar::chunk{
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="mp_swordsman">
+            <widget class="QProgressBar" name="mp_swordman">
              <property name="styleSheet">
               <string notr="true">QProgressBar{
   background-color: rgb(255, 255, 255);
@@ -838,6 +896,11 @@ background-color: rgb(0, 0, 255);
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>HP</string>
              </property>
@@ -850,7 +913,7 @@ background-color: rgb(0, 0, 255);
             </widget>
            </item>
            <item>
-            <widget class="QProgressBar" name="hp_swordsman">
+            <widget class="QProgressBar" name="hp_swordman">
              <property name="styleSheet">
               <string notr="true">QProgressBar{
   background-color: rgb(255, 255, 255);
@@ -891,7 +954,7 @@ QProgressBar::chunk{
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="lv_swordsman">
+            <widget class="QLabel" name="lv_swordman">
              <property name="minimumSize">
               <size>
                <width>30</width>
@@ -900,9 +963,14 @@ QProgressBar::chunk{
              </property>
              <property name="maximumSize">
               <size>
-               <width>30</width>
+               <width>100</width>
                <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>레벨</string>
@@ -913,31 +981,20 @@ QProgressBar::chunk{
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="swordsman">
+            <widget class="QLabel" name="swordman">
              <property name="maximumSize">
               <size>
                <width>16777215</width>
                <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>검사</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="name_swordsman">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>이름</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -952,28 +1009,48 @@ QProgressBar::chunk{
             <number>0</number>
            </property>
            <item row="0" column="1">
-            <widget class="QPushButton" name="pb_skill_swordsman">
+            <widget class="QPushButton" name="pb_skill_swordman">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>스킬</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QPushButton" name="pb_atk_swordsman">
+            <widget class="QPushButton" name="pb_atk_swordman">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>공격</string>
              </property>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QPushButton" name="pb_equip_swordsman">
+            <widget class="QPushButton" name="pb_equip_swordman">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>장비</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="pb_run_swordsman">
+            <widget class="QPushButton" name="pb_run_swordman">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>도망</string>
              </property>
@@ -1048,6 +1125,11 @@ QProgressBar::chunk{
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>HP</string>
              </property>
@@ -1110,9 +1192,14 @@ QProgressBar::chunk{
              </property>
              <property name="maximumSize">
               <size>
-               <width>30</width>
+               <width>100</width>
                <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>레벨</string>
@@ -1130,24 +1217,13 @@ QProgressBar::chunk{
                <height>30</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>적법사</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="name_wizard_red">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>이름</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1163,6 +1239,11 @@ QProgressBar::chunk{
            </property>
            <item row="0" column="1">
             <widget class="QPushButton" name="pb_skill_wizard_red">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>스킬</string>
              </property>
@@ -1170,6 +1251,11 @@ QProgressBar::chunk{
            </item>
            <item row="0" column="0">
             <widget class="QPushButton" name="pb_atk_wizard_red">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>공격</string>
              </property>
@@ -1177,6 +1263,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pb_equip_wizard_red">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>장비</string>
              </property>
@@ -1184,6 +1275,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="1">
             <widget class="QPushButton" name="pb_run_wizard_red">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>도망</string>
              </property>
@@ -1212,6 +1308,11 @@ QProgressBar::chunk{
                <width>30</width>
                <height>0</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>MP</string>
@@ -1327,6 +1428,11 @@ background-color: rgb(0, 0, 255);
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>MP</string>
              </property>
@@ -1396,6 +1502,11 @@ background-color: rgb(0, 0, 255);
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>HP</string>
              </property>
@@ -1458,9 +1569,14 @@ QProgressBar::chunk{
              </property>
              <property name="maximumSize">
               <size>
-               <width>30</width>
+               <width>100</width>
                <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>레벨</string>
@@ -1478,24 +1594,13 @@ QProgressBar::chunk{
                <height>30</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>흑법사</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="name_wizard_black">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>이름</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1511,6 +1616,11 @@ QProgressBar::chunk{
            </property>
            <item row="0" column="1">
             <widget class="QPushButton" name="pb_skill_wizard_black">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>스킬</string>
              </property>
@@ -1518,6 +1628,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pb_equip_wizard_black">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>장비</string>
              </property>
@@ -1525,6 +1640,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="1">
             <widget class="QPushButton" name="pb_run_wizard_black">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>도망</string>
              </property>
@@ -1532,6 +1652,11 @@ QProgressBar::chunk{
            </item>
            <item row="0" column="0">
             <widget class="QPushButton" name="pb_atk_wizard_black">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>공격</string>
              </property>
@@ -1606,6 +1731,11 @@ QProgressBar::chunk{
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>MP</string>
              </property>
@@ -1675,6 +1805,11 @@ background-color: rgb(0, 0, 255);
                <height>0</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>HP</string>
              </property>
@@ -1737,9 +1872,14 @@ QProgressBar::chunk{
              </property>
              <property name="maximumSize">
               <size>
-               <width>30</width>
+               <width>100</width>
                <height>30</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
              </property>
              <property name="text">
               <string>레벨</string>
@@ -1757,24 +1897,13 @@ QProgressBar::chunk{
                <height>30</height>
               </size>
              </property>
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>백법사</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="name_wizard_white">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>이름</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1790,6 +1919,11 @@ QProgressBar::chunk{
            </property>
            <item row="0" column="1">
             <widget class="QPushButton" name="pb_skill_wizard_white">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>스킬</string>
              </property>
@@ -1797,6 +1931,11 @@ QProgressBar::chunk{
            </item>
            <item row="0" column="0">
             <widget class="QPushButton" name="pb_atk_wizard_white">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>공격</string>
              </property>
@@ -1804,6 +1943,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pb_equip_wizard_white">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>장비</string>
              </property>
@@ -1811,6 +1955,11 @@ QProgressBar::chunk{
            </item>
            <item row="1" column="1">
             <widget class="QPushButton" name="pb_run_wizard_white">
+             <property name="font">
+              <font>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>도망</string>
              </property>
@@ -1831,6 +1980,60 @@ QProgressBar::chunk{
       <property name="sizeConstraint">
        <enum>QLayout::SetFixedSize</enum>
       </property>
+      <item>
+       <widget class="QFrame" name="frame_7">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_22">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lb_gard_name">
+        <property name="minimumSize">
+         <size>
+          <width>250</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>250</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>15</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>수호대명</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QStackedWidget" name="stack_item">
         <property name="sizePolicy">

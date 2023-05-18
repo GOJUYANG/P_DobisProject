@@ -39,7 +39,7 @@ class EquipmentClass(QDialog, Ui_Equipment):
                        'cow_glove', 'horse_glove', 'croc_glove',
                        'cow_cape', 'horse_cape', 'croc_cape', 'red_cape', 'blue_cape', 'black_cape',
                        'cow_pants', 'horse_pants'],
-            'swordsman': ['cow_helmet', 'horse_helmet',
+            'swordman': ['cow_helmet', 'horse_helmet',
                           'chain_armor', 'iron_armor',
                           'bronze_sword', 'silver_sword', 'gold_sword',
                           'cow_glove', 'horse_glove', 'croc_glove',
@@ -94,7 +94,6 @@ class EquipmentClass(QDialog, Ui_Equipment):
     # 장비 착용
     def wear_equip(self):
         isDouble = False
-
         if self.list_unworn.currentItem() is not None:
             item = self.list_unworn.currentItem().text().split(':')[0].strip()
 

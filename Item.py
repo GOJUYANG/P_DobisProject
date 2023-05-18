@@ -21,7 +21,7 @@ class ItemClass():
     # 아이템 사용
     def use_item(self, str_job, str_item, dict_item, dict_user_gard):
         # 직업 리스트
-        list_job = ['warrior', 'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white']
+        list_job = ['warrior', 'archer', 'swordman', 'wizard_red', 'wizard_black', 'wizard_white']
 
         if str_item == 'revival_potion':
             for job in list_job:

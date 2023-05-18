@@ -79,52 +79,27 @@ class FieldClass():
         return list_drop_
 
     #
-    def random_maze_door(self, turn):  # 랜덤한 위치에 던전 입구 생성
-        if turn == 0 or turn == 11:
+    def random_maze_door(self, int_turn):  # 랜덤한 위치에 던전 입구 생성
+        if int_turn == 0 or int_turn == 11:
             rand_maze_door_x = random.randint(1, 19)
             rand_maze_door_y = random.randint(1, 20)
-            if turn == 11:
-                turn = 0
-            return rand_maze_door_x, rand_maze_door_y, turn
+            if int_turn == 11:
+                int_turn = 0
+            return rand_maze_door_x, rand_maze_door_y, int_turn
 
-    def field_meet_enemy_gard(self, str_my_gard):
+    def field_meet_enemy_gard(self, dict_user_gard):
         int_hp_up = 1.2
         list_enemy_lvs = [15, 16, 17, 18, 19, 20]
         list_enemy_lvs_ = random.choice(list_enemy_lvs)
 
-        if str_my_gard == 'light_gard':
-            str_enemy_gard = random.choice(['moon_gard', 'star_gard', 'forest_gard'])
-        elif str_my_gard == 'moon_gard':
-            str_enemy_gard = random.choice(['light_gard', 'star_gard', 'forest_gard'])
-        elif str_my_gard == 'star_gard':
-            str_enemy_gard = random.choice(['light_gard', 'moon_gard', 'forest_gard'])
-        elif str_my_gard == 'forest_gard':
+        if dict_user_gard['gard'] == 'light_gard':
+            str_enemy_gard = random.choice(['moon_gard', 'star_gard', 'earth_gard'])
+        elif dict_user_gard['gard'] == 'moon_gard':
+            str_enemy_gard = random.choice(['light_gard', 'star_gard', 'earth_gard'])
+        elif dict_user_gard['gard'] == 'star_gard':
+            str_enemy_gard = random.choice(['light_gard', 'moon_gard', 'earth_gard'])
+        elif dict_user_gard['gard'] == 'earth_gard':
             str_enemy_gard = random.choice(['light_gard', 'star_gard', 'moon_gard'])
-
-        dict_user_gard = {'gard': str_my_gard,
-                          'warrior': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 200,
-                                      'skill': {10: 'slice_chop'}},
-                          'archer': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 300,
-                                     'skill': {10: 'target_shot',
-                                               15: 'dual_shot',
-                                               20: 'master_shot'}},
-                          'swordman': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 250,
-                                       'skill': {10: 'slice_chop'}},
-                          'wizard_red': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 150,
-                                         'skill': {1: ['heal_normal', 'fire_ball'],
-                                                   15: ['heal_greater', 'fire_wall'],
-                                                   20: 'thunder_breaker',
-                                                   25: 'bilzzard',
-                                                   30: 'heal_all'}},
-                          'wizard_black': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 200,
-                                           'skill': {1: 'fire_ball',
-                                                     15: 'fire_wall',
-                                                     20: 'thunder_breaker',
-                                                     25: 'bilzzard'}},
-                          'wizard_white': {'lv': 1, 'hp': 300, 'mp': 0, 'power': 100,
-                                           'skill': {1: 'heal_normal',
-                                                     15: 'heal_greater',
-                                                     30: 'heal_all'}}}
 
         dict_enemy_gard = {'gard': str_enemy_gard,
                            'warrior': {'lv': list_enemy_lvs_, 'hp': 300 * int_hp_up, 'mp': 0,
@@ -158,7 +133,7 @@ class FieldClass():
 
         return dict_enemy_gard, dict_user_gard
 
-    def field_move_event(self, turn):  # 이동 중 이벤트 발생
+    def field_move_event(self, dict_user_gard, int_turn):  # 이동 중 이벤트 발생
         ratio = random.randint(1, 100)
 
         if 0 < ratio <= 20:
@@ -166,9 +141,9 @@ class FieldClass():
             return None
         elif 20 < ratio <= 30:
             print('적군수호대 조우')
-            turn += 1
+            int_turn += 1
             bool_meet_gard = True
-            return '적군수호대', self.field_meet_enemy_gard('moon_gard'), bool_meet_gard, turn
+            return '적군수호대', self.field_meet_enemy_gard(dict_user_gard), bool_meet_gard, int_turn
 
         elif 30 < ratio <= 50:
             print('아이템')
@@ -177,8 +152,8 @@ class FieldClass():
         elif 50 < ratio <= 80:
             print('몬스터 출현')
             bool_meet_monster = True
-            turn += 1
-            return '일반몬스터', bool_meet_monster, turn
+            int_turn += 1
+            return '일반몬스터', bool_meet_monster, int_turn
             # 전투전 좌표 저장
 
         elif 80 < ratio <= 90:
@@ -208,7 +183,7 @@ class FieldClass():
     #     print(self.dict_field_monster['snow_area'])
 
 # def random_maze_door(self): # 랜덤한 위치에 던전 입구 생성
-#     # if self.turn <= 10: # 10 턴 마다 던전입구 재생성
+#     # if self.int_turn <= 10: # 10 턴 마다 던전입구 재생성
 #     rand_maze_door_x = random.randint(0, 20)
 #     rand_maze_door_y = random.randint(0, 20)
 #     print(f"랜덤 던전 좌표 X {rand_maze_door_x} Y {rand_maze_door_y}")
