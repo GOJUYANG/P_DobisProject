@@ -41,7 +41,7 @@
          <number>0</number>
         </property>
         <property name="currentIndex">
-         <number>9</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="stack_field">
          <layout class="QGridLayout" name="gridLayout_16">
@@ -60,6 +60,26 @@
           <property name="spacing">
            <number>0</number>
           </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="area_fire">
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="text">
+             <string>불</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="area_forest">
+            <property name="lineWidth">
+             <number>0</number>
+            </property>
+            <property name="text">
+             <string>숲</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="1">
            <widget class="QLabel" name="area_water">
             <property name="lineWidth">
@@ -80,55 +100,17 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="area_forest">
-            <property name="lineWidth">
-             <number>0</number>
-            </property>
-            <property name="text">
-             <string>숲</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="area_fire">
-            <property name="lineWidth">
-             <number>0</number>
-            </property>
-            <property name="text">
-             <string>불</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="stack_maze_1">
-         <layout class="QGridLayout" name="gridLayout_15">
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <property name="spacing">
-           <number>0</number>
-          </property>
-         </layout>
-        </widget>
+        <widget class="QWidget" name="stack_maze_1"/>
         <widget class="QWidget" name="stack_maze_2"/>
-        <widget class="QWidget" name="stack_battle"/>
         <widget class="QWidget" name="stack_maze_3"/>
         <widget class="QWidget" name="stack_maze_4"/>
         <widget class="QWidget" name="stack_maze_5"/>
         <widget class="QWidget" name="stack_maze_6"/>
         <widget class="QWidget" name="stack_maze_7"/>
         <widget class="QWidget" name="stack_maze_8"/>
+        <widget class="QWidget" name="stack_battle"/>
        </widget>
       </item>
      </layout>
@@ -2136,7 +2118,7 @@ QProgressBar::chunk{
      <x>0</x>
      <y>0</y>
      <width>1484</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
