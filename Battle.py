@@ -615,7 +615,7 @@ class MY(QMainWindow, main_class, second_class):
     # bool_meet_maze_monster, bool_meet_monster
     # 필드에서 일반몬스터 만났을때 승리한 후 아이템 얻는 함수
     def field_battle_get_items(self, str_area, bool_meet_monster, bool_war_result, dict_field_monster):
-        if (bool_meet_monster == True) and (bool_war_result == True):
+        if bool_meet_monster and bool_war_result:
             int_mul = random.randint(1, 3)
             if str_area == 'area_fire':
                 fire_cnt = dict_field_monster['area_fire']['int_cnt']
@@ -651,12 +651,6 @@ class MY(QMainWindow, main_class, second_class):
                                                       'bronze_sword', 'low_chain_glove', 'cow_cape', 'chain_pants'],
                                                      k=snow_cnt * int_mul)
                 return list_snow_drop_item
-            # list_field_battle_get_items = []
-            # list_field_battle_get_items.extend(list_fire_drop_item)
-            # list_field_battle_get_items.extend(list_water_drop_item)
-            # list_field_battle_get_items.extend(list_forest_drop_item)
-            # list_field_battle_get_items.extend(list_snow_drop_item)
-            # return list_field_battle_get_items
         else:
             pass
 
@@ -689,12 +683,12 @@ class MY(QMainWindow, main_class, second_class):
                                                   'all_potion_high', 'all_potion_middle', 'all_potion_low',
                                                   'silver_helmet', 'chain_armor', 'red_armor', 'chain_shield',
                                                   'bronze_sword', 'low_chain_glove', 'cow_cape', 'chain_pants'], k=snow_cnt*int_mul)
-            list_maze_battle_get_items = []
-            list_maze_battle_get_items.extend(list_fire_drop_item)
-            list_maze_battle_get_items.extend(list_water_drop_item)
-            list_maze_battle_get_items.extend(list_forest_drop_item)
-            list_maze_battle_get_items.extend(list_snow_drop_item)
-            return list_maze_battle_get_items
+            list_maze_battle_get_item = []
+            list_maze_battle_get_item.extend(list_fire_drop_item)
+            list_maze_battle_get_item.extend(list_water_drop_item)
+            list_maze_battle_get_item.extend(list_forest_drop_item)
+            list_maze_battle_get_item.extend(list_snow_drop_item)
+            return list_maze_battle_get_item
         else:
             pass
 
@@ -715,11 +709,74 @@ class MY(QMainWindow, main_class, second_class):
                           'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
                           'all_potion_high', 'all_potion_middle', 'all_potion_low']
         if bool_war_result:
-            list_gard_battle_get_items = random.choices(list_all_items, k=6)
-            return list_gard_battle_get_items
+            list_gard_battle_get_item = random.choices(list_all_items, k=6)
+            return list_gard_battle_get_item
         else:
             pass
 
+    # 보스 전투 승리한 후 얻는 함수
+    def boss_battle_get_items(self, bool_war_result, int_floor):
+        if bool_war_result:
+            list_boss_drop_item = []
+            potions = random.choices(['hp_potion_high', 'hp_potion_middle', 'hp_potion_low',
+                                      'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
+                                      'all_potion_high', 'all_potion_middle', 'all_potion_low'], k=5)
+            equipments = random.choices(['black_armor', 'black_cape', 'black_glove', 'black_pants', 'blue_armor',
+                                         'blue_cape', 'blue_glove', 'blue_hood', 'blue_pants', 'bronze_armor',
+                                         'bronze_bow', 'bronze_pants', 'bronze_shield', 'bronze_staff',
+                                         'bronze_sword', 'bronze_wand', 'chain_armor', 'chain_pants',
+                                         'chain_shield', 'cow_armor', 'cow_cape', 'cow_glove', 'cow_helmet',
+                                         'cow_pants', 'croc_cape', 'croc_glove', 'diamond_gem', 'gold_armor',
+                                         'gold_bow', 'gold_helmet', 'gold_pants', 'gold_staff', 'gold_sword',
+                                         'gold_wand', 'high_chain_glove', 'horse_armor', 'horse_cape',
+                                         'horse_glove', 'horse_helmet', 'horse_pants', 'iron_armor',
+                                         'iron_pants', 'iron_shield', 'leather_shield', 'low_chain_glove',
+                                         'middle_chain_glove', 'red_armor', 'red_cape', 'red_glove', 'red_hood',
+                                         'red_pants', 'ruby_gem', 'silver_armor', 'silver_bow', 'silver_helmet',
+                                         'silver_pants', 'silver_staff', 'silver_sword', 'silver_wand',
+                                         'stone_gem'], k=5)
+            list_boss_drop_item.extend(potions)
+            list_boss_drop_item.extend(equipments)
+            if int_floor == 1:
+                ratio = random.randint(1, 10)
+                if ratio == 1:
+                    list_boss_drop_item.extend(['revival_potion', 'clue_1'])
+                else:
+                    list_boss_drop_item.append('revival_potion')
+                return list_boss_drop_item
+            elif int_floor == 2:
+                ratio = random.randint(1, 10)
+                if ratio <= 2:
+                    list_boss_drop_item.extend(['revival_potion', 'clue_1'])
+                else:
+                    list_boss_drop_item.append('revival_potion')
+                return list_boss_drop_item
+            elif int_floor == 3:
+                ratio = random.randint(1, 10)
+                if ratio <= 3:
+                    list_boss_drop_item.extend(['revival_potion', 'clue_1'])
+                else:
+                    list_boss_drop_item.append('revival_potion')
+                return list_boss_drop_item
+            elif int_floor == 4:
+                list_boss_drop_item.extend(['revival_potion', 'clue_2'])
+                return list_boss_drop_item
+            elif int_floor == 5:
+                list_boss_drop_item.extend(['revival_potion', 'clue_3'])
+                return list_boss_drop_item
+            elif int_floor == 6:
+                list_boss_drop_item.extend(['revival_potion', 'clue_4'])
+                return list_boss_drop_item
+            elif int_floor == 7:
+                list_boss_drop_item.extend(['revival_potion', 'clue_5'])
+                return list_boss_drop_item
+            else:
+                print('층수 잘못 입력함')
+                pass
+
+        else:
+            print('보스를 죽이지 못했습니다.')
+            pass
 
 
 if __name__ == '__main__':
