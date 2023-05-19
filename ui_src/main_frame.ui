@@ -6,9 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1484</width>
-    <height>900</height>
+    <width>1202</width>
+    <height>907</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1202</width>
+    <height>907</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1202</width>
+    <height>907</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -37,6 +55,18 @@
       </property>
       <item row="2" column="1">
        <widget class="QStackedWidget" name="stackedWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>900</width>
+          <height>660</height>
+         </size>
+        </property>
         <property name="lineWidth">
          <number>0</number>
         </property>
@@ -170,6 +200,9 @@
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_1">
              <property name="sizePolicy">
@@ -242,6 +275,9 @@ background-color: rgb(0, 0, 255);
             <number>0</number>
            </property>
            <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
             <number>10</number>
            </property>
            <item>
@@ -324,6 +360,9 @@ QProgressBar::chunk{
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="lv_warrior">
              <property name="minimumSize">
@@ -369,6 +408,13 @@ QProgressBar::chunk{
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="img_warrior">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -482,6 +528,9 @@ QProgressBar::chunk{
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_2">
              <property name="sizePolicy">
@@ -556,6 +605,9 @@ background-color: rgb(0, 0, 255);
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="hp_2">
              <property name="sizePolicy">
@@ -627,6 +679,9 @@ QProgressBar::chunk{
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="lv_archer">
              <property name="minimumSize">
@@ -672,6 +727,13 @@ QProgressBar::chunk{
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="img_archer">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -790,6 +852,9 @@ QProgressBar::chunk{
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_3">
              <property name="sizePolicy">
@@ -864,6 +929,9 @@ background-color: rgb(0, 0, 255);
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="hp_3">
              <property name="sizePolicy">
@@ -935,6 +1003,9 @@ QProgressBar::chunk{
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="lv_swordman">
              <property name="minimumSize">
@@ -980,6 +1051,13 @@ QProgressBar::chunk{
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="img_swordman">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -1093,6 +1171,9 @@ QProgressBar::chunk{
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="hp_4">
              <property name="sizePolicy">
@@ -1164,6 +1245,9 @@ QProgressBar::chunk{
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="lv_wizard_red">
              <property name="minimumSize">
@@ -1209,6 +1293,13 @@ QProgressBar::chunk{
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="img_wizard_red">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -1275,6 +1366,9 @@ QProgressBar::chunk{
             <number>0</number>
            </property>
            <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
             <number>10</number>
            </property>
            <item>
@@ -1396,6 +1490,9 @@ background-color: rgb(0, 0, 255);
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_5">
              <property name="sizePolicy">
@@ -1470,6 +1567,9 @@ background-color: rgb(0, 0, 255);
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="hp_5">
              <property name="sizePolicy">
@@ -1541,6 +1641,9 @@ QProgressBar::chunk{
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="lv_wizard_black">
              <property name="minimumSize">
@@ -1586,6 +1689,13 @@ QProgressBar::chunk{
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="img_wizard_black">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -1699,6 +1809,9 @@ QProgressBar::chunk{
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="mp_6">
              <property name="sizePolicy">
@@ -1773,6 +1886,9 @@ background-color: rgb(0, 0, 255);
            <property name="rightMargin">
             <number>10</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="hp_6">
              <property name="sizePolicy">
@@ -1844,6 +1960,9 @@ QProgressBar::chunk{
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="bottomMargin">
+            <number>10</number>
+           </property>
            <item>
             <widget class="QLabel" name="lv_wizard_white">
              <property name="minimumSize">
@@ -1889,6 +2008,13 @@ QProgressBar::chunk{
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="img_wizard_white">
+             <property name="text">
+              <string/>
              </property>
             </widget>
            </item>
@@ -1991,9 +2117,15 @@ QProgressBar::chunk{
       </item>
       <item>
        <widget class="QLabel" name="lb_gard_name">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>250</width>
+          <width>299</width>
           <height>0</height>
          </size>
         </property>
@@ -2019,14 +2151,14 @@ QProgressBar::chunk{
       <item>
        <widget class="QStackedWidget" name="stack_item">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>299</width>
           <height>450</height>
          </size>
         </property>
@@ -2060,7 +2192,20 @@ QProgressBar::chunk{
            <number>0</number>
           </property>
           <item>
-           <widget class="QListWidget" name="list_item"/>
+           <widget class="QListWidget" name="list_item">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>299</width>
+              <height>450</height>
+             </size>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -2087,6 +2232,18 @@ QProgressBar::chunk{
       </item>
       <item>
        <widget class="QPushButton" name="pb_use_item">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="text">
          <string>사용</string>
         </property>
@@ -2094,9 +2251,15 @@ QProgressBar::chunk{
       </item>
       <item>
        <widget class="QListWidget" name="list_log">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>299</width>
           <height>150</height>
          </size>
         </property>
@@ -2117,8 +2280,8 @@ QProgressBar::chunk{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1484</width>
-     <height>21</height>
+     <width>1202</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -2141,7 +2304,7 @@ QProgressBar::chunk{
      <addaction name="action_battle"/>
     </widget>
     <addaction name="menu_page"/>
-    <addaction name="action_next"/>
+    <addaction name="action_exit"/>
    </widget>
    <addaction name="menu"/>
   </widget>
@@ -2156,7 +2319,7 @@ QProgressBar::chunk{
     <string>next</string>
    </property>
   </action>
-  <action name="action_next">
+  <action name="action_exit">
    <property name="text">
     <string>exit</string>
    </property>

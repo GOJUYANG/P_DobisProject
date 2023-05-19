@@ -11,6 +11,8 @@ class EquipmentClass(QDialog, Ui_Equipment):
     def __init__(self, **kwargs):
         super().__init__()
         self.setupUi(self)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
 
         if 'str_job' in kwargs:
             self.str_job = kwargs['str_job']
@@ -81,6 +83,7 @@ class EquipmentClass(QDialog, Ui_Equipment):
             for k, v in self.dict_equip.items():
                 if k == item:
                     item = QListWidgetItem(f"{v['name']}")
+                    item.setIcon(QIcon(f"{v['image']}"))
                     self.list_wear.addItem(item)
 
     # 획득한 장비 중 직업별 착용 가능 장비 보여주기
@@ -89,6 +92,7 @@ class EquipmentClass(QDialog, Ui_Equipment):
             for k, v in self.dict_equip.items():
                 if k == item and v['count'] > 0:
                     item = QListWidgetItem(f"{v['name']} : {v['count']}개")
+                    item.setIcon(QIcon(f"{v['image']}"))
                     self.list_unworn.addItem(item)
 
     # 장비 착용

@@ -9,13 +9,13 @@ class FieldClass():
 
     def field_monster(self):
         monster_cnt, hp_monster = self.field_monster_population()
-        dict_field_monster = {'fire_area': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster,
+        dict_field_monster = {'area_fire': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster,
                                             'attack': ['fire_attack', 0.05], 'skill': ['fire_ball', 0.10]},
-                              'water_area': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster,
+                              'area_water': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster,
                                              'attack': ['aqua_attack', 0.05], 'skill': ['aqua_ball', 0.10]},
-                              'forest_area': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster,
+                              'area_forest': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster,
                                               'attack': ['air_attack', 0.05], 'skill': ['air_ball', 0.10]},
-                              'snow_area': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster,
+                              'area_snow': {'survival': True, 'int_cnt': monster_cnt, 'hp': hp_monster,
                                             'attack': ['snow_attack', 0.05], 'skill': ['snow_ball', 0.10]}}
         return dict_field_monster
 
@@ -78,14 +78,7 @@ class FieldClass():
         print(list_drop_)
         return list_drop_
 
-    #
-    def random_maze_door(self, int_turn):  # 랜덤한 위치에 던전 입구 생성
-        if int_turn == 0 or int_turn == 11:
-            rand_maze_door_x = random.randint(1, 19)
-            rand_maze_door_y = random.randint(1, 20)
-            if int_turn == 11:
-                int_turn = 0
-            return rand_maze_door_x, rand_maze_door_y, int_turn
+
 
     def field_meet_enemy_gard(self, dict_user_gard):
         int_hp_up = 1.2
@@ -168,21 +161,21 @@ class FieldClass():
     # 몬스터 출현 했을때 좌표 저장했을때의 위치로 돌아가기
 
     # def fire_monster_match(self):
-    #     print(self.dict_field_monster['fire_area'])
+    #     print(self.dict_field_monster['area_fire'])
 
     # def water_monster_match(self):
-    #     self.dict_field_monster['water_area']
-    #     print(self.dict_field_monster['water_area'])
+    #     self.dict_field_monster['area_water']
+    #     print(self.dict_field_monster['area_water'])
     #
     # def forest_monster_match(self):
-    #     self.dict_field_monster['forest_area']
-    #     print(self.dict_field_monster['forest_area'])
+    #     self.dict_field_monster['area_forest']
+    #     print(self.dict_field_monster['area_forest'])
     #
     # def snow_monster_match(self):
-    #     self.dict_field_monster['snow_area']
-    #     print(self.dict_field_monster['snow_area'])
+    #     self.dict_field_monster['area_snow']
+    #     print(self.dict_field_monster['area_snow'])
 
-# def random_maze_door(self): # 랜덤한 위치에 던전 입구 생성
+# def random_set_maze_door(self): # 랜덤한 위치에 던전 입구 생성
 #     # if self.int_turn <= 10: # 10 턴 마다 던전입구 재생성
 #     rand_maze_door_x = random.randint(0, 20)
 #     rand_maze_door_y = random.randint(0, 20)
@@ -197,5 +190,5 @@ class FieldClass():
 # a.field_move_random_drop()
 # a.field_meet_ally_gard
 # a.field_monster_population()
-# a.random_maze_door()
+# a.random_set_maze_door()
 #

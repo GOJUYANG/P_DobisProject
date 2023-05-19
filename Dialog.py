@@ -60,8 +60,12 @@ class GiveGardName(QDialog, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.gard_name = ''
-        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
-        self.list_gard = {'빛': 'light_gard', '달': 'moon_gard', '별': 'star_gard', '땅': 'earth_gard'}
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.list_gard = {'빛': 'light_gard', '달': 'moon_gard', '별': 'star_gard', '대지': 'earth_gard'}
+        self.lb_gard_frame.setPixmap(QPixmap(f'img_src/name/{gard}_name.png'))
+        self.lb_gard_frame.setScaledContents(True)
+        self.lb_gard_frame.setAlignment(Qt.AlignmentFlag.AlignCenter)
         for k, v in self.list_gard.items():
             if v == gard:
                 self.lb_gard_type.setText(f'{k}의 수호대')
@@ -71,9 +75,40 @@ class GiveGardName(QDialog, Ui_Dialog):
         self.lb_gard_img.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.lb_gard_img.setMovie(self.movie)
         self.movie.start()
-        self.le_gard_name.setPlaceholderText("수호대에게 이름을 부여해주세요.")
+        self.le_gard_name.setPlaceholderText("수호대 이름.")
         self.le_gard_name.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        if gard == 'light_gard':
+            self.le_gard_name.setStyleSheet(
+                "border-style: solid;border-width: 3px;border-color: red;border-radius: 3px;text-align: center;")
+            self.pb_save.setStyleSheet(
+                "QPushButton{color: white;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(176, 11, 30, 255), stop:1 rgba(176, 43, 33, 255));border-radius: 20px;}")
+        if gard == 'moon_gard':
+            self.le_gard_name.setStyleSheet(
+                "border-style: solid;border-width: 3px;border-color: blue;border-radius: 3px;text-align: center;")
+            self.pb_save.setStyleSheet(
+                "QPushButton{color: white;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(15, 82, 186, 255), stop:1 rgba(15, 130, 180, 255));border-radius: 20px;}")
+        if gard == 'star_gard':
+            self.lb_gard_type.setStyleSheet("color: black;")
+            self.le_gard_name.setStyleSheet(
+                "color: black;border-style: solid;border-width: 3px;border-color: lightgrey;border-radius: 3px;text-align: center;")
+            self.pb_save.setStyleSheet(
+                "QPushButton{color: black;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(201, 219, 218, 255), stop:1 rgba(201, 240, 210, 255));border-radius: 20px;}")
+        if gard == 'earth_gard':
+            self.le_gard_name.setStyleSheet(
+                "border-style: solid;border-width: 3px;border-color: green;border-radius: 3px;text-align: center;")
+            self.pb_save.setStyleSheet(
+                "QPushButton{color: white;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(15, 157, 88, 255), stop:1 rgba(15, 180, 78, 255));border-radius: 20px;}")
+
         self.pb_save.clicked.connect(self.return_name)
+
+    def keyPressEvent(self, event):
+        print(event.key())
+        if event.key() == Qt.Key.Key_Escape:
+            pass
+
+        if event.key() == 16777220:
+            if len(self.le_gard_name.text()) > 0:
+                self.pb_save.click()
 
     def return_name(self):
         self.gard_name = f'{self.lb_gard_type.text()} [{self.le_gard_name.text()}]'
