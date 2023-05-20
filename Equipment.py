@@ -11,8 +11,8 @@ class EquipmentClass(QDialog, Ui_Equipment):
     def __init__(self, **kwargs):
         super().__init__()
         self.setupUi(self)
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
-        self.setAttribute(Qt.WA_TranslucentBackground, True)
+        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        # self.setAttribute(Qt.WA_TranslucentBackground, True)
 
         if 'str_job' in kwargs:
             self.str_job = kwargs['str_job']

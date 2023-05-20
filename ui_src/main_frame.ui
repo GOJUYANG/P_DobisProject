@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1202</width>
-    <height>907</height>
+    <width>1354</width>
+    <height>950</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,18 +18,18 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1202</width>
-    <height>907</height>
+    <width>1350</width>
+    <height>950</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1202</width>
-    <height>907</height>
+    <width>1354</width>
+    <height>954</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>레전드 오브 복이</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -63,15 +63,15 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>900</width>
-          <height>660</height>
+          <width>1050</width>
+          <height>700</height>
          </size>
         </property>
         <property name="lineWidth">
          <number>0</number>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>8</number>
         </property>
         <widget class="QWidget" name="stack_field">
          <layout class="QGridLayout" name="gridLayout_16">
@@ -132,7 +132,14 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="stack_maze_1"/>
+        <widget class="QWidget" name="stack_maze_1">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
         <widget class="QWidget" name="stack_maze_2"/>
         <widget class="QWidget" name="stack_maze_3"/>
         <widget class="QWidget" name="stack_maze_4"/>
@@ -2158,7 +2165,7 @@ QProgressBar::chunk{
         </property>
         <property name="minimumSize">
          <size>
-          <width>299</width>
+          <width>300</width>
           <height>450</height>
          </size>
         </property>
@@ -2201,7 +2208,7 @@ QProgressBar::chunk{
             </property>
             <property name="minimumSize">
              <size>
-              <width>299</width>
+              <width>300</width>
               <height>450</height>
              </size>
             </property>
@@ -2244,8 +2251,13 @@ QProgressBar::chunk{
           <height>0</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
         <property name="text">
-         <string>사용</string>
+         <string>아이템 사용</string>
         </property>
        </widget>
       </item>
@@ -2259,7 +2271,7 @@ QProgressBar::chunk{
         </property>
         <property name="minimumSize">
          <size>
-          <width>299</width>
+          <width>300</width>
           <height>150</height>
          </size>
         </property>
@@ -2280,7 +2292,7 @@ QProgressBar::chunk{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1202</width>
+     <width>1354</width>
      <height>22</height>
     </rect>
    </property>
