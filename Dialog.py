@@ -48,8 +48,14 @@ class ChoiceJopDialog(QDialog):
         self.setLayout(self.layout)
 
     def return_job(self, job):
+        print(job)
         self.job = job
 
+    def accept(self):
+        if self.job == '':
+            pass
+        else:
+            self.close()
 
 from view.gard_name import Ui_Dialog
 

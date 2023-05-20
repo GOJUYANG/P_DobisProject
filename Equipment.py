@@ -104,7 +104,7 @@ class EquipmentClass(QDialog, Ui_Equipment):
             if self.list_wear.count() > 0:
                 # 중복 확인
                 for index in range(self.list_wear.count()):
-                    if item == self.list_wear.item(index).text():
+                    if item.split(' ')[1] == self.list_wear.item(index).text().split(' ')[1]:
                         isDouble = True
                         break
             else:
@@ -123,7 +123,7 @@ class EquipmentClass(QDialog, Ui_Equipment):
                         break
                 self.renew_equip_view()
             else:
-                dlg = CustomDialog('같은 장비를 중복착용 할 수 없습니다!')
+                dlg = CustomDialog('중복착용 할 수 없습니다!')
                 dlg.exec_()
         else:
             pass
