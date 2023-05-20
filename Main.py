@@ -2,6 +2,8 @@ import glob
 import os
 import sys
 import random
+
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.uic.properties import QtGui
@@ -66,6 +68,9 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.lb_gard_position = QLabel(self.statusbar)
         self.statusbar.addWidget(self.lb_gard_position)
 
+        # QMediaPlayer 인스턴스 생성
+        self.player = QMediaPlayer()
+
         # 던전 페이지 리스트
         self.list_stack_maze = [self.stack_maze_1,
                                 self.stack_maze_2,
@@ -110,6 +115,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                              self.lb_maze_5_door,
                              self.lb_maze_6_door,
                              self.lb_maze_7_door]
+
 
         # 맵 사이즈
         self.field_map_size = 20
@@ -994,6 +1000,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = False
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'불의 지역에 입장하였습니다.')
+            self.player.stop()
+            self.play_music('music_src/불의지역(nomad places desert middle eastern).mp3')
             self.field_area = '불의 지역'
         if int_x + error_range_w > self.area_water.pos().x() and int_y + error_range_h < self.area_water.pos().y() and not \
                 self.dict_field['눈']:
@@ -1002,6 +1010,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = False
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'눈의 지역에 입장하였습니다.')
+            self.player.stop()
+            self.play_music('music_src/눈의지역(deep in the dell).mp3')
             self.field_area = '눈의 지역'
         if int_x + error_range_w < self.area_water.pos().x() and int_y + error_range_h > self.area_water.pos().y() and not \
                 self.dict_field['숲']:
@@ -1010,6 +1020,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = True
             self.dict_field['물'] = False
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'숲의 지역에 입장하였습니다.')
+            self.player.stop()
+            self.play_music('music_src/눈의지역(deep in the dell).mp3')
             self.field_area = '숲의 지역'
         if int_x + error_range_w > self.area_water.pos().x() and int_y + error_range_h > self.area_water.pos().y() and not \
                 self.dict_field['물']:
@@ -1018,6 +1030,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = True
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'물의 지역에 입장하였습니다.')
+            self.player.stop()
+            self.play_music('music_src/물의지역(magic in the air).mp3')
             self.field_area = '물의 지역'
 
     # 로그창 갱신
@@ -1063,7 +1077,15 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     def use_cheatkey(self):
         if self.str_cheatkey == 'easter_egg':
             pass
-
+    def play_music(self, path):
+        # 음악 파일 경로
+        self.music_url = QUrl.fromLocalFile(path)
+        # QMediaContent 객체 생성
+        self.content = QMediaContent(self.music_url)
+        # 음악 파일 설정
+        self.player.setMedia(self.content)
+        # 음악 플레이
+        self.player.play()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

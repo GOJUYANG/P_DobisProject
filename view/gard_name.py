@@ -28,8 +28,7 @@ class Ui_Dialog(object):
         font.setPointSize(15)
         font.setBold(True)
         self.lb_gard_type.setFont(font)
-        self.lb_gard_type.setStyleSheet("color: rgb(255, 255, 255);\n"
-"font-weight: bold;")
+        self.lb_gard_type.setStyleSheet("color: rgb(255, 255, 255);font-weight: bold;")
         self.lb_gard_type.setAlignment(QtCore.Qt.AlignCenter)
         self.lb_gard_type.setObjectName("lb_gard_type")
         self.le_gard_name = QtWidgets.QLineEdit(Dialog)
