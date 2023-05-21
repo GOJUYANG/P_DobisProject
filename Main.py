@@ -3,7 +3,7 @@ import os
 import sys
 import random
 
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent, QMediaPlaylist
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.uic.properties import QtGui
@@ -115,7 +115,6 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                              self.lb_maze_5_door,
                              self.lb_maze_6_door,
                              self.lb_maze_7_door]
-
 
         # 맵 사이즈
         self.field_map_size = 20
@@ -371,6 +370,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
     # 키 입력 이벤트
     def keyPressEvent(self, event):
+        is_same_direct = False
         if event.key() in [Qt.Key_A, Qt.Key_D, Qt.Key_W, Qt.Key_S]:
             # 필드
             if self.stackedWidget.currentWidget() == self.stack_field:
@@ -386,6 +386,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.stackedWidget.width() / self.field_map_size)
                     if self.x < 0:
                         self.x = 0
+                        is_same_direct = True
                     self.list_lb_gard[self.stackedWidget.currentIndex()].move(self.x, self.list_lb_gard[
                         self.stackedWidget.currentIndex()].y())
                     self.alarm_where_field(self.x, self.list_lb_gard[self.stackedWidget.currentIndex()].y())
@@ -402,6 +403,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.stackedWidget.currentIndex()].width():
                         self.x = self.stackedWidget.width() - self.list_lb_gard[
                             self.stackedWidget.currentIndex()].width()
+                        is_same_direct = True
                     self.list_lb_gard[self.stackedWidget.currentIndex()].move(self.x, self.list_lb_gard[
                         self.stackedWidget.currentIndex()].y())
                     self.alarm_where_field(self.x, self.list_lb_gard[self.stackedWidget.currentIndex()].y())
@@ -410,6 +412,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.stackedWidget.height() / self.field_map_size)
                     if self.y < 0:
                         self.y = 0
+                        is_same_direct = True
                     self.list_lb_gard[self.stackedWidget.currentIndex()].move(
                         self.list_lb_gard[self.stackedWidget.currentIndex()].x(), self.y)
                     self.alarm_where_field(self.list_lb_gard[self.stackedWidget.currentIndex()].x(), self.y)
@@ -420,13 +423,14 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.stackedWidget.currentIndex()].height():
                         self.y = self.stackedWidget.height() - self.list_lb_gard[
                             self.stackedWidget.currentIndex()].height()
+                        is_same_direct = True
                     self.list_lb_gard[self.stackedWidget.currentIndex()].move(
                         self.list_lb_gard[self.stackedWidget.currentIndex()].x(), self.y)
                     self.alarm_where_field(self.list_lb_gard[self.stackedWidget.currentIndex()].x(), self.y)
 
                 tuple_v = self.field_move_event(self.dict_user_gard, self.field_turn)
 
-                if tuple_v is not None:
+                if tuple_v is not None and not is_same_direct:
                     if tuple_v[0] == '일반몬스터':
                         self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area} 몬스터를 만났습니다')
                         self.field_turn += 1
@@ -453,7 +457,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                 self.find_meteor_signal()
 
             # 던전
-            elif self.stackedWidget.currentWidget() in self.list_stack_maze:
+            elif self.stackedWidget.currentWidget() in self.list_stack_maze and not is_same_direct:
                 # 방향키 누를 때마다 라벨 위치 조정
                 if event.key() == Qt.Key_A:
                     self.character_dir = 'left'
@@ -466,6 +470,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.stackedWidget.width() / self.maze_map_size)
                     if self.x < 0:
                         self.x = 0
+                        is_same_direct = True
                     self.list_lb_gard[self.stackedWidget.currentIndex()].move(self.x, self.list_lb_gard[
                         self.stackedWidget.currentIndex()].y())
                 elif event.key() == Qt.Key_D:
@@ -481,6 +486,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.stackedWidget.currentIndex()].width():
                         self.x = self.stackedWidget.width() - self.list_lb_gard[
                             self.stackedWidget.currentIndex()].width()
+                        is_same_direct = True
                     self.list_lb_gard[self.stackedWidget.currentIndex()].move(self.x, self.list_lb_gard[
                         self.stackedWidget.currentIndex()].y())
                 elif event.key() == Qt.Key_W:
@@ -488,6 +494,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.stackedWidget.height() / self.maze_map_size)
                     if self.y < 0:
                         self.y = 0
+                        is_same_direct = True
                     self.list_lb_gard[self.stackedWidget.currentIndex()].move(
                         self.list_lb_gard[self.stackedWidget.currentIndex()].x(), self.y)
                 elif event.key() == Qt.Key_S:
@@ -497,12 +504,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.stackedWidget.currentIndex()].height():
                         self.y = self.stackedWidget.height() - self.list_lb_gard[
                             self.stackedWidget.currentIndex()].height()
+                        is_same_direct = True
                     self.list_lb_gard[self.stackedWidget.currentIndex()].move(
                         self.list_lb_gard[self.stackedWidget.currentIndex()].x(), self.y)
 
                 tuple_v = self.maze_move_event(self.maze_floor, self.dict_user_gard, self.maze_turn)
 
-                if tuple_v is not None:
+                if tuple_v is not None and not is_same_direct:
                     if tuple_v[0] == '일반몬스터':
                         self.renew_log_view(QIcon('./img_src/alarm.png'), '던전 몬스터를 만났습니다')
                         self.maze_turn += 1
@@ -896,7 +904,6 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.lb_meteor.setEnabled(True)
         self.lb_meteor.hide()
 
-
         print(rand_meteor_x, rand_meteor_y)
 
     def set_init_maze_door(self):
@@ -1027,7 +1034,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                 self.dict_field['물']:
             self.dict_field['불'] = False
             self.dict_field['눈'] = False
-            self.dict_field['숲'] = Falses
+            self.dict_field['숲'] = False
             self.dict_field['물'] = True
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'물의 지역에 입장하였습니다.')
             self.player.stop()
@@ -1079,15 +1086,37 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     def use_cheatkey(self):
         if self.str_cheatkey == 'easter_egg':
             pass
+
     def play_music(self, path):
+        # QMediaPlaylist 객체 생성
+        playlist = QMediaPlaylist()
+
         # 음악 파일 경로
         self.music_url = QUrl.fromLocalFile(path)
         # QMediaContent 객체 생성
         self.content = QMediaContent(self.music_url)
-        # 음악 파일 설정
-        self.player.setMedia(self.content)
-        # 음악 플레이
+
+        # 음악 파일 경로 추가 (예: "music.mp3")
+        playlist.addMedia(self.content)
+
+        # QMediaPlayer에 QMediaPlaylist 설정
+        self.player.setPlaylist(playlist)
+
+        # 반복 재생 모드 설정
+        playlist.setPlaybackMode(QMediaPlaylist.Loop)
+
+        # 음악 재생
         self.player.play()
+        #
+        # # 음악 파일 경로
+        # self.music_url = QUrl.fromLocalFile(path)
+        # # QMediaContent 객체 생성
+        # self.content = QMediaContent(self.music_url)
+        # # 음악 파일 설정
+        # self.player.setMedia(self.content)
+        # # 음악 플레이
+        # self.player.play()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
