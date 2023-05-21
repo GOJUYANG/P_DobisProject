@@ -42,11 +42,11 @@ class EquipmentClass(QDialog, Ui_Equipment):
                        'cow_cape', 'horse_cape', 'croc_cape', 'red_cape', 'blue_cape', 'black_cape',
                        'cow_pants', 'horse_pants'],
             'swordman': ['cow_helmet', 'horse_helmet',
-                          'chain_armor', 'iron_armor',
-                          'bronze_sword', 'silver_sword', 'gold_sword',
-                          'cow_glove', 'horse_glove', 'croc_glove',
-                          'cow_cape', 'horse_cape', 'croc_cape',
-                          'chain_pants', 'iron_pants'],
+                         'chain_armor', 'iron_armor',
+                         'bronze_sword', 'silver_sword', 'gold_sword',
+                         'cow_glove', 'horse_glove', 'croc_glove',
+                         'cow_cape', 'horse_cape', 'croc_cape',
+                         'chain_pants', 'iron_pants'],
             'wizard_red': ['cow_helmet', 'horse_helmet',
                            'cow_armor', 'horse_armor',
                            'chain_shield',
@@ -115,11 +115,12 @@ class EquipmentClass(QDialog, Ui_Equipment):
                 for k, v in self.dict_equip.items():
                     if v['name'] == item:
                         self.dict_user_gard[self.str_job]['equipment'].append(k)
-                        self.dict_user_gard[self.str_job]['max_hp'] *= (100 + v['max_hp']) / 100
-                        self.dict_user_gard[self.str_job]['hp'] *= (100 + v['max_hp']) / 100
-                        self.dict_user_gard[self.str_job]['max_mp'] *= (100 + v['max_mp']) / 100
-                        self.dict_user_gard[self.str_job]['mp'] *= (100 + v['max_mp']) / 100
-                        self.dict_user_gard[self.str_job]['power'] *= (100 + v['power']) / 100
+                        if v['max_hp'] != 0:
+                            self.dict_user_gard[self.str_job]['max_hp'] *= (100 + v['max_hp']) / 100
+                        if v['max_mp'] != 0:
+                            self.dict_user_gard[self.str_job]['max_mp'] *= (100 + v['max_mp']) / 100
+                        if v['power'] != 0:
+                            self.dict_user_gard[self.str_job]['power'] *= (100 + v['power']) / 100
                         self.dict_equip[k]['count'] -= 1
                         break
                 self.renew_equip_view()
@@ -138,11 +139,16 @@ class EquipmentClass(QDialog, Ui_Equipment):
             for k, v in self.dict_equip.items():
                 if v['name'] == item:
                     self.dict_user_gard[self.str_job]['equipment'].remove(k)
-                    self.dict_user_gard[self.str_job]['max_hp'] /= (100 + v['max_hp']) / 100
-                    self.dict_user_gard[self.str_job]['hp'] /= (100 + v['max_hp']) / 100
-                    self.dict_user_gard[self.str_job]['max_mp'] /= (100 + v['max_mp']) / 100
-                    self.dict_user_gard[self.str_job]['mp'] /= (100 + v['max_mp']) / 100
-                    self.dict_user_gard[self.str_job]['power'] /= (100 + v['power']) / 100
+                    if v['max_hp'] != 0:
+                        self.dict_user_gard[self.str_job]['max_hp'] /= (100 + v['max_hp']) / 100
+                        if self.dict_user_gard[self.str_job]['hp'] > self.dict_user_gard[self.str_job]['max_hp']:
+                            self.dict_user_gard[self.str_job]['hp'] = self.dict_user_gard[self.str_job]['max_hp']
+                    if v['max_mp'] != 0:
+                        self.dict_user_gard[self.str_job]['max_mp'] /= (100 + v['max_mp']) / 100
+                        if self.dict_user_gard[self.str_job]['mp'] > self.dict_user_gard[self.str_job]['max_mp']:
+                            self.dict_user_gard[self.str_job]['mp'] = self.dict_user_gard[self.str_job]['max_mp']
+                    if v['power'] != 0:
+                        self.dict_user_gard[self.str_job]['power'] /= (100 + v['power']) / 100
                     self.dict_equip[k]['count'] += 1
                     break
 

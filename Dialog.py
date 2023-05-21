@@ -118,3 +118,32 @@ class GiveGardName(QDialog, Ui_Dialog):
 
     def return_name(self):
         self.gard_name = f'{self.lb_gard_type.text()} [{self.le_gard_name.text()}]'
+
+class ChoiceJopDialogPush(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
+        self.msg = '아이템을 사용할 캐릭터를 선택해주세요!'
+        self.job = ''
+
+        self.list_job = ['warrior', 'archer', 'swordman', 'wizard_red', 'wizard_black', 'wizard_white']
+
+        QBtn = QDialogButtonBox.StandardButton.Ok
+
+        self.buttonBox = QDialogButtonBox(QBtn)
+        self.buttonBox.accepted.connect(self.accept)
+
+        self.layout = QVBoxLayout()
+        message = QLabel(self.msg)
+        self.layout.addWidget(message)
+        for job in self.list_job:
+            radio_job = QPushButton(job)
+            radio_job.clicked.connect(lambda x, y=radio_job.text(): self.return_job(y))
+            self.layout.addWidget(radio_job)
+        self.setLayout(self.layout)
+
+    def return_job(self, job):
+        print(job)
+        self.job = job
+        self.close()
+

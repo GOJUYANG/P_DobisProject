@@ -2,6 +2,7 @@ import glob
 import os
 import sys
 import random
+import time
 
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent, QMediaPlaylist
 from PyQt5.QtWidgets import *
@@ -217,7 +218,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             'silver_pants': {'name': '실버 팬츠', 'count': 0, 'max_hp': 9, 'max_mp': 0, 'power': 0, 'image': ''},
             'silver_staff': {'name': '실버 롱스태프', 'count': 0, 'max_hp': 0, 'max_mp': 6, 'power': 14, 'image': ''},
             'silver_sword': {'name': '실버 소드', 'count': 0, 'max_hp': 0, 'max_mp': 0, 'power': 20, 'image': ''},
-            'silver_wand': {'name': '실버 완드', 'count': 0, 'max_hp': 0, 'max_mp': 20, 'power': 0, 'image': ''},
+            'silver_wand': {'name': '실버 숏스태프', 'count': 0, 'max_hp': 0, 'max_mp': 20, 'power': 0, 'image': ''},
             'stone_gem': {'name': '스톤 룬스태프', 'count': 0, 'max_hp': 0, 'max_mp': 5, 'power': 5, 'image': ''}}
 
         # 수호대
@@ -705,24 +706,26 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     # 보스 전투 시그널
     def battle_boss_signal(self):
         # 오차범위
-        error_range = self.list_lb_boss[self.maze_floor - 1].width()
-        if self.list_lb_boss[self.maze_floor - 1].x() - error_range < self.list_lb_gard[
-            self.stackedWidget.currentIndex()].x() < self.list_lb_boss[self.maze_floor - 1].x() + error_range \
-                and self.list_lb_boss[self.maze_floor - 1].y() - error_range < self.list_lb_gard[
-            self.stackedWidget.currentIndex()].y() < self.list_lb_boss[self.maze_floor - 1].y() + error_range:
+        error_range_w = self.list_lb_boss[self.maze_floor - 1].width() / 2
+        error_range_h = self.list_lb_boss[self.maze_floor - 1].width() / 2
+        if self.list_lb_boss[self.maze_floor - 1].x() - error_range_w < self.list_lb_gard[
+            self.stackedWidget.currentIndex()].x() < self.list_lb_boss[self.maze_floor - 1].x() + error_range_w \
+                and self.list_lb_boss[self.maze_floor - 1].y() - error_range_h < self.list_lb_gard[
+            self.stackedWidget.currentIndex()].y() < self.list_lb_boss[self.maze_floor - 1].y() + error_range_h:
             self.renew_log_view(QIcon('img_src/alarm.png'), '보스와 전투를 시작합니다.')
 
     # 던전 입구 시그널
     def maze_door_signal(self):
         if self.stackedWidget.currentWidget() == self.stack_field:
             # 오차범위
-            error_range = self.list_lb_door[0].width()
-            if self.list_lb_door[0].x() - error_range < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].x() < self.list_lb_door[0].x() + error_range \
-                    and self.list_lb_door[0].y() - error_range < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].y() < self.list_lb_door[0].y() + error_range:
+            error_range_w = self.list_lb_door[0].width() / 2
+            error_range_h = self.list_lb_door[0].height() / 2
+            if self.list_lb_door[0].x() - error_range_w < self.list_lb_gard[
+                self.stackedWidget.currentIndex()].x() < self.list_lb_door[0].x() + error_range_w \
+                    and self.list_lb_door[0].y() - error_range_h < self.list_lb_gard[
+                self.stackedWidget.currentIndex()].y() < self.list_lb_door[0].y() + error_range_h:
                 if int(self.lv_warrior.text().split('.')[1].strip()) < 30:
-                    self.renew_log_view(QIcon('img_src/alarm.png'), '레벨 30이상 제한')
+                    self.renew_log_view(QIcon('img_src/alarm.png'), '레벨 30미만 접근제한')
                 else:
                     self.movie = QMovie('img_src/door/opendoor.gif')
                     self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
@@ -730,14 +733,22 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                     self.list_lb_door[self.stackedWidget.currentIndex()].setMovie(self.movie)
                     self.movie.start()
                     self.renew_log_view(QIcon('img_src/alarm.png'), '던전으로 진입합니다.')
-                    # self.change_map(1)
+                    msg = QMessageBox(self)
+                    msg.setText('던전으로 진입하시겠습니까?')
+                    msg.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+                    answer = msg.exec()
+                    if answer == QMessageBox.StandardButton.Yes:
+                        self.change_map(1)
+                    else:
+                        pass
         if self.stackedWidget.currentWidget() in self.list_stack_maze:
             # 오차범위
-            error_range = self.list_lb_door[self.maze_floor].width()
-            if self.list_lb_door[self.maze_floor].x() - error_range < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].x() < self.list_lb_door[self.maze_floor].x() + error_range \
-                    and self.list_lb_door[self.maze_floor].y() - error_range < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].y() < self.list_lb_door[self.maze_floor].y() + error_range:
+            error_range_w = self.list_lb_door[self.maze_floor].width() / 2
+            error_range_h = self.list_lb_door[0].height() / 2
+            if self.list_lb_door[self.maze_floor].x() - error_range_w < self.list_lb_gard[
+                self.stackedWidget.currentIndex()].x() < self.list_lb_door[self.maze_floor].x() + error_range_w \
+                    and self.list_lb_door[self.maze_floor].y() - error_range_h < self.list_lb_gard[
+                self.stackedWidget.currentIndex()].y() < self.list_lb_door[self.maze_floor].y() + error_range_h:
                 if self.list_lb_boss[self.maze_floor - 1].isVisible():
                     self.renew_log_view(QIcon('img_src/alarm.png'), '보스를 물리쳐야만 다음 층으로 진입할 수 있습니다.')
                 else:
@@ -751,11 +762,12 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     # 운석 위치 시그널
     def find_meteor_signal(self):
         # 오차범위
-        error_range = self.lb_meteor.width()
-        if self.lb_meteor.x() - error_range < self.list_lb_gard[
-            self.stackedWidget.currentIndex()].x() < self.lb_meteor.x() + error_range \
-                and self.lb_meteor.y() - error_range < self.list_lb_gard[
-            self.stackedWidget.currentIndex()].y() < self.lb_meteor.y() + error_range:
+        error_range_w = self.lb_meteor.width() / 2
+        error_range_h = self.lb_meteor.height() / 2
+        if self.lb_meteor.x() - error_range_w < self.list_lb_gard[
+            self.stackedWidget.currentIndex()].x() < self.lb_meteor.x() + error_range_w \
+                and self.lb_meteor.y() - error_range_h < self.list_lb_gard[
+            self.stackedWidget.currentIndex()].y() < self.lb_meteor.y() + error_range_h:
             if self.lb_meteor.isEnabled():
                 self.get_item(['meteor'], self.dict_item, self.dict_equip)
                 self.renew_log_view(QIcon('img_src/alarm.png'), '운석을 발견하였습니다.')
@@ -890,7 +902,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                     str_item = k
                     break
 
-            choice_dlg = ChoiceJopDialog()
+            choice_dlg = ChoiceJopDialogPush()
             if item not in ['부활포션', '텐트']:
                 choice_dlg.exec_()
             str_job = choice_dlg.job
