@@ -1027,7 +1027,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                 self.dict_field['물']:
             self.dict_field['불'] = False
             self.dict_field['눈'] = False
-            self.dict_field['숲'] = False
+            self.dict_field['숲'] = Falses
             self.dict_field['물'] = True
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'물의 지역에 입장하였습니다.')
             self.player.stop()
