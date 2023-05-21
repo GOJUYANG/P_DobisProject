@@ -8,18 +8,13 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
 
-from boki.codetest import MY
-
-
 def resource_path(relative_path):
     base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
 
-
 # 메인화면
 main = resource_path('../qt/This_is_boki.ui')
 main_class = uic.loadUiType(main)[0]
-
 
 class Main(QMainWindow, main_class):
     def __init__(self):
