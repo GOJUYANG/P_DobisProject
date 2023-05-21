@@ -193,6 +193,7 @@ class Main(QMainWindow, main_class):
         list_enemy_btn = self.groupBox.findChildren(QPushButton)
         list_enemy_line = self.groupBox.findChildren(QLineEdit)
         self.bool_war_result = False
+        self.list_origin_power = []
 
         ### qt object -> list화하기 위한 findchildren 필요한 구간 ###
         list_frame = self.btn_widget.findChildren(QFrame)
@@ -311,14 +312,12 @@ class Main(QMainWindow, main_class):
                         enemy_died += 1
                     if enemy_died == 6:
                         self.bool_war_result = True
-                        dict_user_gard['warrior']['power'] = self.origin_power
                         self.battle_dialog.append(f"수호대 {a + 1}명 처치")
                 for b in str_job:
                     if dict_user_gard[b]['survival'] == False:
                         user_died += 1
                     if user_died == 6:
                         self.bool_war_result = False
-                        dict_user_gard['warrior']['power'] = self.origin_power
                         self.battle_dialog.append("수호대와의 전투에서 패배했습니다..")
         elif bool_meet_monster == True:
             for c in range(num):
@@ -326,14 +325,12 @@ class Main(QMainWindow, main_class):
                     enemy_died += 1
                 if enemy_died == 6:
                     self.bool_war_result = True
-                    dict_user_gard['warrior']['power'] = self.origin_power
                     self.battle_dialog.append(f"{c + 1}번째 몬스터 처치")
             for d in str_job:
                 if dict_user_gard[d]['survival'] == False:
                     user_died += 1
                 if user_died == 6:
                     self.bool_war_result = False
-                    dict_user_gard['warrior']['power'] = self.origin_power
                     self.battle_dialog.append("일반몬스터와의 전투에서 패배했습니다..")
         if current_loc in list_maze_floor:
             if bool_meet_maze_gard == True:
@@ -342,14 +339,12 @@ class Main(QMainWindow, main_class):
                         enemy_died += 1
                     if enemy_died == 6:
                         self.bool_war_result = True
-                        dict_user_gard['warrior']['power'] = self.origin_power
                         self.battle_dialog.append(f"수호대 {e + 1}명 처치")
                 for f in str_job:
                     if dict_user_gard[f]['survival'] == False:
                         user_died += 1
                     if user_died == 6:
                         self.bool_war_result = False
-                        dict_user_gard['warrior']['power'] = self.origin_power
                         self.battle_dialog.append("수호대와의 전투에서 패배했습니다..")
         elif bool_meet_enemy_monster == True:
             for g in range(int_monster_count):
@@ -357,14 +352,12 @@ class Main(QMainWindow, main_class):
                     enemy_died += 1
                 if enemy_died == 6:
                     self.bool_war_result = True
-                    dict_user_gard['warrior']['power'] = self.origin_power
                     self.battle_dialog.append(f"{g + 1}번째 몬스터 처치")
             for h in str_job:
                 if dict_user_gard[h]['survival'] == False:
                     user_died += 1
                 if user_died == 6:
                     self.bool_war_result = False
-                    dict_user_gard['warrior']['power'] = self.origin_power
                     self.battle_dialog.append("일반몬스터와의 전투에서 패배했습니다..")
         elif bool_meet_boss_monster == True:
             print("if - 조우한 보스의 hp가 0이라면 return self.war_result = True, bool_boss_death = True")
@@ -372,6 +365,17 @@ class Main(QMainWindow, main_class):
 
     # if not isinstance(self.bool_war_result, bool):
     #     raise "bool이 값할당 안됌!"
+
+    # 전투 후 스킬사용에 따른 초기화를 해주는 함수
+    def reset_user_gard(self, dict_user_gard, str_job):
+        if self.bool_war_result:
+            dict_user_gard['warrior']['power'] = self.origin_power
+            for i in range(6):
+                dict_user_gard[str_job[i]]['power'] = self.list_origin_power[i]
+        elif not self.bool_war_result:
+            dict_user_gard['warrior']['power'] = self.origin_power
+            for i in range(6):
+                dict_user_gard[str_job[i]]['power'] = self.list_origin_power[i]
 
     # 전투 횟수 카운트
     def war_cnt(self):
@@ -746,7 +750,6 @@ class Main(QMainWindow, main_class):
             QTimer.singleShot(2000, self.boss_gard_atk)
 
     def archer_skill_effect_1(self, dict_user_gard, str_job):
-        self.list_origin_power = []
         for i in range(6):
             self.list_origin_power.append(dict_user_gard[str_job[i]]['power'])
 
@@ -759,13 +762,6 @@ class Main(QMainWindow, main_class):
         self.battle_dialog.append(f"archer의 Target shot으로 현 전투 중 모든 구성원의 공격력이 {power_up}배 증가! ")
         self.battle_dialog.append(f"archer의 MP가 30줄었습니다.")
 
-        if self.bool_war_result:
-            for i in range(6):
-                dict_user_gard[str_job[i]]['power'] = list_origin_power[i]
-        elif self.bool_war_result == False:
-            for i in range(6):
-                dict_user_gard[str_job[i]]['power'] = list_origin_power[i]
-
     def archer_skill_effect_2(self, x, dict_user_gard, str_job):
         skill_effect_2 = 0
         if x == False:
@@ -777,9 +773,8 @@ class Main(QMainWindow, main_class):
             if skill_ban == msg.Yes:  # 버튼의 이름을 넣으면 됩니다.
                 self.stackedWidget.setCurrentIndex(2)
         else:
-            list_origin_power = []
             for i in range(6):
-                list_origin_power.append(dict_user_gard[str_job[i]]['power'])
+                self.list_origin_power.append(dict_user_gard[str_job[i]]['power'])
 
             power_up = random.choice([0.4, 0.5, 0.6])
             for i in range(6):
@@ -788,13 +783,6 @@ class Main(QMainWindow, main_class):
             self.stackedWidget.setCurrentIndex(0)
             self.battle_dialog.append(f"archer의 Target shot으로 현 전투 중 모든 구성원의 공격력이 {power_up}배 증가! ")
             self.battle_dialog.append(f"archer의 MP가 50줄었습니다.")
-
-            if self.bool_war_result:
-                for i in range(6):
-                    dict_user_gard[str_job[i]]['power'] = list_origin_power[i]
-            elif self.bool_war_result == False:
-                for i in range(6):
-                    dict_user_gard[str_job[i]]['power'] = list_origin_power[i]
 
     def archer_skill_effect_3(self, x, dict_user_gard, str_job):
         skill_effect_3 = 0
@@ -807,9 +795,8 @@ class Main(QMainWindow, main_class):
             if skill_ban == msg.Yes:  # 버튼의 이름을 넣으면 됩니다.
                 self.stackedWidget.setCurrentIndex(2)
         else:
-            list_origin_power = []
             for i in range(6):
-                list_origin_power.append(dict_user_gard[str_job[i]]['power'])
+                self.list_origin_power.append(dict_user_gard[str_job[i]]['power'])
             power_up = random.choice([0.5, 0.6, 0.7])
             for i in range(6):
                 dict_user_gard[str_job[i]]['power'] * power_up
@@ -817,13 +804,6 @@ class Main(QMainWindow, main_class):
             self.stackedWidget.setCurrentIndex(0)
             self.battle_dialog.append(f"archer의 Target shot으로 현 전투 중 모든 구성원의 공격력이 {power_up}배 증가! ")
             self.battle_dialog.append(f"archer의 MP가 70줄었습니다.")
-
-            if self.bool_war_result:
-                for i in range(6):
-                    dict_user_gard[str_job[i]]['power'] = list_origin_power[i]
-            elif self.bool_war_result == False:
-                for i in range(6):
-                    dict_user_gard[str_job[i]]['power'] = list_origin_power[i]
 
     def swordsman_skill_effect(self, dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
                                bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster):
