@@ -16,6 +16,7 @@ from Item import ItemClass
 from Dungeon import mazeClass
 from Field import FieldClass
 from Dialog import *
+# from Battle import
 
 
 class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):

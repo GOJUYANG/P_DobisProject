@@ -8,13 +8,16 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
 
+
 def resource_path(relative_path):
     base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
 
+
 # 메인화면
-main = resource_path('../qt/This_is_boki.ui')
+main = resource_path('view/This_is_boki.ui')
 main_class = uic.loadUiType(main)[0]
+
 
 class Main(QMainWindow, main_class):
     def __init__(self):
@@ -272,13 +275,22 @@ class Main(QMainWindow, main_class):
                                                 bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
 
         ### 전투 중 스킬사용(이시연:적법사/흑법사/백법사)###
-        # self.skill_btn_wizard_red_heal_normal.clicked.connect
-        # self.skill_btn_wizard_red_heal_normal.clicked.connect
-        # self.skill_btn_wizard_red_heal_normal.clicked.connect
-        # self.skill_btn_wizard_red_fire_ball.clicked.connect
-        # self.skill_btn_wizard_red_fire_wall.clicked.connect
-        # self.skill_btn_wizard_red_thunder_breaker.clicked.connect
-        # self.skill_btn_wizard_red_blizzard.clicked.connect
+        self.skill_btn_wizard_red_heal_normal.clicked.connect(lambda: self.wizard_red_skill_effect(dict_user_gard, 30, 70, 30))
+        self.skill_btn_wizard_red_heal_greater.clicked.connect(lambda: self.wizard_red_skill_effect(dict_user_gard, 60, 100, 50))
+
+        self.skill_btn_wizard_red_heal_all.clicked.connect(lambda: self.wizard_red_skill_effect(dict_user_gard, 30, 70))
+        self.skill_btn_wizard_red_fire_ball.clicked.connect(
+            lambda: self.wizard_red_skill_effect_4(dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
+                                                   bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+        self.skill_btn_wizard_red_fire_wall.clicked.connect(
+            lambda: self.wizard_red_skill_effect_5(dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
+                                                   bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+        self.skill_btn_wizard_red_thunder_breaker.clicked.connect(
+            lambda: self.wizard_red_skill_effect_6(dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
+                                                   bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+        self.skill_btn_wizard_red_blizzard.clicked.connect(
+            lambda: self.wizard_red_skill_effect_7(dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
+                                                   bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
         #
         # self.skill_btn_wizard_black_fire_ball.connect
         # self.skill_btn_wizard_black_fire_wall.connect
@@ -835,6 +847,32 @@ class Main(QMainWindow, main_class):
 
         return dict_user_gard
 
+    def wizard_red_skill_effect(self, dict_user_gard, int_min, int_max, int_mp):
+
+        #체력이 가장 낮은 구성원의 체력을 회복
+        list_hp = []
+
+        for k, v in dict_user_gard.items():
+            if k not in ['gard', 'location']:
+                list_hp.append(k['hp'])
+
+        min_hp = min(list_hp)
+
+        for k, v in dict_user_gard.items():
+            if k not in ['gard', 'location']:
+                if min_hp == k['hp']:
+                    str_job = k
+                    break
+
+        heal_normal = random.randint(int_min, int_max)
+        dict_user_gard[str_job]['hp'] += dict_user_gard['swordsman']['max_hp'] * (heal_normal/100)
+        self.stackedWidget.setCurrentIndex(8)
+        self.battle_dialog.append(
+            f"wizard_red의 heal_normal사용으로 {str_job}의 체력이 {heal_normal}% 증가하여 { dict_user_gard['swordsman']['max_hp'] * (heal_normal/100)}만큼 올랐다! ")
+        self.battle_dialog.append(f"swordsman의 MP가 int_mp줄었습니다.")
+
+        return dict_user_gard
+
     # 전투화면으로 전환시 각 캐릭터의 [장비]버튼 setDisabled처리
     def equip_btn_disabled(self, list_frame):
         for i in range(6):
@@ -969,6 +1007,7 @@ class Main(QMainWindow, main_class):
 
         # -------------몬스터와의 전투-------------------------------------------------------------------------------------------#
         # [필드/던전]몬스터 조우 - 전투가능한 구성원의 [공격][스킬]버튼이 활성화
+
     def battle_monster(self, str_job, dict_user_gard, int_survival, num, int_monster_count,
                        list_attack_btn, list_job_lb, list_frame, list_enemy_line, list_enemy_btn,
                        dict_field_monster, monster_li, dict_maze_monster,

@@ -270,7 +270,6 @@ class mazeClass:
             dict_boss_monster = {'name': '로드오브보기', 'hp': int_boss_hp, 'attack': ['c_attack', 0.05],
                                  'skill': ['hell_boki', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
-        print(int_floor, dict_boss_monster)
         return int_floor, dict_boss_monster
 
     # 텔레포트 사용
