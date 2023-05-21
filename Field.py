@@ -74,8 +74,6 @@ class FieldClass():
         list_drop_ += list_eq_drop
         return list_drop_
 
-
-
     def field_meet_enemy_gard(self, dict_user_gard):
         int_hp_up = 1.2
         list_enemy_lvs = [15, 16, 17, 18, 19, 20]
@@ -125,22 +123,22 @@ class FieldClass():
     def field_move_event(self, dict_user_gard, int_turn):  # 이동 중 이벤트 발생
         ratio = random.randint(1, 100)
 
-        if 0 < ratio <= 20:
+        if 0 < ratio <= 28:
             return None
-        elif 20 < ratio <= 30:
+        elif 28 < ratio <= 38:
             int_turn += 1
             bool_meet_gard = True
             return '적군수호대', self.field_meet_enemy_gard(dict_user_gard), bool_meet_gard, int_turn
-        elif 30 < ratio <= 50:
+        elif 38 < ratio <= 58:
             return '아이템', self.field_move_random_drop(self.return_list_move_drop())
-        elif 50 < ratio <= 80:
+        elif 58 < ratio <= 88:
             bool_meet_monster = True
             int_turn += 1
             return '일반몬스터', bool_meet_monster, int_turn
-        elif 80 < ratio <= 90:
-            return '텐트', ['tent']
-        elif 90 < ratio <= 100:
+        elif 88 < ratio <= 98:
             return '아군수호대', self.field_meet_ally_gard(self.return_list_move_drop(), self.return_move_meet_equipment())
+        elif 98 < ratio <= 100:
+            return '텐트', ['tent']
 
     # def back_position(self): # 도망 , 전투 후 전투전 위치로
     # 몬스터 출현 했을때 좌표 저장했을때의 위치로 돌아가기
