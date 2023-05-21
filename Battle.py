@@ -155,7 +155,7 @@ class Main(QMainWindow, main_class):
                                           'lv': list_enemy_lvs[3], 'hp': 150 * int_hp_up, 'max_hp': 300, 'mp': 0,
                                           'max_mp': 0, 'power': 150,
                                           'equipment': [],
-                                          'skill': {1: ['heal_normal', 'fire_ball'],
+                                          'skill': {1: ['heal', 'fire_ball'],
                                                     15: ['heal_greater', 'fire_wall'],
                                                     20: 'thunder_breaker',
                                                     25: 'bilzzard',
@@ -172,7 +172,7 @@ class Main(QMainWindow, main_class):
                                             'lv': list_enemy_lvs[5], 'hp': 200 * int_hp_up, 'max_hp': 300, 'mp': 0,
                                             'max_mp': 0, 'power': 100,
                                             'equipment': [],
-                                            'skill': {1: 'heal_normal',
+                                            'skill': {1: 'heal',
                                                       15: 'heal_greater',
                                                       30: 'heal_all'}}}
         if dict_enemy_gard['gard'] == 'light_gard':
@@ -186,10 +186,10 @@ class Main(QMainWindow, main_class):
 
         list_job_name = ['warrior', 'archer', 'swordsman', 'wizard_red', 'wizard_black', 'wizard_white']
         monster_li = []
-        list_enemy_btn = []
-        list_enemy_line = []
-        list_enemy_btn = self.groupBox.findChildren(QPushButton)
-        list_enemy_line = self.groupBox.findChildren(QLineEdit)
+        self.list_enemy_btn = []
+        self.list_enemy_line = []
+        self.list_enemy_btn = self.groupBox.findChildren(QPushButton)
+        self.list_enemy_line = self.groupBox.findChildren(QLineEdit)
         self.bool_war_result = False
         self.list_origin_power = []
 
@@ -275,31 +275,53 @@ class Main(QMainWindow, main_class):
                                                 bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
 
         ### 전투 중 스킬사용(이시연:적법사/흑법사/백법사)###
-        self.skill_btn_wizard_red_heal_normal.clicked.connect(lambda: self.wizard_red_skill_effect(dict_user_gard, 30, 70, 30))
-        self.skill_btn_wizard_red_heal_greater.clicked.connect(lambda: self.wizard_red_skill_effect(dict_user_gard, 60, 100, 50))
-
-        self.skill_btn_wizard_red_heal_all.clicked.connect(lambda: self.wizard_red_skill_effect(dict_user_gard, 30, 70))
+        self.skill_btn_wizard_red_heal_normal.clicked.connect(
+            lambda: self.wizard_skill_effect('wizard_red', 'heal_normal', 'part', dict_user_gard, 30, 70, 30))
+        self.skill_btn_wizard_red_heal_greater.clicked.connect(
+            lambda: self.wizard_skill_effect('wizard_red', 'heal_greater', 'part', dict_user_gard, 60, 100, 50))
+        self.skill_btn_wizard_red_heal_all.clicked.connect(
+            lambda: self.wizard_skill_effect('wizard_red', 'heal_all', 'all', dict_user_gard, 40, 80, 70))
         self.skill_btn_wizard_red_fire_ball.clicked.connect(
-            lambda: self.wizard_red_skill_effect_4(dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
-                                                   bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+            lambda: self.wizard_skill_effect_2('wizard_red', 'fire_ball', 'part', dict_user_gard, 30, 30,
+                                               bool_meet_monster, bool_meet_enemy_monster,
+                                               bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
         self.skill_btn_wizard_red_fire_wall.clicked.connect(
-            lambda: self.wizard_red_skill_effect_5(dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
-                                                   bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+            lambda: self.wizard_skill_effect_2('wizard_red', 'fire_wall', 'all', dict_user_gard, 50, 50,
+                                               bool_meet_monster, bool_meet_enemy_monster,
+                                               bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
         self.skill_btn_wizard_red_thunder_breaker.clicked.connect(
-            lambda: self.wizard_red_skill_effect_6(dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
-                                                   bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+            lambda: self.wizard_skill_effect_2('wizard_red', 'thunder_breaker', 'all', dict_user_gard, 60, 60,
+                                               bool_meet_monster, bool_meet_enemy_monster,
+                                               bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
         self.skill_btn_wizard_red_blizzard.clicked.connect(
-            lambda: self.wizard_red_skill_effect_7(dict_user_gard, bool_meet_monster, bool_meet_enemy_monster,
-                                                   bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
-        #
-        # self.skill_btn_wizard_black_fire_ball.connect
-        # self.skill_btn_wizard_black_fire_wall.connect
-        # self.skill_btn_wizard_black_thunder_breaker.connect
-        # self.skill_btn_wizard_black_blizzard.connect
+            lambda: self.wizard_skill_effect_2('wizard_red', 'blizzard', 'all', dict_user_gard, 70, 70,
+                                               bool_meet_monster, bool_meet_enemy_monster,
+                                               bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
 
-        # self.skill_btn_wizard_white_heal_normal.connect
-        # self.skill_btn_wizard_white_heal_greater.connect
-        # self.skill_btn_wizard_white_heal_all.connect
+        self.skill_btn_wizard_black_fire_ball.clicked.connect(
+            lambda: self.wizard_skill_effect_2('wizard_red', 'fire_ball', 'part', dict_user_gard, 30, 30,
+                                               bool_meet_monster, bool_meet_enemy_monster,
+                                               bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+        self.skill_btn_wizard_black_fire_wall.clicked.connect(
+            lambda: self.wizard_skill_effect_2('wizard_red', 'fire_wall', 'all', dict_user_gard, 50, 50,
+                                               bool_meet_monster, bool_meet_enemy_monster,
+                                               bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+        self.skill_btn_wizard_black_thunder_breaker.clicked.connect(
+            lambda: self.wizard_skill_effect_2('wizard_red', 'thunder_breaker', 'all', dict_user_gard, 60, 60,
+                                               bool_meet_monster, bool_meet_enemy_monster,
+                                               bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+        self.skill_btn_wizard_black_blizzard.clicked.connect(
+            lambda: self.wizard_skill_effect_2('wizard_red', 'blizzard', 'all', dict_user_gard, 70, 70,
+                                               bool_meet_monster, bool_meet_enemy_monster,
+                                               bool_meet_gard, bool_meet_maze_gard, bool_meet_boss_monster))
+
+        self.skill_btn_wizard_white_heal_normal.clicked.connect(
+            lambda: self.wizard_skill_effect('wizard_red', 'heal_normal', 'part', dict_user_gard, 30, 70, 30))
+        self.skill_btn_wizard_white_heal_greater.clicked.connect(
+            lambda: self.wizard_skill_effect('wizard_red', 'heal_greater', 'part', dict_user_gard, 60, 100, 50))
+        self.skill_btn_wizard_white_heal_all.clicked.connect(
+            lambda: self.wizard_skill_effect('wizard_red', 'heal_all', 'all', dict_user_gard, 40, 80, 70))
+
         # self.skill_btn_wizard_white_hp_up.connect
         # self.skill_btn_wizard_white_mp_up.connect
         # self.skill_btn_wizard_white_map_find.connect
@@ -847,36 +869,132 @@ class Main(QMainWindow, main_class):
 
         return dict_user_gard
 
-    def wizard_red_skill_effect(self, dict_user_gard, int_min, int_max, int_mp):
+    def wizard_skill_effect(self, str_job, str_skill_name, str_part_or_all, dict_user_gard, int_min, int_max, int_mp):
+        # 힐량
+        heal = random.randint(int_min, int_max)
 
-        #체력이 가장 낮은 구성원의 체력을 회복
-        list_hp = []
+        # 체력이 가장 낮은 구성원의 체력을 회복
+        if str_part_or_all == 'part':
+            list_hp = []
+            for k, v in dict_user_gard.items():
+                if k not in ['gard', 'location']:
+                    list_hp.append(k['hp'])
+            min_hp = min(list_hp)
+            for k, v in dict_user_gard.items():
+                if k not in ['gard', 'location']:
+                    if min_hp == k['hp']:
+                        low_hp_job = k
+                        break
+            dict_user_gard[low_hp_job]['hp'] += dict_user_gard[low_hp_job]['max_hp'] * (heal / 100)
+            # 체력이 최대체력보다 크면 체력 = 최대체력
+            if dict_user_gard[low_hp_job]['hp'] > dict_user_gard[low_hp_job]['max_hp']:
+                dict_user_gard[low_hp_job]['hp'] = dict_user_gard[low_hp_job]['max_hp']
+            self.battle_dialog.append(
+                f"{str_job}의 {str_skill_name}사용으로 {low_hp_job}의 체력이 최대체력의 {heal}% 증가하여 {dict_user_gard['swordsman']['max_hp'] * (heal / 100)}만큼 올랐다! ")
+            self.battle_dialog.append(f"wizard_red의 MP가 {int_mp}줄었습니다.")
+            self.stackedWidget.setCurrentIndex(0)
 
-        for k, v in dict_user_gard.items():
-            if k not in ['gard', 'location']:
-                list_hp.append(k['hp'])
-
-        min_hp = min(list_hp)
-
-        for k, v in dict_user_gard.items():
-            if k not in ['gard', 'location']:
-                if min_hp == k['hp']:
-                    str_job = k
-                    break
-
-        heal_normal = random.randint(int_min, int_max)
-        dict_user_gard[str_job]['hp'] += dict_user_gard['swordsman']['max_hp'] * (heal_normal/100)
-        self.stackedWidget.setCurrentIndex(8)
-        self.battle_dialog.append(
-            f"wizard_red의 heal_normal사용으로 {str_job}의 체력이 {heal_normal}% 증가하여 { dict_user_gard['swordsman']['max_hp'] * (heal_normal/100)}만큼 올랐다! ")
-        self.battle_dialog.append(f"swordsman의 MP가 int_mp줄었습니다.")
+        # 모든 구성원의 체력을 회복
+        else:
+            for k, v in dict_user_gard.items():
+                if k not in ['gard', 'location']:
+                    k['hp'] += dict_user_gard[str_job]['max_hp'] * (heal / 100)
+                    if k['hp'] > k['max_hp']:
+                        k['hp'] = k['max_hp']
+                    self.battle_dialog.append(
+                        f"wizard_red의 {str_skill_name}사용으로 {k}의 체력이 최대체력의 {heal}% 증가하여 {k['max_hp'] * (heal / 100)}만큼 올랐다! ")
+            self.battle_dialog.append(f"wizard_red의 MP가 {int_mp}줄었습니다.")
+            self.stackedWidget.setCurrentIndex(0)
 
         return dict_user_gard
+
+    def wizard_skill_effect_2(self, str_job, str_skill_name, str_part_or_all, dict_user_gard, int_value, int_mp,
+                              bool_meet_monster, bool_meet_enemy_monster, bool_meet_gard, bool_meet_maze_gard,
+                              bool_meet_boss_monster):
+
+        # 타켓 공격
+        if str_part_or_all == 'part':
+            if str_skill_name == 'fire_ball':
+                self.origin_power = dict_user_gard[str_job]['power']
+                dict_user_gard[str_job]['power'] = dict_user_gard[str_job]['power'] * ((100 + int_value) / 100)
+                # self.battle_dialog.append(
+                #     f"wizard_red의 {str_skill_name}사용으로 {k}의 체력이 최대체력의 {heal}% 증가하여 {k['max_hp'] * (heal / 100)}만큼 올랐다! ")
+                # self.battle_dialog.append(f"wizard_red의 MP가 {int_mp}줄었습니다.")
+                self.battle_dialog.append(f"{str_job}의 MP가 {int_mp}줄었습니다.")
+                self.stackedWidget.setCurrentIndex(0)
+
+        # 광역 공격
+        else:
+            if str_skill_name == 'fire_wall':
+                self.selected_option = dict_user_gard[str_job]['power'] * ((100 + int_value) / 100)
+            elif str_skill_name == 'thunder_breaker':
+                self.selected_option = dict_user_gard[str_job]['power'] * ((100 + int_value) / 100)
+            elif str_skill_name == 'blizzard':
+                self.selected_option = dict_user_gard[str_job]['power'] * ((100 + int_value) / 100)
+            # self.battle_dialog.append(
+            #     f"wizard_red의 {str_skill_name}사용으로 {k}의 체력이 최대체력의 {heal}% 증가하여 {k['max_hp'] * (heal / 100)}만큼 올랐다! ")
+            # self.battle_dialog.append(f"wizard_red의 MP가 {int_mp}줄었습니다.")
+            self.battle_dialog.append(f"{str_job}의 MP가 {int_mp}줄었습니다.")
+            self.stackedWidget.setCurrentIndex(0)
+
+        # 해당 스킬은 몬스터/수호대/보스를 만났을 때 적용된다.
+        if bool_meet_monster or bool_meet_enemy_monster:
+            QTimer.singleShot(2000, self.enemy_monster_atk)
+        elif bool_meet_gard or bool_meet_maze_gard:
+            QTimer.singleShot(2000, self.enemy_gard_atk)
+        elif bool_meet_boss_monster:
+            QTimer.singleShot(2000, self.boss_gard_atk)
+
+
+    def monster_atk_choice(self, x, index, atk_job, selected_option,
+                           monster_li, bool_meet_monster, bool_meet_enemy_monster,
+                           dict_field_monster, dict_maze_monster, current_loc,
+                           list_enemy_line, list_enemy_btn):
+        name, damage = atk_job, selected_option
+        self.battle_dialog.append(f"{name}이/가{monster_li[index]}을/를 공격해 {damage}데미지를 입혔다.")
+        if bool_meet_monster == True:
+            list_enemy_line[index].setText(f"몬스터 HP: {int(list_enemy_line[index].Text()) - damage}")
+            if int(list_enemy_line[index].Text()) <= 0:
+                list_enemy_line[index].setText(f"몬스터 HP: 0")
+                list_enemy_btn[index].setDisabled(True)
+        elif bool_meet_enemy_monster == True:
+            dict_maze_monster['list_hp'][index] = dict_maze_monster['list_hp'][index] - damage
+            list_enemy_line[index].setText(f"몬스터 HP:{dict_maze_monster['list_hp'][index]}")
+            if dict_maze_monster['list_hp'][index] <= 0:
+                dict_maze_monster['list_hp'][index] = 0
+                list_enemy_line[index].setText(f"몬스터 HP:{dict_maze_monster['list_hp'][index]}")
+                list_enemy_btn[index].setDisabled(True)
+
+    # 체력이 가장 낮은 구성원의 체력을 회복
+    if str_part_or_all == 'part':
+        dict_user_gard[str_job]['hp'] += dict_user_gard[str_job]['max_hp'] * (heal / 100)
+        # 체력이 최대체력보다 크면 체력 = 최대체력
+        if dict_user_gard[str_job]['hp'] > dict_user_gard[str_job]['max_hp']:
+            dict_user_gard[str_job]['hp'] = dict_user_gard[str_job]['max_hp']
+        self.stackedWidget.setCurrentIndex(8)
+        self.battle_dialog.append(
+            f"wizard_red의 {str_skill_name}사용으로 {str_job}의 체력이 최대체력의 {heal}% 증가하여 {dict_user_gard['swordsman']['max_hp'] * (heal / 100)}만큼 올랐다! ")
+        self.battle_dialog.append(f"wizard_red의 MP가 {int_mp}줄었습니다.")
+
+    # 모든 구성원의 체력을 회복
+    else:
+        for k, v in dict_user_gard.items():
+            if k not in ['gard', 'location']:
+                k['hp'] += dict_user_gard[str_job]['max_hp'] * (heal / 100)
+                if k['hp'] > k['max_hp']:
+                    k['hp'] = k['max_hp']
+                self.battle_dialog.append(
+                    f"wizard_red의 {str_skill_name}사용으로 {k}의 체력이 최대체력의 {heal}% 증가하여 {k['max_hp'] * (heal / 100)}만큼 올랐다! ")
+        self.battle_dialog.append(f"wizard_red의 MP가 {int_mp}줄었습니다.")
+
+    return dict_user_gard
+
 
     # 전투화면으로 전환시 각 캐릭터의 [장비]버튼 setDisabled처리
     def equip_btn_disabled(self, list_frame):
         for i in range(6):
             list_job_btn = list_frame[i].findChildren(QPushButton)[1].setDisabled(True)
+
 
     # 2번 방식 : 위치가 바뀌면서 모션 수행
     def move_image_forward(self, x, lb_index, list_job_lb, list_job_name):
@@ -888,6 +1006,7 @@ class Main(QMainWindow, main_class):
             QTimer.singleShot(1000, lambda: self.move_image_forward2(lb_index, list_job_lb, list_job_name))
         return lb_index
 
+
     def move_image_forward2(self, lb_index, list_job_lb, list_job_name):
         current_pos = list_job_lb[lb_index].pos()
         if current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.)
@@ -896,6 +1015,7 @@ class Main(QMainWindow, main_class):
             QTimer.singleShot(1000, lambda: self.move_image_back(lb_index, list_job_lb, list_job_name))
             # self.timer.stop()
         return lb_index
+
 
     def move_image_back(self, lb_index, list_job_lb, list_job_name):
         x = 0
@@ -923,6 +1043,7 @@ class Main(QMainWindow, main_class):
             list_job_lb[lb_index].move(x, y)
             self.timer.stop()
 
+
     # 각 캐릭터의 [도망]버튼 클릭시 battle_dialog에 메세지를 띄운다. 확률에 따른 도망 성공/실패 -> 반환값(필드/전투화면)으로넘기기
     def user_gard_run(self, current_loc, list_area, list_maze_floor):
         num = random.choice(range(1, 101))
@@ -930,7 +1051,7 @@ class Main(QMainWindow, main_class):
         sucess_rate_num = random.choice(sucess_rate)
         if sucess_rate_num < num:
             self.battle_dialog.append(f"""{100 - sucess_rate_num}%확률로 도망에 실패했습니다.
-        전투화면이 유지됩니다.""")
+            전투화면이 유지됩니다.""")
             bool_run_mode = False
         elif sucess_rate_num >= num:
             if current_loc in list_area:
@@ -938,16 +1059,16 @@ class Main(QMainWindow, main_class):
             elif current_loc in list_maze_floor:
                 current_loc = '던전'
             self.battle_dialog.append(f"""{sucess_rate_num}%확률로 도망에 성공했습니다.
-        {current_loc}화면으로 돌아갑니다.""")
+            {current_loc}화면으로 돌아갑니다.""")
             bool_run_mode = True
             return bool_run_mode
+
 
     # -------------수호대와의 전투-------------------------------------------------------------------------------------------#
     # [필드/던전]타수호대 조우 - 전투가능한 구성원의 [공격][스킬]버튼이 활성화
     def battle_gard(self, list_frame, list_enemy_line, list_enemy_btn, list_attack_btn, dict_user_gard,
                     dict_enemy_gard, str_job, int_survival, current_loc,
                     str_enemy_gard, bool_meet_gard, bool_meet_maze_gard):
-
         # 따로 함수로 빼서 호출할까...
         for i in range(6):
             if str_job[i] in dict_user_gard.keys():
@@ -984,6 +1105,7 @@ class Main(QMainWindow, main_class):
                         list_enemy_btn[j].setIcon(icon)
                         list_enemy_btn[j].setIconSize(QSize(100, 100))
 
+
     # 각 캐릭터의 [공격]버튼에 따른 누가/누구에게/nnn데미지 입었습니다. battle_dialog 메세지띄우기
     def gard_atk_choice(self, x, index, dict_user_gard, list_job_name,
                         bool_meet_gard, bool_meet_maze_gard,
@@ -1001,12 +1123,14 @@ class Main(QMainWindow, main_class):
 
         QTimer.singleShot(2000, self.enemy_gard_atk)
 
+
     # 타수호대의 유저 수호대 (랜덤)(일반공격/스킬/아이템사용)기능
     def enemy_gard_atk(self):
         print("3")
 
         # -------------몬스터와의 전투-------------------------------------------------------------------------------------------#
         # [필드/던전]몬스터 조우 - 전투가능한 구성원의 [공격][스킬]버튼이 활성화
+
 
     def battle_monster(self, str_job, dict_user_gard, int_survival, num, int_monster_count,
                        list_attack_btn, list_job_lb, list_frame, list_enemy_line, list_enemy_btn,
@@ -1226,6 +1350,7 @@ class Main(QMainWindow, main_class):
                 list_enemy_btn[j].setIcon(icon)
                 list_enemy_btn[j].setIconSize(QSize(100, 100))
 
+
     # 각 캐릭터의 [공격]버튼에 따른 누가/누구에게/nnn데미지 입었습니다. battle_dialog 메세지띄우기
     def monster_atk_choice(self, x, index, atk_job, selected_option,
                            monster_li, bool_meet_monster, bool_meet_enemy_monster,
@@ -1251,6 +1376,7 @@ class Main(QMainWindow, main_class):
 
         QTimer.singleShot(2000, self.monster_atk)
 
+
     # 몬스터의 유저 수호대 (랜덤)공격 기능
     def monster_atk(self, str_job, dict_user_gard, monster_li,
                     dict_field_monster, dict_maze_monster, current_loc,
@@ -1272,7 +1398,7 @@ class Main(QMainWindow, main_class):
                 dict_user_gard[list_target[int_monster_target_c]]['hp'] -= dict_field_monster[current_loc]['hp'][
                                                                                atk_monster] * 0.1
                 self.battle_dialog.append(f"""{current_loc}의 {monster_li[atk_monster]}가 {monster_damage}공격을 걸었다!
-그 영향으로 {list_target[int_monster_target_c]}의 hp가 {dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!""")
+    그 영향으로 {list_target[int_monster_target_c]}의 hp가 {dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!""")
             if dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
                 dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                 dict_user_gard[list_target[int_monster_target_c]]['survival'] = False
@@ -1293,13 +1419,14 @@ class Main(QMainWindow, main_class):
                 str_damage_name = str_damage_name[1] + '_ball'
                 self.battle_dialog.append(
                     f"""{dict_maze_monster['list_area_monster'][atk_monster]}의 {monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
-그 영향으로 {list_target[int_monster_target_c]}의 hp가 {dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!""")
+    그 영향으로 {list_target[int_monster_target_c]}의 hp가 {dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!""")
             if dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
                 dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                 dict_user_gard[list_target[int_monster_target_c]]['survival'] = False
                 self.battle_dialog.append(f"앗! 우리의 {list_target[int_monster_target_c]}가 전투불능상태가 되었습니다.")
                 QTimer.singleShot(1000, self.battle_monster)
             self.show_war_result()
+
 
     # -------------보스몬스터와의 전투----------------------------------------------------------------------------------------#
 
@@ -1345,6 +1472,7 @@ class Main(QMainWindow, main_class):
         else:
             pass
 
+
     # 던전에서 일반몬스터 만났을때 승리한 후 아이템 얻는 함수
     def maze_battle_get_items(self, bool_meet_maze_monster, dict_maze_monster):
         if (bool_meet_maze_monster == True) and (self.bool_war_result == True):
@@ -1384,6 +1512,7 @@ class Main(QMainWindow, main_class):
         else:
             pass
 
+
     # 타수호대 전투 승리한 후 아이템 얻는 함수
     def gard_battle_get_items(self):
         list_all_items = ['silver_helmet', 'cow_helmet', 'red_hood', 'bronze_armor',
@@ -1405,6 +1534,7 @@ class Main(QMainWindow, main_class):
             return list_gard_battle_get_item
         else:
             pass
+
 
     # 보스 전투 승리한 후 얻는 함수
     def boss_battle_get_items(self, int_floor):
