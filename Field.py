@@ -62,7 +62,6 @@ class FieldClass():
         list_ = []
         list_drop = random.choice(list_move_drop)
         list_.append(list_drop)
-        print(f"이동중 포션 획득 {list_move_drop} 획득")
         return list_
 
     def field_meet_ally_gard(self, list_move_drop, move_meet_equipment):  # 아군 수호대 조우
@@ -70,12 +69,9 @@ class FieldClass():
         list_drop_ = []
         drop_item = random.choices(list_move_drop, k=rand_num)
         list_eq_drop = random.choices(move_meet_equipment, k=rand_num)
-        print(f"아군 수호대 조우 {drop_item} 포션 획득")
-        print(f"아군 수호대 조우 {list_eq_drop} 장비 획득")
 
         list_drop_ += drop_item
         list_drop_ += list_eq_drop
-        print(list_drop_)
         return list_drop_
 
 
@@ -130,31 +126,20 @@ class FieldClass():
         ratio = random.randint(1, 100)
 
         if 0 < ratio <= 20:
-            print('이동')
             return None
         elif 20 < ratio <= 30:
-            print('적군수호대 조우')
             int_turn += 1
             bool_meet_gard = True
             return '적군수호대', self.field_meet_enemy_gard(dict_user_gard), bool_meet_gard, int_turn
-
         elif 30 < ratio <= 50:
-            print('아이템')
             return '아이템', self.field_move_random_drop(self.return_list_move_drop())
-
         elif 50 < ratio <= 80:
-            print('몬스터 출현')
             bool_meet_monster = True
             int_turn += 1
             return '일반몬스터', bool_meet_monster, int_turn
-            # 전투전 좌표 저장
-
         elif 80 < ratio <= 90:
-            print('Tent 획득')
             return '텐트', ['tent']
-
         elif 90 < ratio <= 100:
-            print('아군수호대 조우')
             return '아군수호대', self.field_meet_ally_gard(self.return_list_move_drop(), self.return_move_meet_equipment())
 
     # def back_position(self): # 도망 , 전투 후 전투전 위치로

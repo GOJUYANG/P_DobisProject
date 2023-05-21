@@ -95,12 +95,10 @@ class mazeClass:
 
             return '아군수호대', self.maze_meet_ally_gard()
         elif ratio <= 60:
-            print('적군수호대')
             bool_meet_enemy_gard = True
             int_turn += 1
             return '적군수호대', self.maze_meet_enemy_gard(int_floor, dict_user_gard), bool_meet_enemy_gard, int_turn
         else:
-            print('이동')
             return '이동'
 
     # 일반몬스터 만남(1~10마리)
@@ -115,7 +113,6 @@ class mazeClass:
                              'list_damage': random.choices([0.05, 0.1], k=int_monster_count)}
         # 시연님 상속받기
 
-        # print(int_floor, '층', '일반몬 구성:', dict_maze_monster, '내 수호대 구성:', dict_user_gard)
         return int_floor, dict_maze_monster, dict_user_gard
 
     # 아군 수호대 만남-9종류의 포션과 장비 중 나눔받음
@@ -143,7 +140,6 @@ class mazeClass:
             list_ally_drop.append(i)
         for j in list_ally_drop_equip:
             list_ally_drop.append(j)
-        # print(list_ally_drop)
         return list_ally_drop
 
     # 적군수호대 만남
