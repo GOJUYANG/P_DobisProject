@@ -909,10 +909,14 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     def set_init_maze_door(self):
         # 던전 입구
         if self.stackedWidget.currentWidget() == self.stack_field:
-            self.door = QPixmap("img_src/door/field.png")
+            door_list = []
+            door_list = self.get_gif_list('img_src/door', door_list)
+            door_img = random.choice(door_list)
+            self.movie = QMovie(door_img)
             self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
             self.list_lb_door[self.stackedWidget.currentIndex()].setAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.list_lb_door[self.stackedWidget.currentIndex()].setPixmap(self.door)
+            self.list_lb_door[self.stackedWidget.currentIndex()].setMovie(self.movie)
+            self.movie.start()
             self.list_lb_door[self.stackedWidget.currentIndex()].resize(
                 int(self.stackedWidget.width() / self.field_map_size),
                 int(self.stackedWidget.height() / self.field_map_size))
@@ -924,10 +928,14 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.renew_log_view(QIcon('img_src/alarm.png'), '던전입구가 생성되었습니다.')
         # 다음 층 입구
         if self.stackedWidget.currentWidget() in self.list_stack_maze:
-            self.door = QPixmap("img_src/door/maze.png")
+            door_list = []
+            door_list = self.get_gif_list('img_src/door', door_list)
+            door_img = random.choice(door_list)
+            self.movie = QMovie(door_img)
             self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
             self.list_lb_door[self.stackedWidget.currentIndex()].setAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.list_lb_door[self.stackedWidget.currentIndex()].setPixmap(self.door)
+            self.list_lb_door[self.stackedWidget.currentIndex()].setMovie(self.movie)
+            self.movie.start()
             self.list_lb_door[self.stackedWidget.currentIndex()].resize(
                 int(self.stackedWidget.width() / self.maze_map_size),
                 int(self.stackedWidget.height() / self.maze_map_size))
@@ -943,10 +951,14 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # 던전 입구
         if self.stackedWidget.currentWidget() == self.stack_field:
             if self.field_turn == 10:
-                self.door = QPixmap("img_src/door/field.png")
+                door_list = []
+                door_list = self.get_gif_list('img_src/door', door_list)
+                door_img = random.choice(door_list)
+                self.movie = QMovie(door_img)
                 self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
                 self.list_lb_door[self.stackedWidget.currentIndex()].setAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.list_lb_door[self.stackedWidget.currentIndex()].setPixmap(self.door)
+                self.list_lb_door[self.stackedWidget.currentIndex()].setMovie(self.movie)
+                self.movie.start()
                 self.list_lb_door[self.stackedWidget.currentIndex()].resize(
                     int(self.stackedWidget.width() / self.field_map_size),
                     int(self.stackedWidget.height() / self.field_map_size))
@@ -960,10 +972,14 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # 다음 층 입구
         if self.stackedWidget.currentWidget() in self.list_stack_maze:
             if self.maze_turn == 7:
-                self.door = QPixmap("img_src/door/maze.png")
+                door_list = []
+                door_list = self.get_gif_list('img_src/door', door_list)
+                door_img = random.choice(door_list)
+                self.movie = QMovie(door_img)
                 self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
                 self.list_lb_door[self.stackedWidget.currentIndex()].setAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.list_lb_door[self.stackedWidget.currentIndex()].setPixmap(self.door)
+                self.list_lb_door[self.stackedWidget.currentIndex()].setMovie(self.movie)
+                self.movie.start()
                 self.list_lb_door[self.stackedWidget.currentIndex()].resize(
                     int(self.stackedWidget.width() / self.maze_map_size),
                     int(self.stackedWidget.height() / self.maze_map_size))
@@ -1089,24 +1105,26 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
     def play_music(self, path):
         # QMediaPlaylist 객체 생성
-        playlist = QMediaPlaylist()
+        self.playlist = QMediaPlaylist()
 
         # 음악 파일 경로
         self.music_url = QUrl.fromLocalFile(path)
+
         # QMediaContent 객체 생성
         self.content = QMediaContent(self.music_url)
 
         # 음악 파일 경로 추가 (예: "music.mp3")
-        playlist.addMedia(self.content)
+        self.playlist.addMedia(self.content)
 
         # QMediaPlayer에 QMediaPlaylist 설정
-        self.player.setPlaylist(playlist)
+        self.player.setPlaylist(self.playlist)
 
         # 반복 재생 모드 설정
-        playlist.setPlaybackMode(QMediaPlaylist.Loop)
+        self.playlist.setPlaybackMode(QMediaPlaylist.Loop)
 
         # 음악 재생
         self.player.play()
+
         #
         # # 음악 파일 경로
         # self.music_url = QUrl.fromLocalFile(path)
