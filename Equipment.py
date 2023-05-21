@@ -137,10 +137,10 @@ class EquipmentClass(QDialog, Ui_Equipment):
             for k, v in self.dict_equip.items():
                 if v['name'] == item:
                     self.dict_user_gard[self.str_job]['equipment'].remove(k)
-                    self.dict_user_gard[self.str_job]['hp'] /= (100 + v['max_hp']) / 100
                     self.dict_user_gard[self.str_job]['max_hp'] /= (100 + v['max_hp']) / 100
-                    self.dict_user_gard[self.str_job]['mp'] /= (100 + v['max_mp']) / 100
+                    self.dict_user_gard[self.str_job]['hp'] /= (100 + v['max_hp']) / 100
                     self.dict_user_gard[self.str_job]['max_mp'] /= (100 + v['max_mp']) / 100
+                    self.dict_user_gard[self.str_job]['mp'] /= (100 + v['max_mp']) / 100
                     self.dict_user_gard[self.str_job]['power'] /= (100 + v['power']) / 100
                     self.dict_equip[k]['count'] += 1
                     break

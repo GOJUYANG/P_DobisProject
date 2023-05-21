@@ -1021,7 +1021,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['물'] = False
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'숲의 지역에 입장하였습니다.')
             self.player.stop()
-            self.play_music('music_src/눈의지역(deep in the dell).mp3')
+            self.play_music('music_src/숲의지역(Magical Forest).mp3')
             self.field_area = '숲의 지역'
         if int_x + error_range_w > self.area_water.pos().x() and int_y + error_range_h > self.area_water.pos().y() and not \
                 self.dict_field['물']:
@@ -1056,9 +1056,11 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         dlg.exec_()
 
         # 갱신
-
         self.dict_user_gard = dlg.dict_user_gard
         self.dict_equip = dlg.dict_equip
+
+        for k, v in self.dict_user_gard.items():
+            print(f'{k} : {v}')
 
         # print(self.dict_user_gard)
 
