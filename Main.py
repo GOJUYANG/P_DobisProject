@@ -557,7 +557,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
     # gif to 리스트
     def get_gif_list(self, path_, list_):
-        list_.clear()
+        # list_.clear()
         folder = os.path.join(os.getcwd(), path_)
         for image in glob.glob(os.path.join(folder, '*.gif')):
             list_.append(image)
@@ -565,7 +565,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
     # png to 리스트
     def get_png_list(self, path_, list_):
-        list_.clear()
+        # list_.clear()
         folder = os.path.join(os.getcwd(), path_)
         for image in glob.glob(os.path.join(folder, '*.png')):
             list_.append(image)
@@ -910,7 +910,9 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # 던전 입구
         if self.stackedWidget.currentWidget() == self.stack_field:
             door_list = []
-            door_list = self.get_gif_list('img_src/door', door_list)
+            door_list += self.get_gif_list('img_src/door', door_list)
+            door_list += self.get_png_list('img_src/door', door_list)
+            print(door_list)
             door_img = random.choice(door_list)
             self.movie = QMovie(door_img)
             self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
@@ -929,7 +931,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # 다음 층 입구
         if self.stackedWidget.currentWidget() in self.list_stack_maze:
             door_list = []
-            door_list = self.get_gif_list('img_src/door', door_list)
+            door_list += self.get_gif_list('img_src/door', door_list)
+            door_list += self.get_png_list('img_src/door', door_list)
             door_img = random.choice(door_list)
             self.movie = QMovie(door_img)
             self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
@@ -952,7 +955,9 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         if self.stackedWidget.currentWidget() == self.stack_field:
             if self.field_turn == 10:
                 door_list = []
-                door_list = self.get_gif_list('img_src/door', door_list)
+                door_list += self.get_gif_list('img_src/door', door_list)
+                door_list += self.get_png_list('img_src/door', door_list)
+                print(door_list)
                 door_img = random.choice(door_list)
                 self.movie = QMovie(door_img)
                 self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
@@ -973,7 +978,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         if self.stackedWidget.currentWidget() in self.list_stack_maze:
             if self.maze_turn == 7:
                 door_list = []
-                door_list = self.get_gif_list('img_src/door', door_list)
+                door_list += self.get_gif_list('img_src/door', door_list)
+                door_list += self.get_png_list('img_src/door', door_list)
                 door_img = random.choice(door_list)
                 self.movie = QMovie(door_img)
                 self.list_lb_door[self.stackedWidget.currentIndex()].setScaledContents(True)
