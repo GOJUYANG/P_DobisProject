@@ -6,7 +6,7 @@ from PyQt5.QtCore import QTimer
 from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget, QApplication, QGraphicsOpacityEffect, QPushButton, QVBoxLayout
 
-from_class = uic.loadUiType("intro.ui")[0]
+from_class = uic.loadUiType("./ui_src/intro.ui")[0]
 
 
 class WindowClass(QMainWindow, from_class):
