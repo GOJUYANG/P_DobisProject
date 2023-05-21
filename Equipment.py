@@ -149,7 +149,8 @@ class EquipmentClass(QDialog, Ui_Equipment):
                             self.dict_user_gard[self.str_job]['mp'] = self.dict_user_gard[self.str_job]['max_mp']
                     if v['power'] != 0:
                         self.dict_user_gard[self.str_job]['power'] /= (100 + v['power']) / 100
-                    self.dict_equip[k]['count'] += 1
+                    if self.dict_equip[k]['count'] < 3:
+                        self.dict_equip[k]['count'] += 1
                     break
 
             self.renew_equip_view()
