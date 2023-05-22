@@ -8,19 +8,32 @@ class CustomDialog(QDialog):
     def __init__(self, msg):
         super().__init__()
         self.msg = msg
+        self.cheatkey = ''
+        self.setWindowFlag(Qt.WindowType.FramelessWindowHint)
 
         QBtn = QDialogButtonBox.StandardButton.Ok
         # QBtn = QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
 
         self.buttonBox = QDialogButtonBox(QBtn)
         self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.rejected.connect(self.reject)
+        # self.buttonBox.rejected.connect(self.reject)
 
         self.layout = QVBoxLayout()
-        message = QLabel(self.msg)
-        self.layout.addWidget(message)
+
+        self.le_cheat = QLineEdit()
+        self.le_cheat.setPlaceholderText(self.msg)
+
+        self.layout.addWidget(self.le_cheat)
         self.layout.addWidget(self.buttonBox)
         self.setLayout(self.layout)
+
+    def accept(self):
+        self.cheatkey = self.le_cheat.text()
+        self.close()
+        return self.cheatkey
+
+
+
 
 
 class ChoiceJopDialog(QDialog):
@@ -81,7 +94,7 @@ class GiveGardName(QDialog, Ui_Dialog):
         self.lb_gard_img.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.lb_gard_img.setMovie(self.movie)
         self.movie.start()
-        self.le_gard_name.setPlaceholderText("수호대 이름.")
+        self.le_gard_name.setPlaceholderText("수호대 이름")
         self.le_gard_name.setAlignment(Qt.AlignmentFlag.AlignCenter)
         if gard == 'light_gard':
             self.le_gard_name.setStyleSheet(
@@ -105,7 +118,7 @@ class GiveGardName(QDialog, Ui_Dialog):
             self.pb_save.setStyleSheet(
                 "QPushButton{color: white;background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(15, 157, 88, 255), stop:1 rgba(15, 180, 78, 255));border-radius: 20px;}")
 
-        self.pb_save.clicked.connect(self.return_name)
+        self.pb_save.clicked.connect(self.accept)
 
     def keyPressEvent(self, event):
         print(event.key())
@@ -116,8 +129,12 @@ class GiveGardName(QDialog, Ui_Dialog):
             if len(self.le_gard_name.text()) > 0:
                 self.pb_save.click()
 
-    def return_name(self):
-        self.gard_name = f'{self.lb_gard_type.text()} [{self.le_gard_name.text()}]'
+    def accept(self):
+        if len(self.le_gard_name.text()) > 0:
+            self.gard_name = f'{self.lb_gard_type.text()} [{self.le_gard_name.text()}]'
+            self.close()
+        else:
+            pass
 
 class ChoiceJopDialogPush(QDialog):
     def __init__(self):

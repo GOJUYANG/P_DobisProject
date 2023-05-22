@@ -7,7 +7,7 @@ class FieldClass():
 
         # 지역 몬스터 리스트
 
-    def field_monster(self, str_area):
+    def field_meet_monster(self, str_area):
         monster_cnt, hp_monster = self.field_monster_population()
 
         if str_area == 'area_fire':
@@ -29,13 +29,11 @@ class FieldClass():
 
         return dict_field_monster
 
-
     def return_list_move_drop(self):
         list_move_drop = ['hp_potion_high', 'hp_potion_middle', 'hp_potion_low', 'mp_potion_high',
                           'mp_potion_middle', 'mp_potion_low', 'all_potion_high', 'all_potion_middle',
                           'all_potion_low']
         return list_move_drop
-
 
     # 획득한 장비 리스트
     def return_move_meet_equipment(self):
@@ -58,25 +56,21 @@ class FieldClass():
                                'silver_wand', 'stone_gem']
         return move_meet_equipment
 
-
     def field_monster_population(self):  # 1~10 마리 뽑기
         rand_monster_population_ = random.randint(1, 10)
         monster_population_hp = random.sample(range(200, 1000), k=rand_monster_population_)
         return rand_monster_population_, monster_population_hp
-
 
     def field_hp_monster(self):  # 몬스터 랜덤 체력
         rand_hp_monster = random.randint(200, 1000)
         print(f"일반 몬스터의 체력 {rand_hp_monster}")
         return rand_hp_monster
 
-
     def field_move_random_drop(self, list_move_drop):  # 필드 이동 중 랜덤 드랍
         list_ = []
         list_drop = random.choice(list_move_drop)
         list_.append(list_drop)
         return list_
-
 
     def field_meet_ally_gard(self, list_move_drop, move_meet_equipment):  # 아군 수호대 조우
         rand_num = random.randint(1, 3)
@@ -88,11 +82,10 @@ class FieldClass():
         list_drop_ += list_eq_drop
         return list_drop_
 
-
-    def field_meet_enemy_gard(self, dict_user_gard):
+    def field_meet_enemy_gard(self, dict_user_gard, str_area):
         int_hp_up = 1.2
-        list_enemy_lvs = [15, 16, 17, 18, 19, 20]
-        list_enemy_lvs_ = random.choice(list_enemy_lvs)
+        int_power_up = random.choice([1.1, 1.2, 1.3, 1.4, 1.5])
+        list_enemy_lvs = random.choices(range(15, 21), k=6)
 
         if dict_user_gard['gard'] == 'light_gard':
             str_enemy_gard = random.choice(['moon_gard', 'star_gard', 'earth_gard'])
@@ -104,46 +97,49 @@ class FieldClass():
             str_enemy_gard = random.choice(['light_gard', 'star_gard', 'moon_gard'])
 
         dict_enemy_gard = {'gard': str_enemy_gard,
-                           'warrior': {'lv': list_enemy_lvs_, 'hp': 300 * int_hp_up, 'mp': 0,
+                           'area': str_area,
+                           'warrior': {'lv': list_enemy_lvs[0], 'hp': 300 * int_hp_up, 'max_hp': 300 * int_hp_up,
                                        'skill': {10: 'slice_chop'}, 'power': 200},
-                           'archer': {'lv': list_enemy_lvs_, 'hp': 150 * int_hp_up, 'mp': 150 * int_hp_up,
-                                      'power': 300,
+                           'archer': {'lv': list_enemy_lvs[1], 'hp': 150 * int_hp_up, 'max_hp': 150 * int_hp_up,
+                                      'power': 300 * int_power_up,
                                       'skill': {10: 'target_shot',
                                                 15: 'dual_shot',
                                                 20: 'master_shot'}},
-                           'swordman': {'lv': list_enemy_lvs_, 'hp': 150 * int_hp_up, 'mp': 150 * int_hp_up,
-                                        'power': 250,
+                           'swordman': {'lv': list_enemy_lvs[2], 'hp': 150 * int_hp_up, 'max_hp': 150 * int_hp_up,
+                                        'power': 300 * int_power_up,
                                         'skill': {10: 'slice_chop'}},
-                           'wizard_red': {'lv': list_enemy_lvs_, 'hp': 150 * int_hp_up, 'mp': 100 * int_hp_up,
-                                          'power': 150,
+                           'wizard_red': {'lv': list_enemy_lvs[3], 'hp': 150 * int_hp_up, 'max_hp': 150 * int_hp_up,
+                                          'mp': 100 * int_hp_up,
+                                          'power': 300 * int_power_up,
                                           'skill': {1: ['heal_normal', 'fire_ball'],
                                                     15: ['heal_greater', 'fire_wall'],
                                                     20: 'thunder_breaker',
                                                     25: 'bilzzard',
                                                     30: 'heal_all'}},
-                           'wizard_black': {'lv': list_enemy_lvs_, 'hp': 200 * int_hp_up, 'mp': 150 * int_hp_up,
-                                            'power': 200,
+                           'wizard_black': {'lv': list_enemy_lvs[4], 'hp': 200 * int_hp_up, 'max_hp': 200 * int_hp_up,
+                                            'power': 300 * int_power_up,
                                             'skill': {1: 'fire_ball',
                                                       15: 'fire_wall',
                                                       20: 'thunder_breaker',
                                                       25: 'bilzzard'}},
-                           'wizard_white': {'lv': list_enemy_lvs_, 'hp': 200 * int_hp_up, 'mp': 150 * int_hp_up,
-                                            'power': 100,
+                           'wizard_white': {'lv': list_enemy_lvs[5], 'hp': 200 * int_hp_up, 'max_hp': 200 * int_hp_up,
+                                            'power': 300 * int_power_up,
                                             'skill': {1: 'heal_normal',
+                                                      10: 'hp_up',
                                                       15: 'heal_greater',
                                                       30: 'heal_all'}}}
 
-        return dict_enemy_gard, dict_user_gard
+        return dict_enemy_gard
 
 
-    def field_move_event(self, dict_user_gard, int_turn):  # 이동 중 이벤트 발생
+    def field_move_event(self, dict_user_gard, int_turn, str_area):  # 이동 중 이벤트 발생
         ratio = random.randint(1, 100)
         if 0 < ratio <= 28:
             return None
         elif 28 < ratio <= 38:
             int_turn += 1
             bool_meet_gard = True
-            return '적군수호대', self.field_meet_enemy_gard(dict_user_gard), bool_meet_gard, int_turn
+            return '적군수호대', self.field_meet_enemy_gard(dict_user_gard, str_area), bool_meet_gard, int_turn
         elif 38 < ratio <= 58:
             return '아이템', self.field_move_random_drop(self.return_list_move_drop())
         elif 58 < ratio <= 88:
@@ -178,7 +174,6 @@ class FieldClass():
     #     rand_maze_door_x = random.randint(0, 20)
     #     rand_maze_door_y = random.randint(0, 20)
     #     print(f"랜덤 던전 좌표 X {rand_maze_door_x} Y {rand_maze_door_y}")
-
 
     # a = FieldClass()
     # f = a.field_move_event()
