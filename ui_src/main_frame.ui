@@ -86,7 +86,7 @@
       <item>
        <widget class="QLabel" name="lb_gard_name">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -2332,7 +2332,7 @@ QProgressBar::chunk{
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
-              <widget class="QGroupBox" name="groupBox">
+              <widget class="QGroupBox" name="monster_group">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                  <horstretch>0</horstretch>
@@ -2369,7 +2369,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_10">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_10">
+                     <widget class="QLineEdit" name="hp_enemy_1">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2385,7 +2385,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_10">
+                     <widget class="QPushButton" name="enemy_1">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2414,7 +2414,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_11">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_11">
+                     <widget class="QLineEdit" name="hp_enemy_2">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2430,7 +2430,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_11">
+                     <widget class="QPushButton" name="enemy_2">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2456,7 +2456,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_12">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_12">
+                     <widget class="QLineEdit" name="hp_enemy_3">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2472,7 +2472,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_12">
+                     <widget class="QPushButton" name="enemy_3">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2498,7 +2498,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_13">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_13">
+                     <widget class="QLineEdit" name="hp_enemy_4">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2514,7 +2514,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_13">
+                     <widget class="QPushButton" name="enemy_4">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2540,7 +2540,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_14">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_14">
+                     <widget class="QLineEdit" name="hp_enemy_5">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2556,7 +2556,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_14">
+                     <widget class="QPushButton" name="enemy_5">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2586,7 +2586,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_15">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_15">
+                     <widget class="QLineEdit" name="hp_enemy_6">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2602,7 +2602,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_15">
+                     <widget class="QPushButton" name="enemy_6">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2628,7 +2628,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_16">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_16">
+                     <widget class="QLineEdit" name="hp_enemy_7">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2644,7 +2644,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_16">
+                     <widget class="QPushButton" name="enemy_7">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2670,7 +2670,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_17">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_17">
+                     <widget class="QLineEdit" name="hp_enemy_8">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2686,7 +2686,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_17">
+                     <widget class="QPushButton" name="enemy_8">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2712,7 +2712,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_18">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_18">
+                     <widget class="QLineEdit" name="hp_enemy_9">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2728,7 +2728,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_18">
+                     <widget class="QPushButton" name="enemy_9">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2754,7 +2754,7 @@ QProgressBar::chunk{
                   <item>
                    <layout class="QVBoxLayout" name="vertical_19">
                     <item>
-                     <widget class="QLineEdit" name="hp_enemy_19">
+                     <widget class="QLineEdit" name="hp_enemy_10">
                       <property name="styleSheet">
                        <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
                       </property>
@@ -2770,7 +2770,7 @@ QProgressBar::chunk{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="enemy_19">
+                     <widget class="QPushButton" name="enemy_10">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -2813,7 +2813,7 @@ QProgressBar::chunk{
                    <height>341</height>
                   </rect>
                  </property>
-                 <widget class="QLabel" name="black_wizard_lb_2">
+                 <widget class="QLabel" name="lb_wizard_black">
                   <property name="geometry">
                    <rect>
                     <x>370</x>
@@ -2850,7 +2850,7 @@ QProgressBar::chunk{
                    <number>-12</number>
                   </property>
                  </widget>
-                 <widget class="QLabel" name="swordsman_lb_2">
+                 <widget class="QLabel" name="lb_swordman">
                   <property name="geometry">
                    <rect>
                     <x>50</x>
@@ -2887,7 +2887,7 @@ QProgressBar::chunk{
                    <number>-12</number>
                   </property>
                  </widget>
-                 <widget class="QLabel" name="red_wizard_lb_2">
+                 <widget class="QLabel" name="lb_wizard_red">
                   <property name="geometry">
                    <rect>
                     <x>270</x>
@@ -2933,7 +2933,7 @@ QProgressBar::chunk{
                    <number>-12</number>
                   </property>
                  </widget>
-                 <widget class="QLabel" name="archer_lb_2">
+                 <widget class="QLabel" name="lb_archer">
                   <property name="geometry">
                    <rect>
                     <x>80</x>
@@ -2976,17 +2976,17 @@ QProgressBar::chunk{
                    <number>-12</number>
                   </property>
                  </widget>
-                 <widget class="QLabel" name="warrior_lb_2">
+                 <widget class="QLabel" name="lb_warrior">
                   <property name="geometry">
                    <rect>
                     <x>-40</x>
                     <y>120</y>
                     <width>185</width>
-                    <height>203</height>
+                    <height>500</height>
                    </rect>
                   </property>
                   <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
@@ -3022,7 +3022,7 @@ QProgressBar::chunk{
                    <number>-1</number>
                   </property>
                  </widget>
-                 <widget class="QLabel" name="white_wizard_lb_2">
+                 <widget class="QLabel" name="lb_wizard_white">
                   <property name="geometry">
                    <rect>
                     <x>570</x>

@@ -61,6 +61,7 @@ elif dict_user_gard['gard'] == 'earth_gard':
 
 dict_enemy_gard = {'type': 'maze_enemy_gard',
                    'gard': str_enemy_gard,
+
                    'warrior': {'lv': list_enemy_lvs_, 'hp': 300 * int_hp_up, 'max_hp': 300 * int_hp_up,
                                'skill': {10: 'slice_chop'}, 'power': 200},
                    'archer': {'lv': list_enemy_lvs_, 'hp': 150 * int_hp_up, 'max_hp': 150 * int_hp_up,

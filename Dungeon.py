@@ -148,21 +148,27 @@ class mazeClass:
         if int_floor == 1:
             list_enemy_lvs = random.choices(range(20, 25), k=6)
             int_hp_up = 1.3
+            power = random.randint(300, 400)
         elif int_floor == 2:
             list_enemy_lvs = random.choices(range(25, 30), k=6)
             int_hp_up = 1.3
+            power = random.randint(500, 1000)
         elif int_floor == 3:
             list_enemy_lvs = random.choices(range(30, 35), k=6)
             int_hp_up = 1.3 * 1.4
+            power = random.randint(1000, 2000)
         elif int_floor == 4:
             list_enemy_lvs = random.choices(range(35, 40), k=6)
             int_hp_up = 1.3 * 1.4
+            power = random.randint(2000, 3500)
         elif int_floor == 5:
             list_enemy_lvs = random.choices(range(45, 50), k=6)
             int_hp_up = 1.3 * 1.4 * 1.5
+            power = random.randint(3500, 5000)
         elif int_floor >= 6:
             list_enemy_lvs = random.choices(range(50, 100), k=6)
             int_hp_up = 1.3 * 1.4 * 1.5 * 1.6
+            power = random.randint(5000, 10000)
 
         if dict_user_gard['gard'] == 'light_gard':
             str_enemy_gard = random.choice(['moon_gard', 'star_gard', 'earth_gard'])
@@ -173,29 +179,29 @@ class mazeClass:
         elif dict_user_gard['gard'] == 'earth_gard':
             str_enemy_gard = random.choice(['light_gard', 'star_gard', 'moon_gard'])
 
-        dict_enemy_gard = {'gard': str_enemy_gard,
-                           'location': {'region': '', 'x': 0, 'y': 0},
+        dict_enemy_gard = {'type': 'enemy_gard',
+                           'gard': str_enemy_gard,
                            'warrior': {'survival': True,
-                                       'lv': list_enemy_lvs[0], 'hp': 300 * int_hp_up, 'max_hp': 300, 'mp': 0,
-                                       'max_mp': 0, 'power': 200,
+                                       'lv': list_enemy_lvs[0], 'hp': 300 * int_hp_up, 'max_hp': 300 * int_hp_up,
+                                       'power': power,
                                        'equipment': ['silver_helmet', 'bronze_armor', 'bronze_shield',
                                                      'bronze_sword'],
                                        'skill': {10: 'slice_chop'}},
                            'archer': {'survival': True,
-                                      'lv': list_enemy_lvs[1], 'hp': 150 * int_hp_up, 'max_hp': 300, 'mp': 0,
-                                      'max_mp': 0, 'power': 300,
+                                      'lv': list_enemy_lvs[1], 'hp': 150 * int_hp_up, 'max_hp': 150 * int_hp_up,
+                                      'power': power,
                                       'equipment': [],
                                       'skill': {10: 'target_shot',
                                                 15: 'dual_shot',
                                                 20: 'master_shot'}},
                            'swordman': {'survival': True,
-                                        'lv': list_enemy_lvs[2], 'hp': 150 * int_hp_up, 'max_hp': 300, 'mp': 0,
-                                        'max_mp': 0, 'power': 250,
+                                        'lv': list_enemy_lvs[2], 'hp': 150 * int_hp_up, 'max_hp': 150 * int_hp_up,
+                                        'power': power,
                                         'equipment': [],
                                         'skill': {10: 'slice_chop'}},
                            'wizard_red': {'survival': True,
-                                          'lv': list_enemy_lvs[3], 'hp': 150 * int_hp_up, 'max_hp': 300, 'mp': 0,
-                                          'max_mp': 0, 'power': 150,
+                                          'lv': list_enemy_lvs[3], 'hp': 150 * int_hp_up, 'max_hp': 150 * int_hp_up,
+                                          'power': power,
                                           'equipment': [],
                                           'skill': {1: ['heal_normal', 'fire_ball'],
                                                     15: ['heal_greater', 'fire_wall'],
@@ -203,18 +209,19 @@ class mazeClass:
                                                     25: 'bilzzard',
                                                     30: 'heal_all'}},
                            'wizard_black': {'survival': True,
-                                            'lv': list_enemy_lvs[4], 'hp': 200 * int_hp_up, 'max_hp': 300, 'mp': 0,
-                                            'max_mp': 0, 'power': 200,
+                                            'lv': list_enemy_lvs[4], 'hp': 200 * int_hp_up, 'max_hp': 200 * int_hp_up,
+                                            'power': power,
                                             'equipment': [],
                                             'skill': {1: 'fire_ball',
                                                       15: 'fire_wall',
                                                       20: 'thunder_breaker',
                                                       25: 'bilzzard'}},
                            'wizard_white': {'survival': True,
-                                            'lv': list_enemy_lvs[5], 'hp': 200 * int_hp_up, 'max_hp': 300, 'mp': 0,
-                                            'max_mp': 0, 'power': 100,
+                                            'lv': list_enemy_lvs[5], 'hp': 200 * int_hp_up, 'max_hp': 200 * int_hp_up,
+                                            'power': power,
                                             'equipment': [],
                                             'skill': {1: 'heal_normal',
+                                                      10: 'hp_up',
                                                       15: 'heal_greater',
                                                       30: 'heal_all'}}}
         return int_floor, dict_enemy_gard, dict_user_gard
@@ -237,37 +244,53 @@ class mazeClass:
 
         if int_floor == 1:
             int_boss_hp = random.randint(25000, 35000)
-            dict_boss_monster = {'name': '이동려크', 'hp': int_boss_hp, 'attack': ['fan_attack', 0.05],
+            dict_boss_monster = {'floor': 1,
+                                 'type': 'boss',
+                                 'name': '이동려크',
+                                 'hp': int_boss_hp,
+                                 'attack': ['fan_attack', 0.05],
                                  'skill': ['hell_shouting', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
         elif int_floor == 2:
             int_boss_hp = random.randint(45000, 55000)
-            dict_boss_monster = {'name': '조동혀니', 'hp': int_boss_hp, 'attack': ['silent_attack', 0.05],
+            dict_boss_monster = {'floor': 2,
+                                 'type': 'boss',
+                                 'name': '조동혀니', 'hp': int_boss_hp, 'attack': ['silent_attack', 0.05],
                                  'skill': ['hell_feedback', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
         elif int_floor == 3:
             int_boss_hp = random.randint(65000, 75000)
-            dict_boss_monster = {'name': '류홍거리', 'hp': int_boss_hp, 'attack': ['ignore_attack', 0.05],
+            dict_boss_monster = {'floor': 3,
+                                 'type': 'boss',
+                                 'name': '류홍거리', 'hp': int_boss_hp, 'attack': ['ignore_attack', 0.05],
                                  'skill': ['hell_ignore', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
         elif int_floor == 4:
             int_boss_hp = random.randint(75000, 85000)
-            dict_boss_monster = {'name': '코로나악마공주', 'hp': int_boss_hp, 'attack': ['virus_attack', 0.05],
+            dict_boss_monster = {'floor': 4,
+                                 'type': 'boss',
+                                 'name': '코로나악마공주', 'hp': int_boss_hp, 'attack': ['virus_attack', 0.05],
                                  'skill': ['hell_virus', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
         elif int_floor == 5:
             int_boss_hp = random.randint(85000, 599999)
-            dict_boss_monster = {'name': '이땅복이', 'hp': int_boss_hp, 'attack': ['html_attack', 0.05],
+            dict_boss_monster = {'floor': 5,
+                                 'type': 'boss',
+                                 'name': '이땅복이', 'hp': int_boss_hp, 'attack': ['html_attack', 0.05],
                                  'skill': ['hell_task', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
         elif int_floor == 6:
             int_boss_hp = random.randint(999999, 9999999)
-            dict_boss_monster = {'name': '환생의 복이', 'hp': int_boss_hp, 'attack': ['python_attack', 0.05],
+            dict_boss_monster = {'floor': 6,
+                                 'type': 'boss',
+                                 'name': '환생의 복이', 'hp': int_boss_hp, 'attack': ['python_attack', 0.05],
                                  'skill': ['hell_coding', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
         elif int_floor == 7:
             int_boss_hp = 9999999
-            dict_boss_monster = {'name': '로드오브보기', 'hp': int_boss_hp, 'attack': ['c_attack', 0.05],
+            dict_boss_monster = {'floor': 7,
+                                 'type': 'boss',
+                                 'name': '로드오브보기', 'hp': int_boss_hp, 'attack': ['c_attack', 0.05],
                                  'skill': ['hell_boki', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
         return int_floor, dict_boss_monster
