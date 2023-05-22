@@ -88,6 +88,7 @@ class My():
                                                            10: 'hp_up',
                                                            15: 'heal_greater',
                                                            30: 'heal_all'}}}
+        
         self.use_hp_up = False
         self.use_fire_wall = False
         self.use_thunder_breaker = False
