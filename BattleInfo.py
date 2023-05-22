@@ -1,3 +1,61 @@
+# 우리 수호대
+self.dict_user_gard = {'gard': '',
+                       'warrior': {'survival': True,
+                                   'image': '',
+                                   'lv': 30, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+                                   'equipment': [],
+                                   'skill': {10: 'slice_chop'}},
+                       'archer': {'survival': True,
+                                  'image': '',
+                                  'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 300,
+                                  'equipment': [],
+                                  'skill': {10: 'target_shot',
+                                            15: 'dual_shot',
+                                            20: 'master_shot'}},
+                       'swordman': {'survival': True,
+                                    'image': '',
+                                    'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 250,
+                                    'equipment': [],
+                                    'skill': {10: 'slice_chop'}},
+                       'wizard_red': {'survival': True,
+                                      'image': '',
+                                      'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 100, 'max_mp': 100, 'power': 150,
+                                      'equipment': [],
+                                      'skill': {1: ['heal_normal', 'fire_ball'],
+                                                15: ['heal_greater', 'fire_wall'],
+                                                20: 'thunder_breaker',
+                                                25: 'bilzzard',
+                                                30: 'heal_all'}},
+                       'wizard_black': {'survival': True,
+                                        'image': '',
+                                        'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
+                                        'power': 200,
+                                        'equipment': [],
+                                        'skill': {1: 'fire_ball',
+                                                  15: 'fire_wall',
+                                                  20: 'thunder_breaker',
+                                                  25: 'bilzzard'}},
+                       'wizard_white': {'survival': True,
+                                        'image': '',
+                                        'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
+                                        'power': 100,
+                                        'equipment': [],
+                                        'skill': {1: 'heal_normal',
+                                                  15: 'heal_greater',
+                                                  30: 'heal_all'}}}
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 적수호대
 dict_enemy_gard = {'gard': str_enemy_gard,
                    'warrior': {'lv': list_enemy_lvs_, 'hp': 300 * int_hp_up, 'max_hp': 300 * int_hp_up, 'mp': 0,
@@ -113,3 +171,4 @@ elif int_floor == 7:
                          'name': '로드오브보기', 'hp': int_boss_hp, 'attack': ['c_attack', 0.05],
                          'skill': ['hell_boki', 0.1],
                          'list_field_monster': [int_cnt, list_hp, list_area]}
+
