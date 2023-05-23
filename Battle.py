@@ -7,55 +7,67 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
+from PyQt5.uic.properties import QtGui
+
+#
+# def resource_path(relative_path):
+#     base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+#     return os.path.join(base_path, relative_path)
+#
+#
+# # 메인화면
+# main = resource_path('img_src/qt/this_is_boki_dialog.ui')
+# main_class = uic.loadUiType(main)[0]
 
 
-def resource_path(relative_path):
-    base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
+from view.this_is_boki_dialog import Ui_Dialog
 
 
-# 메인화면
-main = resource_path('../qt/this_is_boki_dialog.ui')
-main_class = uic.loadUiType(main)[0]
-
-
-class Main(QDialog, main_class):
+class BattleClass(QDialog, Ui_Dialog):
     def __init__(self, **kwargs):
         super().__init__()
         self.setupUi(self)
         self.timer = QTimer()
 
+        self.black_wizard_lb.setPixmap(QPixmap("../img_src/wizard_black/walk1.png"))
+        self.red_wizard_lb.setPixmap(QPixmap("../img_src/wizard_red/walk1.png"))
+        self.archer_lb.setPixmap(QPixmap("../img_src/archer/walk1.png"))
+        self.warrior_lb.setPixmap(QPixmap("../img_src/warrior/walk1.png"))
+        self.white_wizard_lb.setPixmap(QPixmap("../img_src/wizard_white/walk1.png"))
+        self.swordman_lb.setPixmap(QPixmap("../img_src/swordman/walk1.png"))
+
+
         if 'bool_meet_gard' in kwargs:
-           self.bool_meet_gard = kwargs['bool_meet_gard']
-        elif 'bool_meet_monster' in kwargs:
+            self.bool_meet_gard = kwargs['bool_meet_gard']
+        if 'bool_meet_monster' in kwargs:
             self.bool_meet_monster = kwargs['bool_meet_monster']
-        elif 'bool_meet_maze_gard' in kwargs:
+        if 'bool_meet_maze_gard' in kwargs:
             self.bool_meet_maze_gard = kwargs['bool_meet_maze_gard']
-        elif 'bool_meet_enemy_monster' in kwargs:
+        if 'bool_meet_enemy_monster' in kwargs:
             self.bool_meet_enemy_monster = kwargs['bool_meet_enemy_monster']
-        elif 'bool_meet_boss_monster' in kwargs:
+        if 'bool_meet_boss_monster' in kwargs:
             self.bool_meet_boss_monster = kwargs['bool_meet_boss_monster']
-        elif 'dict_user_gard' in kwargs:
+        if 'dict_user_gard' in kwargs:
             self.dict_user_gard = kwargs['dict_user_gard']
-        elif 'dict_field_monster' in kwargs:
+        if 'dict_field_monster' in kwargs:
             self.dict_field_monster = kwargs['dict_field_monster']
-        elif 'dict_maze_monster' in kwargs:
+        if 'dict_maze_monster' in kwargs:
             self.dict_maze_monster = kwargs['dict_maze_monster']
-        elif 'int_floor' in kwargs:
+        if 'int_floor' in kwargs:
             self.int_floor = kwargs['int_floor']
-        elif 'dict_enemy_gard' in kwargs:
+        if 'dict_enemy_gard' in kwargs:
             self.dict_enemy_gard = kwargs['dict_enemy_gard']
-        elif 'dict_boss_monster' in kwargs:
+        if 'dict_boss_monster' in kwargs:
             self.dict_boss_monster = kwargs['dict_boss_monster']
 
-        ### 받아올 변수 ###
+            ### 받아올 변수 ###
 
-        ## 필드 ##
+            ## 필드 ##
             if self.dict_field_monster['type'] == 'field_monster':
                 self.bool_meet_monster = True
             elif self.dict_enemy_gard['type'] == 'field_enemy_gard':
                 self.bool_meet_gard = True
-        ## 던전 ##
+            ## 던전 ##
             elif self.dict_field_monster['type'] == 'maze_monster':
                 self.bool_meet_enemy_monster = True
             elif self.dict_enemy_gard['type'] == 'maze_enemy_gard':
@@ -346,19 +358,33 @@ class Main(QDialog, main_class):
         self.list_skill_btn = [self.pb_skill_job_warrior,
                                self.pb_skill_job_archer, self.pb_skill_job_swordman, self.pb_skill_job_wizard_red,
                                self.pb_skill_job_wizard_black, self.pb_skill_job_wizard_white]
-        self.list_job_skill = [self.skill_btn_warrior_slice_chop,                                                                        #0
-                               self.skill_btn_archer_target_shot,self.skill_btn_archer_dual_shot,self.skill_btn_archer_master_shot,      #1~3
-                               self.skill_btn_swordman_slice_chop,                                                                       #4
-                               self.skill_btn_wizard_red_heal_normal,self.skill_btn_wizard_red_heal_greater,self.skill_btn_wizard_red_heal_all,  #5~11
-                               self.skill_btn_wizard_red_fire_ball,self.skill_btn_wizard_red_fire_wall,self.skill_btn_wizard_red_thunder_breaker,self.skill_btn_wizard_red_bilzzard,
-                               self.skill_btn_wizard_black_fire_ball,self.skill_btn_wizard_black_fire_wall,self.skill_btn_wizard_black_thunder_breaker,self.skill_btn_wizard_black_bilzzard, #12~15
-                               self.skill_btn_wizard_white_heal_normal,self.skill_btn_wizard_white_heal_greater, self.skill_btn_wizard_white_heal_all, #16~21
-                               self.skill_btn_wizard_white_hp_up,self.skill_btn_wizard_white_mp_up,self.skill_btn_wizard_white_map_find]
+        self.list_job_skill = [self.skill_btn_warrior_slice_chop,  # 0
+                               self.skill_btn_archer_target_shot, self.skill_btn_archer_dual_shot,
+                               self.skill_btn_archer_master_shot,
+                               # 1~3
+                               self.skill_btn_swordman_slice_chop,  # 4
+                               self.skill_btn_wizard_red_heal_normal, self.skill_btn_wizard_red_heal_greater,
+                               self.skill_btn_wizard_red_heal_all,
+                               # 5~11
+                               self.skill_btn_wizard_red_fire_ball, self.skill_btn_wizard_red_fire_wall,
+                               self.skill_btn_wizard_red_thunder_breaker, self.skill_btn_wizard_red_bilzzard,
+                               self.skill_btn_wizard_black_fire_ball, self.skill_btn_wizard_black_fire_wall,
+                               self.skill_btn_wizard_black_thunder_breaker, self.skill_btn_wizard_black_bilzzard,
+                               # 12~15
+                               self.skill_btn_wizard_white_heal_normal, self.skill_btn_wizard_white_heal_greater,
+                               self.skill_btn_wizard_white_heal_all,
+                               # 16~21
+                               self.skill_btn_wizard_white_hp_up, self.skill_btn_wizard_white_mp_up,
+                               self.skill_btn_wizard_white_map_find]
 
         ### qt 연결 ###
-        self.war_start.clicked.connect(self.battle_location)
-        self.war_start.clicked.connect(self.show_war_result)
-        self.war_start.clicked.connect(self.equip_btn_disabled)
+        self.battle_location()
+        self.show_war_result()
+        self.equip_btn_disabled()
+
+        # self.war_start.clicked.connect(self.battle_location)s
+        # self.war_start.clicked.connect(self.show_war_result)
+        # self.war_start.clicked.connect(self.equip_btn_disabled)
 
         # self.list_frame[i].findChildren(QPushButton)[i] -> i:0 공격 / 1:장비 / 2:스킬 / 3:도망
         for i in range(6):
@@ -468,7 +494,7 @@ class Main(QDialog, main_class):
         # self.skill_btn_wizard_white_map_find.connect()
 
     ### 함수 선언 ###
-    #[공격]버튼 함수에 connect, 그 전에 몬스터 버튼은 disconnect이 되어있다.
+    # [공격]버튼 함수에 connect, 그 전에 몬스터 버튼은 disconnect이 되어있다.
     def attack_connect(self, btn):
         if self.bool_meet_monster:
             loop = self.dict_field_monster['info']['int_cnt']
@@ -477,7 +503,7 @@ class Main(QDialog, main_class):
         elif self.bool_meet_gard or self.bool_meet_maze_gard:
             loop = 6
         elif self.bool_meet_boss_monster:
-            loop = self.dict_boss_monster['list_field_monster'][0]+1
+            loop = self.dict_boss_monster['list_field_monster'][0] + 1
 
         for i in range(loop):
             self.list_enemy_btn[i].disconnect()
@@ -492,7 +518,7 @@ class Main(QDialog, main_class):
         elif self.bool_meet_gard or self.bool_meet_maze_gard:
             loop = 6
         elif self.bool_meet_boss_monster:
-            loop = self.dict_boss_monster['list_field_monster'][0]+1
+            loop = self.dict_boss_monster['list_field_monster'][0] + 1
 
         for i in range(loop):
             self.list_enemy_btn[i].disconnect()
@@ -526,10 +552,10 @@ class Main(QDialog, main_class):
             #         lambda x, y=i: self.swordman_skill_effect(x, y, self.skill_btn_swordman_slice_chop))
             elif btn == self.list_job_skill[8]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_red', 'fire_ball', 'part', 30, 30))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'fire_ball', 'part', 30, 30))
             elif btn == self.list_job_skill[9]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_red', 'fire_wall', 'all', 50, 50))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'fire_wall', 'all', 50, 50))
             elif btn == self.list_job_skill[10]:
                 self.list_enemy_btn[i].clicked.connect(
                     lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'thunder_breaker', 'all', 60, 60))
@@ -850,7 +876,7 @@ class Main(QDialog, main_class):
         for i, job in enumerate(self.list_job):
             if self.dict_user_gard[job]['survival']:
                 self.int_survival = i
-        if self.int_btn_clicked_cnt == self.int_survival+1:
+        if self.int_btn_clicked_cnt == self.int_survival + 1:
             for i, job in enumerate(self.list_job):
                 if self.dict_user_gard[job]['survival']:
                     self.list_attack_btn[i].setEnabled(True)
@@ -879,13 +905,13 @@ class Main(QDialog, main_class):
         self.list_skill_btn = []
         list_gif_lb = []
         if index == 3:
-            self.movie = QMovie('../wizard_red/skill2.gif', QByteArray(), self)
+            self.movie = QMovie('img_src/wizard_red/skill2.gif', QByteArray(), self)
             self.gif_3_1.setMovie(self.movie)
             self.movie.start()
         for i in range(6):
             list_gif_lb.append(getattr(self, f"gif_{i}"))
             self.list_skill_btn.append(getattr(self, f"pb_skill_job_{self.list_job[i]}"))
-            self.movie = QMovie(f'../{self.list_job[i]}/skill.gif', QByteArray(), self)
+            self.movie = QMovie(f'img_src/{self.list_job[i]}/skill.gif', QByteArray(), self)
             list_gif_lb[i].setMovie(self.movie)
             self.movie.start()
 
@@ -1267,7 +1293,8 @@ class Main(QDialog, main_class):
                 else:
                     self.list_enemy_line[index].setText(
                         f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1] - damage}")
-                    self.dict_boss_monster['list_field_monster'][1][index - 1] = self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
+                    self.dict_boss_monster['list_field_monster'][1][index - 1] = \
+                    self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
                     if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
                         self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
                         self.list_enemy_line[index].setText(
@@ -1313,9 +1340,6 @@ class Main(QDialog, main_class):
                         f"wizard_red의 {str_skill_name}사용으로 {k}의 체력이 최대체력의 {heal}% 증가하여 {k['max_hp'] * (heal / 100)}만큼 올랐다! ")
             self.battle_dialog.append(f"wizard_red의 MP가 {int_mp}줄었습니다.")
             self.stackedWidget.setCurrentIndex(0)
-
-
-
 
         self.monster_turn()
         return self.dict_user_gard
@@ -1374,7 +1398,7 @@ class Main(QDialog, main_class):
                         self.list_enemy_line[index].setText(
                             f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1]}")
                         self.dict_boss_monster['list_field_monster'][1][index - 1] = \
-                        self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
+                            self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
                         if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
                             self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
                             self.list_enemy_line[index].setText(
@@ -1469,7 +1493,7 @@ class Main(QDialog, main_class):
         self.current_pos = self.list_job_lb[self.index].pos()
         print(self.current_pos)
         if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.)
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/attack1.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack1.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 200)
             QTimer.singleShot(500, self.move_image_forward2)
             # self.timer.stop()
@@ -1477,7 +1501,7 @@ class Main(QDialog, main_class):
 
     def move_image_forward2(self):
         if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/attack2.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack2.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 300)
             QTimer.singleShot(500, self.move_image_back)
             # self.timer.stop()
@@ -1485,7 +1509,7 @@ class Main(QDialog, main_class):
 
     def move_image_back(self):
         if self.current_pos.x() < 900:  # 원래 위치로 돌아가는 x 좌표
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/walk1.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/walk1.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y())
             self.timer.stop()
 
@@ -1528,8 +1552,8 @@ class Main(QDialog, main_class):
                         f"{self.dict_enemy_gard['area']}지역에서 벌어진 {self.dict_enemy_gard['gard']}와의 수호대와의 전투 시작!")
                     for k in range(6):
                         self.list_enemy_line[k].setText(
-                            f"{self.list_job[k]} HP: {self.dict_user_gard[self.list_job[k]]['hp']:.f}")
-                        pixmap = QPixmap(f'../{self.list_job[k]}/reverse.png')
+                            f"{self.list_job[k]} HP: {self.dict_user_gard[self.list_job[k]]['hp']:.1f}")
+                        pixmap = QPixmap(f'img_src/{self.list_job[k]}/reverse.png')
                         pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                         icon = QIcon()
                         icon.addPixmap(pixmap)
@@ -1541,7 +1565,7 @@ class Main(QDialog, main_class):
                     for j in range(6):
                         self.list_enemy_line[j].setText(
                             f"{self.list_job[j]} HP: {self.dict_enemy_gard[self.list_job[j]]['hp']}")
-                        pixmap = QPixmap(f'../{self.list_job[j]}/reverse.png')
+                        pixmap = QPixmap(f'img_src/{self.list_job[j]}/reverse.png')
                         pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                         icon = QIcon()
                         icon.addPixmap(pixmap)
@@ -2340,7 +2364,7 @@ class Main(QDialog, main_class):
                     self.list_attack_btn[i].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
-                    self.list_job_lb[i].setPixmap(QPixmap(f'../{self.list_job[i]}/died.png'))
+                    self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/died.png'))
 
             if self.bool_meet_monster:
                 self.monster_li.clear()
@@ -2435,7 +2459,7 @@ class Main(QDialog, main_class):
 
                     self.battle_dialog.append(
                         f"HP: {str(self.dict_field_monster['info']['hp'][k])}의 {self.monster_li[k]}를 만났다!")
-                    pixmap = QPixmap(f'../data/{self.dict_field_monster["area"]}/{self.monster_li[k]}.png')
+                    pixmap = QPixmap(f'img_src/{self.dict_field_monster["area"]}/{self.monster_li[k]}.png')
                     pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                     icon = QIcon()
                     icon.addPixmap(pixmap)
@@ -2540,7 +2564,7 @@ class Main(QDialog, main_class):
 
                     self.battle_dialog.append(f"HP: {self.dict_maze_monster['list_hp'][j]}의 {self.monster_li[j]}를 만났다!")
                     pixmap = QPixmap(
-                        f'../data/{self.dict_maze_monster["list_area_monster"][j]}/{self.monster_li[j]}.png')
+                        f'img_src/{self.dict_maze_monster["list_area_monster"][j]}/{self.monster_li[j]}.png')
                     pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                     icon = QIcon()
                     icon.addPixmap(pixmap)
@@ -2555,10 +2579,10 @@ class Main(QDialog, main_class):
             damage = self.selected_option
             print(f"공격데미지 : {damage}")
 
-            #오류#예상부분 : 죽은몬스터를 self.monster_li에서 제거하는 순간 index오류 발생할 가능성 농후
+            # 오류#예상부분 : 죽은몬스터를 self.monster_li에서 제거하는 순간 index오류 발생할 가능성 농후
             self.battle_dialog.append(f"{self.name}이/가{self.monster_li[index]}을/를 공격해 {damage}데미지를 입혔다.")
             if self.bool_meet_monster:
-                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster['info']['hp'][index]- damage}")
+                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
                 self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
                 print(f"선택몬스터의 맞기전 hp:{self.dict_field_monster['info']['hp'][index]}")
                 print(f"hp-데미지:{self.dict_field_monster['info']['hp'][index] - damage}")
@@ -2567,7 +2591,7 @@ class Main(QDialog, main_class):
                     self.list_enemy_btn[index].setDisabled(True)
 
             elif self.bool_meet_enemy_monster:
-                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index]- damage}")
+                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index] - damage}")
                 if self.dict_maze_monster['list_hp'][index] <= 0:
                     self.dict_maze_monster['list_hp'][index] = 0
                     self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index]}")
@@ -2585,7 +2609,6 @@ class Main(QDialog, main_class):
         int_monster_skill_c = random.randint(0, 1)
         int_monster_target_c = random.randint(0, len(list_target) - 1)
         int_skill_sucess = random.randint(0, 100)
-
 
         if int_monster_skill_c == 0:
             damage_key = 'attack'
@@ -2607,7 +2630,8 @@ class Main(QDialog, main_class):
                     self.atk_mon = self.monster_li[atk_monster]
 
             if damage_key == 'attack':
-                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_field_monster['info']['hp'][atk_monster] * damage_num
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_field_monster['info']['hp'][
+                                                                                    atk_monster] * damage_num
                 # 출력 메세지
                 self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
@@ -2705,7 +2729,7 @@ class Main(QDialog, main_class):
                     self.list_attack_btn[i].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
-                    self.list_job_lb[i].setPixmap(QPixmap(f'../{self.list_job[i]}/died.png'))
+                    self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/died.png'))
 
             if self.bool_meet_boss_monster:
                 self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 {self.dict_boss_monster['name']}와의 전투 시작!")
@@ -2806,7 +2830,7 @@ class Main(QDialog, main_class):
                     self.battle_dialog.append(
                         f"HP: {self.dict_boss_monster['list_field_monster'][1][j]}의 {self.monster_li[j]}를 만났다!")
                     pixmap = QPixmap(
-                        f'../data/{self.dict_boss_monster["list_field_monster"][2][j]}/{self.monster_li[j]}.png')
+                        f'img_src/{self.dict_boss_monster["list_field_monster"][2][j]}/{self.monster_li[j]}.png')
                     pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                     icon = QIcon()
                     icon.addPixmap(pixmap)
@@ -2815,10 +2839,10 @@ class Main(QDialog, main_class):
 
                 for l in range(7):
                     if self.int_floor == l + 1:
-                        self.movie = QMovie(f'../data/boss_monster/{l + 1}.gif', QByteArray(), self)
+                        self.movie = QMovie(f'img_src/data/boss_monster/{l + 1}.gif', QByteArray(), self)
                         self.movie.frameChanged.connect(
                             lambda frame: self.enemy_0.setIcon(QIcon(self.movie.currentPixmap())))
-                        if self.int_floor in [1,5,6,7]:
+                        if self.int_floor in [1, 5, 6, 7]:
                             self.enemy_0.setIconSize(QSize(180, 180))
                         else:
                             self.enemy_0.setIconSize(QSize(100, 100))
@@ -3088,6 +3112,6 @@ class Main(QDialog, main_class):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Main()
+    ex = BattleClass()
     ex.show()
     app.exec_()

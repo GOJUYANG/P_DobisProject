@@ -63,7 +63,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../wizard_black/walk1.png</pixmap>
+       <pixmap>../img_src/wizard_black/walk1.png</pixmap>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -106,7 +106,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../wizard_red/walk1.png</pixmap>
+       <pixmap>../img_src/wizard_red/walk1.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>false</bool>
@@ -152,7 +152,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../archer/walk1.png</pixmap>
+       <pixmap>../img_src/archer/walk1.png</pixmap>
       </property>
       <property name="scaledContents">
        <bool>false</bool>
@@ -195,7 +195,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../warrior/walk1.png</pixmap>
+       <pixmap>../img_src/warrior/walk1.png</pixmap>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -238,7 +238,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../wizard_white/attack1.png</pixmap>
+       <pixmap>../img_src/wizard_white/walk1.png</pixmap>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -273,7 +273,7 @@
        <string/>
       </property>
       <property name="pixmap">
-       <pixmap>../swordman/walk1.png</pixmap>
+       <pixmap>../img_src/swordman/walk1.png</pixmap>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>

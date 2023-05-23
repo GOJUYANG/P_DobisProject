@@ -16,9 +16,7 @@ from Dungeon import mazeClass
 from Field import FieldClass
 from Dialog import *
 from intro import WindowClass
-
-
-# from BattleNew import BattleClass
+from Battle import BattleClass
 
 
 class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
@@ -480,9 +478,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                     if tuple_v[0] == '일반몬스터':
                         self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area} 몬스터를 만났습니다')
                         enemy = tuple_v[1]
-                        # battle_widnow = BattleClass(str_area=self.field_area, str_maze_floor=self.maze_floor,
-                        #                             dict_monster_info=self.field_meet_monster(self.field_area))
-                        # battle_widnow.exec()
+                        battle_widnow = BattleClass(str_area=self.field_area, str_maze_floor=self.maze_floor,
+                                                    bool_meet_monster=True, bool_meet_maze_gard=False,
+                                                    bool_meet_gard=False,
+                                                    bool_meet_enemy_monster=False, bool_meet_boss_monster=False,
+                                                    dict_field_monster=self.field_meet_monster(self.field_area)
+                                                    , dict_user_gard=self.dict_user_gard)
+                        battle_widnow.exec()
                         self.field_turn += 1
                         self.set_maze_door_loc()
                     elif tuple_v[0] == '텐트':
@@ -493,9 +495,14 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.dict_item, self.dict_equip = self.get_item(tuple_v[1], self.dict_item, self.dict_equip)
                     elif tuple_v[0] == '적군수호대':
                         self.renew_log_view(QIcon('./img_src/alarm.png'), '적군 수호대를 만났습니다.')
-                        # battle_widnow = BattleClass(str_area=self.field_area, str_maze_floor=self.maze_floor,
-                        #                             dict_monster_info=self.field_meet_enemy_gard(self.dict_user_gard))
-                        # battle_widnow.exec()
+                        battle_widnow = BattleClass(str_area=self.field_area,
+                                                    bool_meet_monster=False, bool_meet_maze_gard=False,
+                                                    bool_meet_gard=True,
+                                                    bool_meet_enemy_monster=False, Dbool_meet_boss_monster=False,
+                                                    dict_enemy_gard=self.field_meet_enemy_gard(self.dict_user_gard,
+                                                                                               self.field_area),
+                                                    dict_user_gard=self.dict_user_gard)
+                        battle_widnow.exec()
                         self.field_turn += 1
                         self.set_maze_door_loc()
                     elif tuple_v[0] == '아이템':
@@ -593,19 +600,17 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                 # 보스 전투
                 self.battle_boss_signal()
 
-            # 좌표
-
     # 배경음악 깔기
     def play_bgm(self, str_where=''):
         if self.stackedWidget.currentWidget() == self.stack_field:
             if str_where == '':
-                if self.field_area == '불의 지역':
+                if self.field_area == 'area_fire':
                     self.play_music('music_src/불의지역(nomad places desert middle eastern).mp3')
-                elif self.field_area == '물의 지역':
+                elif self.field_area == 'area_water':
                     self.play_music('music_src/눈의지역(deep in the dell).mp3')
-                elif self.field_area == '숲의 지역':
+                elif self.field_area == 'area_forest':
                     self.play_music('music_src/숲의지역(Magical Forest).mp3')
-                elif self.field_area == '눈의 지역':
+                elif self.field_area == 'area_snow':
                     self.play_music('music_src/눈의지역(deep in the dell).mp3')
             elif str_where == '일반몬스터':
                 self.play_music('music_src/기습(ghost).mp3')
@@ -625,19 +630,19 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     # 필드 이미지 삽입
     def insert_img_area(self):
         self.area_forest.setPixmap(
-            QPixmap('./img_src/map/forest_map.jpg').scaled(self.area_forest.width(), self.area_forest.height(),
+            QPixmap('./img_src/map/forest_map.png').scaled(self.area_forest.width(), self.area_forest.height(),
                                                            Qt.KeepAspectRatio))
         self.area_forest.setScaledContents(True)
         self.area_fire.setPixmap(
-            QPixmap('./img_src/map/fire_map.jpg').scaled(self.area_fire.width(), self.area_fire.height(),
+            QPixmap('./img_src/map/fire_map.png').scaled(self.area_fire.width(), self.area_fire.height(),
                                                          Qt.KeepAspectRatio))
         self.area_fire.setScaledContents(True)
         self.area_snow.setPixmap(
-            QPixmap('./img_src/map/snow_map.gif').scaled(self.area_snow.width(), self.area_snow.height(),
+            QPixmap('./img_src/map/snow_map.png').scaled(self.area_snow.width(), self.area_snow.height(),
                                                          Qt.KeepAspectRatio))
         self.area_snow.setScaledContents(True)
         self.area_water.setPixmap(
-            QPixmap('./img_src/map/water_map.jpg').scaled(self.area_water.width(), self.area_water.height(),
+            QPixmap('./img_src/map/water_map.png').scaled(self.area_water.width(), self.area_water.height(),
                                                           Qt.KeepAspectRatio))
         self.area_water.setScaledContents(True)
 
@@ -1239,7 +1244,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['눈'] = False
             self.dict_field['숲'] = False
             self.dict_field['물'] = False
-            self.field_area = '불의 지역'
+            self.field_area = 'area_fire'
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area}에 입장하였습니다.')
             self.play_bgm()
         if int_x + error_range_w > self.area_water.pos().x() and int_y + error_range_h < self.area_water.pos().y() and not \
@@ -1248,7 +1253,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['눈'] = True
             self.dict_field['숲'] = False
             self.dict_field['물'] = False
-            self.field_area = '눈의 지역'
+            self.field_area = 'area_snow'
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area}에 입장하였습니다.')
             self.play_bgm()
         if int_x + error_range_w < self.area_water.pos().x() and int_y + error_range_h > self.area_water.pos().y() and not \
@@ -1257,7 +1262,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['눈'] = False
             self.dict_field['숲'] = True
             self.dict_field['물'] = False
-            self.field_area = '숲의 지역'
+            self.field_area = 'area_forest'
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area}에 입장하였습니다.')
             self.play_bgm()
         if int_x + error_range_w > self.area_water.pos().x() and int_y + error_range_h > self.area_water.pos().y() and not \
@@ -1266,7 +1271,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['눈'] = False
             self.dict_field['숲'] = False
             self.dict_field['물'] = True
-            self.field_area = '물의 지역'
+            self.field_area = 'area_water'
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area}에 입장하였습니다.')
             self.play_bgm()
 
