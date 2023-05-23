@@ -28,14 +28,7 @@ class BattleClass(QDialog, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.timer = QTimer()
-
-        self.black_wizard_lb.setPixmap(QPixmap("../img_src/wizard_black/walk1.png"))
-        self.red_wizard_lb.setPixmap(QPixmap("../img_src/wizard_red/walk1.png"))
-        self.archer_lb.setPixmap(QPixmap("../img_src/archer/walk1.png"))
-        self.warrior_lb.setPixmap(QPixmap("../img_src/warrior/walk1.png"))
-        self.white_wizard_lb.setPixmap(QPixmap("../img_src/wizard_white/walk1.png"))
-        self.swordman_lb.setPixmap(QPixmap("../img_src/swordman/walk1.png"))
-
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
 
         if 'bool_meet_gard' in kwargs:
             self.bool_meet_gard = kwargs['bool_meet_gard']
@@ -376,6 +369,9 @@ class BattleClass(QDialog, Ui_Dialog):
                                # 16~21
                                self.skill_btn_wizard_white_hp_up, self.skill_btn_wizard_white_mp_up,
                                self.skill_btn_wizard_white_map_find]
+
+        for i in range(0, 6):
+            self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/walk1.png'))
 
         ### qt 연결 ###
         self.battle_location()
@@ -1294,7 +1290,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_enemy_line[index].setText(
                         f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1] - damage}")
                     self.dict_boss_monster['list_field_monster'][1][index - 1] = \
-                    self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
+                        self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
                     if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
                         self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
                         self.list_enemy_line[index].setText(
@@ -1495,7 +1491,7 @@ class BattleClass(QDialog, Ui_Dialog):
         if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.)
             self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack1.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 200)
-            QTimer.singleShot(500, self.move_image_forward2)
+            QTimer.singleShot(300, self.move_image_forward2)
             # self.timer.stop()
         return self.index
 
@@ -1503,7 +1499,7 @@ class BattleClass(QDialog, Ui_Dialog):
         if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.
             self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack2.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 300)
-            QTimer.singleShot(500, self.move_image_back)
+            QTimer.singleShot(300, self.move_image_back)
             # self.timer.stop()
         return self.index
 
@@ -3107,6 +3103,11 @@ class BattleClass(QDialog, Ui_Dialog):
                 pass
         else:
             print('보스를 죽이지 못했습니다.')
+            pass
+
+    def keyPressEvent(self, event):
+        print(event.key())
+        if event.key() == Qt.Key.Key_Escape:
             pass
 
 

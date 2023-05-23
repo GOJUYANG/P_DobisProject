@@ -485,6 +485,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                                                     dict_field_monster=self.field_meet_monster(self.field_area)
                                                     , dict_user_gard=self.dict_user_gard)
                         battle_widnow.exec()
+                        self.dict_user_gard = battle_widnow.dict_user_gard
+                        self.renew_gard_status()
                         self.field_turn += 1
                         self.set_maze_door_loc()
                     elif tuple_v[0] == '텐트':
@@ -993,7 +995,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     # 유저 스텟 갱신
     def renew_gard_status(self):
         self.movie = QMovie(self.dict_user_gard['warrior']['image'])
-        # self.img_warrior.setScaledContents(True)
+        self.img_warrior.setScaledContents(True)
         self.img_warrior.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.img_warrior.setMovie(self.movie)
         self.movie.start()
@@ -1003,7 +1005,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.mp_warrior.setValue(0)
 
         self.movie = QMovie(self.dict_user_gard['archer']['image'])
-        # self.img_archer.setScaledContents(True)
+        self.img_archer.setScaledContents(True)
         self.img_archer.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.img_archer.setMovie(self.movie)
         self.movie.start()
@@ -1025,7 +1027,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.mp_swordman.setValue(int(self.dict_user_gard['swordman']['mp']))
 
         self.movie = QMovie(self.dict_user_gard['wizard_red']['image'])
-        # self.img_wizard_red.setScaledContents(True)
+        self.img_wizard_red.setScaledContents(True)
         self.img_wizard_red.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.img_wizard_red.setMovie(self.movie)
         self.movie.start()
@@ -1036,7 +1038,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.mp_wizard_red.setValue(int(self.dict_user_gard['wizard_red']['mp']))
 
         self.movie = QMovie(self.dict_user_gard['wizard_black']['image'])
-        # self.img_wizard_black.setScaledContents(True)
+        self.img_wizard_black.setScaledContents(True)
         self.img_wizard_black.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.img_wizard_black.setMovie(self.movie)
         self.movie.start()
@@ -1358,6 +1360,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
         # 음악 재생
         self.player.play()
+
 
 
 if __name__ == '__main__':

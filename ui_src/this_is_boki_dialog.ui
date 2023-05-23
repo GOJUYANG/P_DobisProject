@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1008</width>
-    <height>863</height>
+    <width>1014</width>
+    <height>876</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
@@ -34,6 +37,9 @@
        <width>675</width>
        <height>477</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <widget class="QLabel" name="black_wizard_lb">
       <property name="geometry">
@@ -279,6 +285,13 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
+     <zorder>black_wizard_lb</zorder>
+     <zorder>red_wizard_lb</zorder>
+     <zorder>white_wizard_lb</zorder>
+     <zorder>war_start</zorder>
+     <zorder>archer_lb</zorder>
+     <zorder>warrior_lb</zorder>
+     <zorder>swordman_lb</zorder>
     </widget>
     <widget class="QTextEdit" name="battle_dialog">
      <property name="geometry">
@@ -309,6 +322,10 @@
      </property>
      <property name="contextMenuPolicy">
       <enum>Qt::DefaultContextMenu</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);</string>
      </property>
      <property name="verticalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOn</enum>
@@ -6748,8 +6765,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_0">
         <item>
          <widget class="QLineEdit" name="hp_enemy_0">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -6793,8 +6817,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_1">
         <item>
          <widget class="QLineEdit" name="hp_enemy_1">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -6835,8 +6866,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_2">
         <item>
          <widget class="QLineEdit" name="hp_enemy_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -6877,8 +6915,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_3">
         <item>
          <widget class="QLineEdit" name="hp_enemy_3">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -6919,8 +6964,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_4">
         <item>
          <widget class="QLineEdit" name="hp_enemy_4">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -6965,8 +7017,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_5">
         <item>
          <widget class="QLineEdit" name="hp_enemy_5">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -7007,8 +7066,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_6">
         <item>
          <widget class="QLineEdit" name="hp_enemy_6">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -7049,8 +7115,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_7">
         <item>
          <widget class="QLineEdit" name="hp_enemy_7">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -7091,8 +7164,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_8">
         <item>
          <widget class="QLineEdit" name="hp_enemy_8">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -7133,8 +7213,15 @@ color:white;</string>
        <layout class="QVBoxLayout" name="vertical_9">
         <item>
          <widget class="QLineEdit" name="hp_enemy_9">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgba(255, 255, 255, 0);</string>
+           <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
           </property>
           <property name="frame">
            <bool>false</bool>
@@ -7178,8 +7265,8 @@ color:white;</string>
   <widget class="QWidget" name="btn_widget" native="true">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>790</y>
+     <x>9</x>
+     <y>791</y>
      <width>991</width>
      <height>81</height>
     </rect>
@@ -7229,12 +7316,22 @@ color:white;</string>
           <x>0</x>
           <y>0</y>
           <width>158</width>
-          <height>61</height>
+          <height>66</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_16">
          <item row="0" column="0">
           <widget class="QPushButton" name="pb_atk_warrior">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>공격</string>
            </property>
@@ -7242,6 +7339,16 @@ color:white;</string>
          </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="pb_equip_warrior">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>장비</string>
            </property>
@@ -7249,6 +7356,16 @@ color:white;</string>
          </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="pb_skill_job_warrior">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>스킬</string>
            </property>
@@ -7256,6 +7373,16 @@ color:white;</string>
          </item>
          <item row="2" column="1">
           <widget class="QPushButton" name="pb_run_job_warrior">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>RUN</string>
            </property>
@@ -7297,12 +7424,22 @@ color:white;</string>
           <x>0</x>
           <y>0</y>
           <width>158</width>
-          <height>61</height>
+          <height>66</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_17">
          <item row="0" column="0">
           <widget class="QPushButton" name="pb_atk_archer">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>공격</string>
            </property>
@@ -7310,6 +7447,16 @@ color:white;</string>
          </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="pb_equip_archer">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>장비</string>
            </property>
@@ -7317,6 +7464,16 @@ color:white;</string>
          </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="pb_skill_job_archer">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>스킬</string>
            </property>
@@ -7324,6 +7481,16 @@ color:white;</string>
          </item>
          <item row="2" column="1">
           <widget class="QPushButton" name="pb_run_job_archer">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>RUN</string>
            </property>
@@ -7365,12 +7532,22 @@ color:white;</string>
           <x>0</x>
           <y>0</y>
           <width>158</width>
-          <height>61</height>
+          <height>66</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_18">
          <item row="0" column="0">
           <widget class="QPushButton" name="pb_atk_swordman">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>공격</string>
            </property>
@@ -7378,6 +7555,16 @@ color:white;</string>
          </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="pb_equip_swordman">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>장비</string>
            </property>
@@ -7385,6 +7572,16 @@ color:white;</string>
          </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="pb_skill_job_swordman">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>스킬</string>
            </property>
@@ -7392,6 +7589,16 @@ color:white;</string>
          </item>
          <item row="2" column="1">
           <widget class="QPushButton" name="pb_run_job_swordman">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>RUN</string>
            </property>
@@ -7433,12 +7640,22 @@ color:white;</string>
           <x>0</x>
           <y>0</y>
           <width>158</width>
-          <height>61</height>
+          <height>66</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_19">
          <item row="0" column="0">
           <widget class="QPushButton" name="pb_atk_wizard_red">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>공격</string>
            </property>
@@ -7446,6 +7663,16 @@ color:white;</string>
          </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="pb_equip_wizard_red">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>장비</string>
            </property>
@@ -7453,6 +7680,16 @@ color:white;</string>
          </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="pb_skill_job_wizard_red">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>스킬</string>
            </property>
@@ -7460,6 +7697,16 @@ color:white;</string>
          </item>
          <item row="2" column="1">
           <widget class="QPushButton" name="pb_run_job_wizard_red">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>RUN</string>
            </property>
@@ -7501,12 +7748,22 @@ color:white;</string>
           <x>0</x>
           <y>0</y>
           <width>158</width>
-          <height>61</height>
+          <height>66</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_20">
          <item row="0" column="0">
           <widget class="QPushButton" name="pb_atk_wizard_black">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>공격</string>
            </property>
@@ -7514,6 +7771,16 @@ color:white;</string>
          </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="pb_equip_wizard__black">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>장비</string>
            </property>
@@ -7521,6 +7788,16 @@ color:white;</string>
          </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="pb_skill_job_wizard_black">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>스킬</string>
            </property>
@@ -7528,6 +7805,16 @@ color:white;</string>
          </item>
          <item row="2" column="1">
           <widget class="QPushButton" name="pb_run_wizard__black">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>RUN</string>
            </property>
@@ -7569,12 +7856,22 @@ color:white;</string>
           <x>0</x>
           <y>0</y>
           <width>158</width>
-          <height>61</height>
+          <height>66</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_21">
          <item row="0" column="0">
           <widget class="QPushButton" name="pb_atk_wizard_white">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>공격</string>
            </property>
@@ -7582,6 +7879,16 @@ color:white;</string>
          </item>
          <item row="2" column="0">
           <widget class="QPushButton" name="pb_equip_wizard_white">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>장비</string>
            </property>
@@ -7589,6 +7896,16 @@ color:white;</string>
          </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="pb_skill_job_wizard_white">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>스킬</string>
            </property>
@@ -7596,6 +7913,16 @@ color:white;</string>
          </item>
          <item row="2" column="1">
           <widget class="QPushButton" name="pb_run_job_wizard_white">
+           <property name="font">
+            <font>
+             <pointsize>11</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+           </property>
            <property name="text">
             <string>RUN</string>
            </property>
