@@ -70,13 +70,13 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="btn1">
                <property name="text">
                 <string/>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../Desktop/intro4.jpg</normaloff>../../../Desktop/intro4.jpg</iconset>
+                 <normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro4.jpg</normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro4.jpg</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -112,7 +112,7 @@
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../Desktop/intro1.5.png</normaloff>../../../Desktop/intro1.5.png</iconset>
+                 <normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro1.5.png</normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro1.5.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -148,7 +148,7 @@
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../Desktop/intro1.9.png</normaloff>../../../Desktop/intro1.9.png</iconset>
+                 <normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro1.9.png</normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro1.9.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -178,13 +178,13 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="btn4">
                <property name="text">
                 <string/>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../Desktop/intro2.png</normaloff>../../../Desktop/intro2.png</iconset>
+                 <normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro2.png</normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro2.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -214,13 +214,13 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="btn5">
                <property name="text">
                 <string/>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../Desktop/intro last.png</normaloff>../../../Desktop/intro last.png</iconset>
+                 <normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro last.png</normaloff>../../../Desktop/Dobis_project1/img_src/intro/intro last.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -250,13 +250,13 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton_4">
+              <widget class="QPushButton" name="btn6">
                <property name="text">
                 <string/>
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>../../../Desktop/your2.png</normaloff>../../../Desktop/your2.png</iconset>
+                 <normaloff>../../../Desktop/Dobis_project1/img_src/intro/your2.png</normaloff>../../../Desktop/Dobis_project1/img_src/intro/your2.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
