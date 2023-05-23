@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QWidget, QApplication, QGraphicsOpacityEffect, QPush
 from_class = uic.loadUiType("./ui_src/intro.ui")[0]
 
 
-class WindowClass(QMainWindow, from_class):
+class WindowClass(QDialog, from_class):
     def __init__(self):
         super().__init__()
 
