@@ -220,7 +220,7 @@
            </font>
           </property>
           <property name="text">
-           <string>아이템 정보</string>
+           <string>아이템 사용</string>
           </property>
          </widget>
         </item>
@@ -244,7 +244,7 @@
            </font>
           </property>
           <property name="text">
-           <string>아이템 사용</string>
+           <string>아이템 정보</string>
           </property>
          </widget>
         </item>

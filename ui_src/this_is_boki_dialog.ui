@@ -20,9 +20,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>310</y>
+     <y>335</y>
      <width>981</width>
-     <height>481</height>
+     <height>451</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -33,9 +33,9 @@
      <property name="geometry">
       <rect>
        <x>306</x>
-       <y>0</y>
+       <y>26</y>
        <width>675</width>
-       <height>477</height>
+       <height>451</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -44,8 +44,8 @@
      <widget class="QLabel" name="black_wizard_lb">
       <property name="geometry">
        <rect>
-        <x>370</x>
-        <y>260</y>
+        <x>380</x>
+        <y>240</y>
         <width>291</width>
         <height>261</height>
        </rect>
@@ -71,6 +71,9 @@
       <property name="pixmap">
        <pixmap>../img_src/wizard_black/walk1.png</pixmap>
       </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
@@ -81,8 +84,8 @@
      <widget class="QLabel" name="red_wizard_lb">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>290</y>
+        <x>310</x>
+        <y>280</y>
         <width>180</width>
         <height>200</height>
        </rect>
@@ -127,8 +130,8 @@
      <widget class="QLabel" name="archer_lb">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>310</y>
+        <x>100</x>
+        <y>285</y>
         <width>170</width>
         <height>190</height>
        </rect>
@@ -174,7 +177,7 @@
       <property name="geometry">
        <rect>
         <x>-40</x>
-        <y>310</y>
+        <y>280</y>
         <width>185</width>
         <height>203</height>
        </rect>
@@ -219,8 +222,8 @@
      <widget class="QLabel" name="white_wizard_lb">
       <property name="geometry">
        <rect>
-        <x>570</x>
-        <y>280</y>
+        <x>560</x>
+        <y>250</y>
         <width>111</width>
         <height>211</height>
        </rect>
@@ -253,24 +256,11 @@
        <number>-12</number>
       </property>
      </widget>
-     <widget class="QPushButton" name="war_start">
-      <property name="geometry">
-       <rect>
-        <x>480</x>
-        <y>0</y>
-        <width>152</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>WAR_START</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="swordman_lb">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>320</y>
+        <x>110</x>
+        <y>290</y>
         <width>351</width>
         <height>171</height>
        </rect>
@@ -288,7 +278,6 @@
      <zorder>black_wizard_lb</zorder>
      <zorder>red_wizard_lb</zorder>
      <zorder>white_wizard_lb</zorder>
-     <zorder>war_start</zorder>
      <zorder>archer_lb</zorder>
      <zorder>warrior_lb</zorder>
      <zorder>swordman_lb</zorder>
@@ -7366,8 +7355,7 @@ QPushButton:checked {background-color : silver;}</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>공격</string>
@@ -7383,8 +7371,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>장비</string>
@@ -7400,8 +7387,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>스킬</string>
@@ -7417,8 +7403,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>RUN</string>
@@ -7474,8 +7459,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>공격</string>
@@ -7491,8 +7475,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>장비</string>
@@ -7508,8 +7491,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>스킬</string>
@@ -7525,8 +7507,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>RUN</string>
@@ -7582,8 +7563,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>공격</string>
@@ -7599,8 +7579,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>장비</string>
@@ -7616,8 +7595,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>스킬</string>
@@ -7633,8 +7611,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>RUN</string>
@@ -7690,8 +7667,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>공격</string>
@@ -7707,8 +7683,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>장비</string>
@@ -7724,8 +7699,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>스킬</string>
@@ -7741,8 +7715,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>RUN</string>
@@ -7798,8 +7771,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>공격</string>
@@ -7815,8 +7787,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>장비</string>
@@ -7832,8 +7803,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>스킬</string>
@@ -7849,8 +7819,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>RUN</string>
@@ -7906,8 +7875,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>공격</string>
@@ -7923,8 +7891,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>장비</string>
@@ -7940,8 +7907,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>스킬</string>
@@ -7957,8 +7923,7 @@ color: rgb(0, 0, 0);</string>
             </font>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 255, 255);
-color: rgb(0, 0, 0);</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>RUN</string>
@@ -7971,6 +7936,19 @@ color: rgb(0, 0, 0);</string>
      </item>
     </layout>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="btn_goback">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>310</y>
+     <width>152</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>돌아가기</string>
+   </property>
   </widget>
  </widget>
  <resources/>

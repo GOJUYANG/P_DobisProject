@@ -259,11 +259,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.dict_user_gard = {'gard': '',
                                'warrior': {'survival': True,
                                            'image': '',
+                                           'die_image': '',
                                            'lv': 30, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
                                            'equipment': [],
                                            'skill': {10: 'slice_chop'}},
                                'archer': {'survival': True,
                                           'image': '',
+                                          'die_image': '',
                                           'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 300,
                                           'equipment': [],
                                           'skill': {10: 'target_shot',
@@ -271,11 +273,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                                                     20: 'master_shot'}},
                                'swordman': {'survival': True,
                                             'image': '',
+                                            'die_image': '',
                                             'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 250,
                                             'equipment': [],
                                             'skill': {10: 'slice_chop'}},
                                'wizard_red': {'survival': True,
                                               'image': '',
+                                              'die_image': '',
                                               'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 100, 'max_mp': 100, 'power': 150,
                                               'equipment': [],
                                               'skill': {1: ['heal_normal', 'fire_ball'],
@@ -285,6 +289,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                                                         30: 'heal_all'}},
                                'wizard_black': {'survival': True,
                                                 'image': '',
+                                                'die_image': '',
                                                 'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
                                                 'power': 200,
                                                 'equipment': [],
@@ -294,6 +299,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                                                           25: 'bilzzard'}},
                                'wizard_white': {'survival': True,
                                                 'image': '',
+                                                'die_image': '',
                                                 'lv': 1, 'hp': 200, 'max_hp': 200, 'mp': 150, 'max_mp': 150,
                                                 'power': 100,
                                                 'equipment': [],
@@ -346,7 +352,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # self.timer2.start()
 
         # 수호대 이미지 넣기
-        self.insert_gif_dict('img_src/character/job', self.dict_user_gard)
+        self.insert_gif_dict('img_src/character/job', 'image', self.dict_user_gard)
+        self.insert_gif_dict('img_src/character/die', 'die_image', self.dict_user_gard)
 
         # 장비 이미지 넣기
         self.insert_img_dict('img_src/equip', self.dict_equip)
@@ -414,6 +421,14 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
     # 키 입력 이벤트
     def keyPressEvent(self, event):
         is_same_direct = False
+        is_all_died = True
+
+        for k, v in self.dict_user_gard.items():
+            if k not in ['gard']:
+                if v['survival']:
+                    is_all_died = False
+                    break
+
         if event.key() in [Qt.Key_A, Qt.Key_D, Qt.Key_W, Qt.Key_S]:
             # 던전 입구,출구
             is_place_door = self.maze_door_signal()
@@ -476,7 +491,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
                 tuple_v = self.field_move_event(self.dict_user_gard, self.field_turn)
 
-                if tuple_v is not None and not is_same_direct and not is_place_door:
+                if tuple_v is not None and not is_same_direct and not is_place_door and not is_all_died:
                     self.play_bgm(tuple_v[0])
                     if tuple_v[0] == '일반몬스터':
                         self.renew_log_view(QIcon('./img_src/alarm.png'),
@@ -580,7 +595,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
                 tuple_v = self.maze_move_event(self.maze_floor, self.dict_user_gard, self.maze_turn)
 
-                if tuple_v is not None and not is_same_direct and not is_place_door:
+                if tuple_v is not None and not is_same_direct and not is_place_door and not is_all_died:
                     self.play_bgm(tuple_v[0])
                     if tuple_v[0] == '일반몬스터':
                         self.renew_log_view(QIcon('./img_src/alarm.png'), '던전 몬스터를 만났습니다')
@@ -678,12 +693,12 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                     v['image'] = equip
 
     # gif to 딕셔너리
-    def insert_gif_dict(self, path_, dict_):
+    def insert_gif_dict(self, path_, key, dict_):
         folder = os.path.join(os.getcwd(), path_)
         for equip in glob.glob(os.path.join(folder, '*.gif')):
             for k, v in dict_.items():
                 if k in equip:
-                    v['image'] = equip
+                    v[key] = equip
 
     # 화면 전환
     def change_map(self, page):
@@ -999,65 +1014,107 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
     # 유저 스텟 갱신
     def renew_gard_status(self):
-        self.movie = QMovie(self.dict_user_gard['warrior']['image'])
-        self.img_warrior.setScaledContents(True)
-        self.img_warrior.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.img_warrior.setMovie(self.movie)
-        self.movie.start()
-        self.lv_warrior.setText('Lv. ' + str(self.dict_user_gard['wararior']['lv']))
+        if self.dict_user_gard['warrior']['hp'] > 0:
+            self.movie = QMovie(self.dict_user_gard['warrior']['image'])
+            self.img_warrior.setScaledContents(True)
+            self.img_warrior.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_warrior.setMovie(self.movie)
+            self.movie.start()
+        elif self.dict_user_gard['warrior']['hp'] <= 0:
+            self.movie = QMovie(self.dict_user_gard['warrior']['die_image'])
+            self.img_warrior.setScaledContents(True)
+            self.img_warrior.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_warrior.setMovie(self.movie)
+            self.movie.start()
+        self.lv_warrior.setText('Lv. ' + str(self.dict_user_gard['warrior']['lv']))
         self.hp_warrior.setMaximum(int(self.dict_user_gard['warrior']['max_hp']))
         self.hp_warrior.setValue(int(self.dict_user_gard['warrior']['hp']))
         self.mp_warrior.setValue(0)
 
-        self.movie = QMovie(self.dict_user_gard['archer']['image'])
-        self.img_archer.setScaledContents(True)
-        self.img_archer.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.img_archer.setMovie(self.movie)
-        self.movie.start()
+        if self.dict_user_gard['archer']['hp'] > 0:
+            self.movie = QMovie(self.dict_user_gard['archer']['image'])
+            self.img_archer.setScaledContents(True)
+            self.img_archer.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_archer.setMovie(self.movie)
+            self.movie.start()
+        elif self.dict_user_gard['archer']['hp'] <= 0:
+            self.movie = QMovie(self.dict_user_gard['archer']['die_image'])
+            self.img_archer.setScaledContents(True)
+            self.img_archer.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_archer.setMovie(self.movie)
+            self.movie.start()
         self.lv_archer.setText('Lv. ' + str(self.dict_user_gard['archer']['lv']))
         self.hp_archer.setMaximum(int(self.dict_user_gard['archer']['max_hp']))
         self.hp_archer.setValue(int(self.dict_user_gard['archer']['hp']))
         self.mp_archer.setMaximum(int(self.dict_user_gard['archer']['max_mp']))
         self.mp_archer.setValue(int(self.dict_user_gard['archer']['mp']))
 
-        self.movie = QMovie(self.dict_user_gard['swordman']['image'])
-        self.img_swordman.setScaledContents(True)
-        self.img_swordman.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.img_swordman.setMovie(self.movie)
-        self.movie.start()
+        if self.dict_user_gard['swordman']['hp'] > 0:
+            self.movie = QMovie(self.dict_user_gard['swordman']['image'])
+            self.img_swordman.setScaledContents(True)
+            self.img_swordman.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_swordman.setMovie(self.movie)
+            self.movie.start()
+        elif self.dict_user_gard['swordman']['hp'] <= 0:
+            self.movie = QMovie(self.dict_user_gard['swordman']['die_image'])
+            self.img_swordman.setScaledContents(True)
+            self.img_swordman.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_swordman.setMovie(self.movie)
+            self.movie.start()
         self.lv_swordman.setText('Lv. ' + str(self.dict_user_gard['swordman']['lv']))
         self.hp_swordman.setMaximum(int(self.dict_user_gard['swordman']['max_hp']))
         self.hp_swordman.setValue(int(self.dict_user_gard['swordman']['hp']))
         self.mp_swordman.setMaximum(int(self.dict_user_gard['swordman']['max_mp']))
         self.mp_swordman.setValue(int(self.dict_user_gard['swordman']['mp']))
 
-        self.movie = QMovie(self.dict_user_gard['wizard_red']['image'])
-        self.img_wizard_red.setScaledContents(True)
-        self.img_wizard_red.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.img_wizard_red.setMovie(self.movie)
-        self.movie.start()
+        if self.dict_user_gard['wizard_red']['hp'] > 0:
+            self.movie = QMovie(self.dict_user_gard['wizard_red']['image'])
+            self.img_wizard_red.setScaledContents(True)
+            self.img_wizard_red.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_wizard_red.setMovie(self.movie)
+            self.movie.start()
+        elif self.dict_user_gard['wizard_red']['hp'] <= 0:
+            self.movie = QMovie(self.dict_user_gard['wizard_red']['die_image'])
+            self.img_wizard_red.setScaledContents(True)
+            self.img_wizard_red.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_wizard_red.setMovie(self.movie)
+            self.movie.start()
         self.lv_wizard_red.setText('Lv. ' + str(self.dict_user_gard['wizard_red']['lv']))
         self.hp_wizard_red.setMaximum(int(self.dict_user_gard['wizard_red']['max_hp']))
         self.hp_wizard_red.setValue(int(self.dict_user_gard['wizard_red']['hp']))
         self.mp_wizard_red.setMaximum(int(self.dict_user_gard['wizard_red']['max_mp']))
         self.mp_wizard_red.setValue(int(self.dict_user_gard['wizard_red']['mp']))
 
-        self.movie = QMovie(self.dict_user_gard['wizard_black']['image'])
-        self.img_wizard_black.setScaledContents(True)
-        self.img_wizard_black.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.img_wizard_black.setMovie(self.movie)
-        self.movie.start()
+        if self.dict_user_gard['wizard_black']['hp'] > 0:
+            self.movie = QMovie(self.dict_user_gard['wizard_black']['image'])
+            self.img_wizard_black.setScaledContents(True)
+            self.img_wizard_black.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_wizard_black.setMovie(self.movie)
+            self.movie.start()
+        elif self.dict_user_gard['wizard_black']['hp'] <= 0:
+            self.movie = QMovie(self.dict_user_gard['wizard_black']['die_image'])
+            self.img_wizard_black.setScaledContents(True)
+            self.img_wizard_black.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_wizard_black.setMovie(self.movie)
+            self.movie.start()
         self.lv_wizard_black.setText('Lv. ' + str(self.dict_user_gard['wizard_black']['lv']))
         self.hp_wizard_black.setMaximum(int(self.dict_user_gard['wizard_black']['max_hp']))
         self.hp_wizard_black.setValue(int(self.dict_user_gard['wizard_black']['hp']))
         self.mp_wizard_black.setMaximum(int(self.dict_user_gard['wizard_black']['max_mp']))
         self.mp_wizard_black.setValue(int(self.dict_user_gard['wizard_black']['mp']))
 
-        self.movie = QMovie(self.dict_user_gard['wizard_white']['image'])
-        self.img_wizard_white.setScaledContents(True)
-        self.img_wizard_white.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.img_wizard_white.setMovie(self.movie)
-        self.movie.start()
+        if self.dict_user_gard['wizard_white']['hp'] > 0:
+            self.movie = QMovie(self.dict_user_gard['wizard_white']['image'])
+            self.img_wizard_white.setScaledContents(True)
+            self.img_wizard_white.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_wizard_white.setMovie(self.movie)
+            self.movie.start()
+        elif self.dict_user_gard['wizard_white']['hp'] <= 0:
+            self.movie = QMovie(self.dict_user_gard['wizard_white']['die_image'])
+            self.img_wizard_white.setScaledContents(True)
+            self.img_wizard_white.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            self.img_wizard_white.setMovie(self.movie)
+            self.movie.start()
         self.lv_wizard_white.setText('Lv. ' + str(self.dict_user_gard['wizard_white']['lv']))
         self.hp_wizard_white.setMaximum(int(self.dict_user_gard['wizard_white']['max_hp']))
         self.hp_wizard_white.setValue(int(self.dict_user_gard['wizard_white']['hp']))
