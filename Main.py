@@ -1004,7 +1004,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.img_warrior.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.img_warrior.setMovie(self.movie)
         self.movie.start()
-        self.lv_warrior.setText('Lv. ' + str(self.dict_user_gard['warrior']['lv']))
+        self.lv_warrior.setText('Lv. ' + str(self.dict_user_gard['wararior']['lv']))
         self.hp_warrior.setMaximum(int(self.dict_user_gard['warrior']['max_hp']))
         self.hp_warrior.setValue(int(self.dict_user_gard['warrior']['hp']))
         self.mp_warrior.setValue(0)
