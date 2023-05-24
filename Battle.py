@@ -27,7 +27,7 @@ class BattleClass(QDialog, Ui_Dialog):
         super().__init__()
         self.setupUi(self)
         self.timer = QTimer()
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        # self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
 
         if 'bool_meet_gard' in kwargs:
             self.bool_meet_gard = kwargs['bool_meet_gard']
@@ -487,6 +487,15 @@ class BattleClass(QDialog, Ui_Dialog):
         # self.skill_btn_wizard_white_hp_up.connect()
         # self.skill_btn_wizard_white_mp_up.connect()
         # self.skill_btn_wizard_white_map_find.connect()
+
+        self.btn_goback.clicked.connect(self.goback)
+
+     # 돌아가기
+    def goback(self):
+        self.list_attack_btn[self.stackedWidget.currentIndex() - 1].setEnabled(True)
+        self.list_skill_btn[self.stackedWidget.currentIndex() - 1].setEnabled(True)
+        self.int_btn_clicked_cnt = self.stackedWidget.currentIndex()
+        self.stackedWidget.setCurrentIndex(0)
 
     def attack_connect(self, btn):
         if self.bool_meet_monster:
@@ -2563,6 +2572,8 @@ class BattleClass(QDialog, Ui_Dialog):
                     icon.addPixmap(pixmap)
                     self.list_enemy_btn[j].setIcon(icon)
                     self.list_enemy_btn[j].setIconSize(QSize(100, 100))
+
+
 
     # 각 캐릭터의 [공격]버튼 수행
     def monster_atk_choice(self, x, index, btn):
