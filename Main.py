@@ -478,7 +478,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                 if tuple_v is not None and not is_same_direct and not is_place_door:
                     self.play_bgm(tuple_v[0])
                     if tuple_v[0] == '일반몬스터':
-                        self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area} 몬스터를 만났습니다')
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.dict_field_kvalue[self.field_area]} 몬스터를 만났습니다')
                         enemy = tuple_v[1]
                         battle_widnow = BattleClass(str_area=self.field_area, str_maze_floor=self.maze_floor,
                                                     bool_meet_monster=True, bool_meet_maze_gard=False,
