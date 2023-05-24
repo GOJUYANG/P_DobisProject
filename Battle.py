@@ -1290,34 +1290,34 @@ class BattleClass(QDialog, Ui_Dialog):
                         self.list_enemy_btn[index].setDisabled(True)
 
             elif self.bool_meet_gard or self.bool_meet_maze_gard:
-                self.dict_enemy_gard[self.list_job[index]]['hp'] = self.dict_enemy_gard[self.list_job[index]][
-                                                                       'hp'] - damage
-                self.list_enemy_line[index].setText(
-                    f"{self.list_job[index]} HP:{self.dict_enemy_gard[self.list_job[index]]['hp']}")
-                if self.dict_enemy_gard[self.list_job[index]]['hp'] <= 0:
-                    self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
-                    self.list_enemy_line[index].setText(f"{self.list_job[index]} HP: 0")
-                    self.list_enemy_btn[index].setDisabled(True)
+                for i in range(6):
+                    self.dict_enemy_gard[self.list_job[index]]['hp'] = self.dict_enemy_gard[self.list_job[index]]['hp'] - damage
+                    self.list_enemy_line[index].setText(f"{self.list_job[index]} HP:{self.dict_enemy_gard[self.list_job[index]]['hp']}")
+                    if self.dict_enemy_gard[self.list_job[index]]['hp'] <= 0:
+                        self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
+                        self.list_enemy_line[index].setText(f"{self.list_job[index]} HP: 0")
+                        self.list_enemy_btn[index].setDisabled(True)
 
             elif self.bool_meet_boss_monster:
-                if index == 0:
-                    self.hp_enemy_0.setText(
-                        f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp'] - damage}")
-                    self.dict_boss_monster['hp'] = self.dict_boss_monster['hp'] - damage
-                    if self.dict_boss_monster['hp'] <= 0:
-                        self.dict_boss_monster['hp'] = 0
-                        self.enemy_0.setText(f"{self.dict_boss_monster['name']} HP: 0")
-                        self.enemy_0.setDisabled(True)
-                else:
-                    self.list_enemy_line[index].setText(
-                        f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1] - damage}")
-                    self.dict_boss_monster['list_field_monster'][1][index - 1] = \
-                        self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
-                    if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
-                        self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
+                for i in range(self.dict_boss_monster['list_field_monster'][0]+1):
+                    if index == 0:
+                        self.hp_enemy_0.setText(
+                            f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp'] - damage}")
+                        self.dict_boss_monster['hp'] = self.dict_boss_monster['hp'] - damage
+                        if self.dict_boss_monster['hp'] <= 0:
+                            self.dict_boss_monster['hp'] = 0
+                            self.enemy_0.setText(f"{self.dict_boss_monster['name']} HP: 0")
+                            self.enemy_0.setDisabled(True)
+                    else:
                         self.list_enemy_line[index].setText(
-                            f"던전몬스터 HP: 0")
-                        self.list_enemy_btn[index].setDisabled(True)
+                            f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1] - damage}")
+                        self.dict_boss_monster['list_field_monster'][1][index - 1] = \
+                            self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
+                        if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
+                            self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
+                            self.list_enemy_line[index].setText(
+                                f"던전몬스터 HP: 0")
+                            self.list_enemy_btn[index].setDisabled(True)
 
         self.monster_turn()
         return self.dict_user_gard
