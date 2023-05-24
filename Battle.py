@@ -136,12 +136,11 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_frame[i].findChildren(QPushButton)[2].clicked.connect(lambda x, y=i: self.skill_btn_clicked(x, y))
             self.list_frame[i].findChildren(QPushButton)[2].clicked.connect(lambda x, y=i: self.skill_widget_open(x, y))
 
+
         if self.bool_meet_monster:
             for btn in self.list_attack_btn:
                 btn.clicked.connect(lambda: self.attack_connect(btn))
-
             # -----5.24 변경 부분 (버튼 커넥트)---------------------------------------------------------------------------------------
-
             self.list_skill_to_enemy[0].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[0]))
             self.list_skill_to_enemy[1].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[1]))
             self.list_skill_to_enemy[2].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[2]))
@@ -181,7 +180,6 @@ class BattleClass(QDialog, Ui_Dialog):
         elif self.bool_meet_enemy_monster:
             for btn in self.list_attack_btn:
                 btn.clicked.connect(lambda: self.attack_connect(btn))
-
             # -----5.24 변경 부분 (버튼 커넥트)---------------------------------------------------------------------------------------
             self.list_skill_to_enemy[0].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[0]))
             self.list_skill_to_enemy[1].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[1]))
@@ -223,7 +221,6 @@ class BattleClass(QDialog, Ui_Dialog):
         elif self.bool_meet_gard or self.bool_meet_maze_gard:
             for btn in self.list_attack_btn:
                 btn.clicked.connect(lambda: self.attack_connect(btn))
-
             self.list_skill_to_enemy[0].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[0]))
             self.list_skill_to_enemy[1].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[1]))
             self.list_skill_to_enemy[2].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[2]))
@@ -365,16 +362,16 @@ class BattleClass(QDialog, Ui_Dialog):
                     lambda x, y=i: self.swordman_skill_effect(x, y, self.skill_btn_swordman_slice_chop))
             elif btn == self.list_skill_to_enemy[5]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'fire_ball', 'part', 30, 30))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_red', 'fire_ball', 'part', 30, 30))
             elif btn == self.list_skill_to_enemy[6]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'fire_wall', 'all', 50, 50))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_red', 'fire_wall', 'all', 50, 50))
             elif btn == self.list_skill_to_enemy[7]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'thunder_breaker', 'all', 60, 60, ))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_red', 'thunder_breaker', 'all', 60, 60))
             elif btn == self.list_skill_to_enemy[8]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'bilzzard', 'all', 70, 70))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_red', 'bilzzard', 'all', 70, 70))
             elif btn == self.list_skill_to_enemy[9]:
                 self.list_enemy_btn[i].clicked.connect(
                     lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_black', 'fire_ball', 'part', 30, 30))
