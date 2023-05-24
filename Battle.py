@@ -84,6 +84,8 @@ class BattleClass(QDialog, Ui_Dialog):
         self.list_origin_power = []
         self.int_btn_clicked_cnt = 0  # 수호대의 캐릭터 중 survival:True 수와 비교하여 버튼 활성화/비활성화를 체크하기 위함.
         self.int_survival = 0  # 수호대 캐릭터 중 survival:True 숫자
+        self.skill_effect_2 = 0
+        self.skill_effect_3 = 0
 
         ### qt object ###
         self.battle_dialog.verticalScrollBar().maximum()
@@ -353,7 +355,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     lambda x, y=i: self.archer_skill_effect_1(x, y, self.skill_btn_archer_target_shot))
             elif btn == self.list_skill_to_enemy[2]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.archer_skill_effect_2(x, y, self.skill_btn_archer_dual_shot))
+                    lambda x, y=i, z=self.skill_btn_archer_dual_shot: self.archer_skill_effect_2(x, y, z))
             elif btn == self.list_skill_to_enemy[3]:
                 self.list_enemy_btn[i].clicked.connect(
                     lambda x, y=i: self.archer_skill_effect_3(x, y, self.skill_btn_archer_master_shot))
@@ -722,14 +724,18 @@ class BattleClass(QDialog, Ui_Dialog):
 
     # 한번 누른 구성원의 [공격]버튼은 적의 턴이 끝날때 까지 비활성화.
     def attack_btn_clicked(self, x, index):
+        survivor = []
         if not x:
             self.list_attack_btn[index].setEnabled(False)
             self.list_skill_btn[index].setEnabled(False)
-            self.int_btn_clicked_cnt = index + 1
-        for i, job in enumerate(self.list_job):
-            if self.dict_user_gard[job]['survival']:
-                self.int_survival = i
-        if self.int_btn_clicked_cnt == self.int_survival + 1:
+            self.int_btn_clicked_cnt += 1
+        for k, v in self.dict_user_gard.items():
+            if k not in ['gard', 'location']:
+                if self.dict_user_gard[k]['survival']:
+                    survivor.append(k)
+        print(f"len(survivor): {len(survivor)}")
+        print(f"int_btn_clicked_cnt: {self.int_btn_clicked_cnt}")
+        if self.int_btn_clicked_cnt == len(survivor):
             for i, job in enumerate(self.list_job):
                 if self.dict_user_gard[job]['survival']:
                     self.list_attack_btn[i].setEnabled(True)
@@ -958,7 +964,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
     def archer_skill_effect_2(self, x, index, btn):
         if btn.objectName() == 'skill_btn_archer_dual_shot':
-            if not x:
+            if btn.clicked:
                 self.skill_effect_2 += 1
 
             print(self.skill_effect_2)
@@ -1026,11 +1032,11 @@ class BattleClass(QDialog, Ui_Dialog):
 
     def archer_skill_effect_3(self, x, index, btn):
         if btn.objectName() == 'skill_btn_archer_master_shot':
-            skill_effect_3 = 0
-            if not x:
-                skill_effect_3 += 1
+            if btn.clicked:
+                self.skill_effect_3 += 1
 
-            if skill_effect_3 % 2 == 0:
+            print(self.skill_effect_3)
+            if self.skill_effect_3 % 2 == 0:
                 msg = QMessageBox()
                 skill_ban = msg.critical(self, "스킬 사용 제한", "해당 기술을 다음 턴에 사용가능합니다.", msg.Ok)
                 if skill_ban == msg.Yes:  # 버튼의 이름을 넣으면 됩니다.
@@ -2590,17 +2596,21 @@ class BattleClass(QDialog, Ui_Dialog):
             if damage_key == 'attack':
                 # 출력 메세지
                 self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp-atk_monster_damage
+                if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                 self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-{list_target[int_monster_target_c]}의 hp가 {origin_hp-atk_monster_damage:.1f}로 떨어졌다!"""
+                {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                 print(
                     f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
-                print(f"-받은 데미지 : {atk_monster_damage}")
+                print(f"받은 데미지 : {atk_monster_damage}")
 
             elif damage_key == 'skill':
                 if int_skill_sucess <= 30:
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp - atk_monster_damage
+                    if origin_hp - atk_monster_damage <= 0:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                     self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-{list_target[int_monster_target_c]}의 hp가 {origin_hp-atk_monster_damage:.1f}로 떨어졌다!"""
+                    {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                     print(
                         f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
                     print(f"-받은 데미지 : {atk_monster_damage}")
@@ -2634,6 +2644,8 @@ class BattleClass(QDialog, Ui_Dialog):
             if monster_damage == 0.05:
                 self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
                 str_damage_name = str_damage_name[1] + '_attack'
+                if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                 # 출력 메세지
                 self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
     그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
@@ -2642,6 +2654,8 @@ class BattleClass(QDialog, Ui_Dialog):
                 if int_skill_sucess <= 30:
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
                     str_damage_name = str_damage_name[1] + '_ball'
+                    if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                     # 출력 메세지
                     self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
     그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
@@ -2668,12 +2682,12 @@ class BattleClass(QDialog, Ui_Dialog):
 
         for i in range(6):
             if self.list_job[i] in self.dict_user_gard.keys():
-                if self.dict_user_gard[self.list_job[i]]['survival'] == True:
+                if self.dict_user_gard[self.list_job[i]]['survival']:
                     self.int_survival = i + 1
                     self.list_attack_btn[i].setEnabled(True)
                     self.list_frame[i].findChildren(QPushButton)[2].setEnabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setEnabled(True)
-                if self.dict_user_gard[self.list_job[i]]['survival'] == False:
+                if not self.dict_user_gard[self.list_job[i]]['survival']:
                     self.list_attack_btn[i].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
