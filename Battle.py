@@ -402,8 +402,15 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.stackedWidget.setCurrentIndex(7)
                 self.user_gard_frame.findChildren(QPushButton)[i].clicked.connect(
                     lambda x, y=i: self.wizard_skill_effect_3(x,y,'hp_up', 'hp', 30))
-
+#5.24 추가(21:10) (백법사의 mp_up)---------------------------------------------------------------------------
             elif btn == self.list_skill_to_user_gard[7]:
+                survivor = []
+                for k,v in self.dict_user_gard.items():
+                    if k not in ['gard', 'location']:
+                        if self.dict_user_gard[k]['survival']:
+                            survivor.append(k)
+                    if self.user_gard_frame.findChildren(QPushButton)[i].objectName() in survivor:
+                        self.user_gard_frame.findChildren(QPushButton)[i].setEnabled(True)
                 self.stackedWidget.setCurrentIndex(7)
                 self.user_gard_frame.findChildren(QPushButton)[5].setDisabled(True)
                 self.user_gard_frame.findChildren(QPushButton)[i].clicked.connect(
@@ -1396,16 +1403,16 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.battle_dialog.append(f"[확인용] {self.list_job[index]}의 공격력 : {self.dict_user_gard[self.list_job[index]]['power']}")
 
         # 유저 수호대의 방어력을 1턴 50%상승시킨다.
-        # 상승된 유저 수호대 직업은 무조건 다음 몬스터의 공격대상이 된다.
-        # 공격대상으로 공격을 받으면 방어력이 원래대로 돌아간다.
-        # elif str_skill_name == 'mp_up':
-        #     if str_hp_or_mp_or_map == 'mp':
-        #
-        #         origin_mp = self.dict_user_gard[self.list_job[index]]['mp']
-        #         self.battle_dialog.append(f"[백법사]의 {str_skill_name} 사용! {self.dict_user_gard[self.list_job[index]]}의 방어력이 {1.5}배 상승!")
-        #         self.battle_dialog.append(f"{self.dict_user_gard[self.list_job[index]]}의 방어력 : {origin_mp * 1.5} (1턴 유지)")
-        #         self.battle_dialog.append(f"스킬 사용으로 [백법사]의 MP{minus_mp}소진")
-        #         self.dict_user_gard['wizard_white']['mp'] -= minus_mp
+        elif str_skill_name == 'mp_up':
+            if str_hp_or_mp_or_map == 'mp':
+                self.mp_up_used = self.list_job[index]
+                self.origin_mp = self.dict_user_gard[self.list_job[index]]['mp']
+                self.battle_dialog.append(f"[백법사]의 {str_skill_name} 사용! {self.list_job[index]}의 방어력이 {1.5}배 상승!")
+                self.dict_user_gard[self.list_job[index]]['mp'] = self.origin_mp * 1.5
+                self.battle_dialog.append(f"{self.list_job[index]}의 mp : {self.origin_mp * 1.5} (1턴 유지)")
+                self.battle_dialog.append(f"스킬 사용으로 [백법사]의 MP{minus_mp}소진")
+                self.dict_user_gard['wizard_white']['mp'] -= minus_mp
+                self.stackedWidget.setCurrentIndex(0)
 
         # 필드에서 현재 턴의 출입구 위치(던전입구 좌표값) 확인 가능
         elif str_skill_name == 'map_find':
@@ -1429,7 +1436,7 @@ class BattleClass(QDialog, Ui_Dialog):
         elif self.bool_meet_gard or self.bool_meet_maze_gard:
             QTimer.singleShot(2000, self.enemy_gard_atk)
         elif self.bool_meet_boss_monster:
-            QTimer.singleShot(2000, self.boss_gard_atk)
+            QTimer.singleShot(2000, self.boss_monster_atk)
 
     # -------------스킬 구간----------------------------------------------------------------------------#
 
@@ -2593,6 +2600,14 @@ class BattleClass(QDialog, Ui_Dialog):
             origin_hp = self.dict_user_gard[list_target[int_monster_target_c]]['hp']
             atk_monster_damage = self.dict_field_monster['info']['hp'][atk_monster] * damage_num
 
+            if self.mp_up_used == list_target[int_monster_target_c]:
+                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
+
+            elif self.mp_up_used != list_target[int_monster_target_c]:
+                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
+
             if damage_key == 'attack':
                 # 출력 메세지
                 self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp-atk_monster_damage
@@ -2620,6 +2635,8 @@ class BattleClass(QDialog, Ui_Dialog):
 
             # 최종 출력 메세지
             self.battle_dialog.append(self.battle_msg)
+            self.battle_dialog.append(f"{self.mp_up_used}의 mp가 원상복귀 되었습니다.")
+            print(f"확인용 -> self.dict_user_gard[self.mp_up_used]의 원상복귀 mp : {self.dict_user_gard[self.mp_up_used]['mp']}")
 
             # 공격을 받은 유저수호대의 hp가 0이 되었을 때
             if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
@@ -2641,6 +2658,15 @@ class BattleClass(QDialog, Ui_Dialog):
 
             monster_damage = self.dict_maze_monster['list_damage'][atk_monster]
             str_damage_name = self.dict_maze_monster['list_area_monster'][atk_monster].split('_')
+
+            if self.mp_up_used == list_target[int_monster_target_c]:
+                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
+
+            elif self.mp_up_used != list_target[int_monster_target_c]:
+                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
+
             if monster_damage == 0.05:
                 self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
                 str_damage_name = str_damage_name[1] + '_attack'
@@ -2666,6 +2692,8 @@ class BattleClass(QDialog, Ui_Dialog):
 
             # 최종 출력 메세지
             self.battle_dialog.append(self.battle_msg)
+            self.battle_dialog.append(f"{self.mp_up_used}의 mp가 원상복귀 되었습니다.")
+            print(f"확인용 -> self.dict_user_gard[self.mp_up_used]의 원상복귀 mp : {self.dict_user_gard[self.mp_up_used]['mp']}")
 
             # 공격을 받은 유저수호대의 hp가 0이 되었을 때
             if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
