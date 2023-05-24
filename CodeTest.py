@@ -51,6 +51,27 @@ class BattleClass(QDialog, Ui_Dialog):
             self.dict_enemy_gard = kwargs['dict_enemy_gard']
         if 'dict_boss_monster' in kwargs:
             self.dict_boss_monster = kwargs['dict_boss_monster']
+        if 'rand_maze_door_x' in kwargs:
+            self.rand_maze_door_x = kwargs['rand_maze_door_x']
+        if 'rand_maze_door_y' in kwargs:
+            self.rand_maze_door_y = kwargs['rand_maze_door_y']
+        if 'int_next_entrance_x' in kwargs:
+            self.int_next_entrance_x = kwargs['int_next_entrance_x']
+        if 'int_next_entrance_y' in kwargs:
+            self.int_next_entrance_y = kwargs['int_next_entrance_y']
+
+        ## 필드 ##
+        if self.dict_field_monster['type'] == 'field_monster':
+            self.bool_meet_monster = True
+        elif self.dict_enemy_gard['type'] == 'field_enemy_gard':
+            self.bool_meet_gard = True
+        ## 던전 ##
+        elif self.dict_field_monster['type'] == 'maze_monster':
+            self.bool_meet_enemy_monster = True
+        elif self.dict_enemy_gard['type'] == 'maze_enemy_gard':
+            self.bool_meet_maze_gard = True
+        elif self.dict_boss_monster['type'] == 'boss':
+            self.bool_meet_boss_monster = True
 
         self.list_job = ['warrior', 'archer', 'swordman', 'wizard_red', 'wizard_black', 'wizard_white']
 
@@ -114,9 +135,9 @@ class BattleClass(QDialog, Ui_Dialog):
                                self.skill_btn_swordman_slice_chop,  # 4
                                self.skill_btn_wizard_red_heal_normal, self.skill_btn_wizard_red_heal_greater,
                                self.skill_btn_wizard_red_heal_all,
-                               # 5~11
                                self.skill_btn_wizard_red_fire_ball, self.skill_btn_wizard_red_fire_wall,
                                self.skill_btn_wizard_red_thunder_breaker, self.skill_btn_wizard_red_bilzzard,
+                               # 5~11
                                self.skill_btn_wizard_black_fire_ball, self.skill_btn_wizard_black_fire_wall,
                                self.skill_btn_wizard_black_thunder_breaker, self.skill_btn_wizard_black_bilzzard,
                                # 12~15
@@ -126,6 +147,8 @@ class BattleClass(QDialog, Ui_Dialog):
                                self.skill_btn_wizard_white_hp_up, self.skill_btn_wizard_white_mp_up,
                                self.skill_btn_wizard_white_map_find]
 
+
+
         # 공격, 스킬 버튼 시그널
         for i in range(6):
             self.list_frame[i].findChildren(QPushButton)[0].clicked.connect(
@@ -133,18 +156,21 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_frame[i].findChildren(QPushButton)[2].clicked.connect(
                 lambda x, y=i, z=self.list_frame[i].findChildren(QPushButton)[2]: self.atk_choice(x, y, z))
 
+        # 돌아가기
         self.btn_goback.clicked.connect(self.goback)
 
         # 몬스터 클릭
         for btn in self.list_enemy_btn:
             btn.clicked.connect(lambda x, y=btn: self.clicked_monster(y))
 
+    # 돌아가기
     def goback(self):
         self.list_attack_btn[self.stackedWidget.currentIndex() - 1].setEnabled(True)
         self.list_skill_btn[self.stackedWidget.currentIndex() - 1].setEnabled(True)
         self.int_btn_clicked_cnt = self.stackedWidget.currentIndex()
         self.stackedWidget.setCurrentIndex(0)
 
+    # 몬스터 클릭
     def clicked_monster(self, button):
         for btn in self.list_enemy_btn:
             try:
@@ -153,10 +179,12 @@ class BattleClass(QDialog, Ui_Dialog):
             except:
                 pass
 
+    # 클릭한 몬스터 해제
     def clicked_monster_clear(self):
         for btn in self.list_enemy_btn:
             btn.setChecked(False)
 
+    # 몬스터 선택 후 공격
     def atk_choice(self, x, index, button):
 
         isMonsterClicked = False
@@ -196,6 +224,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
         self.clicked_monster_clear()
 
+    # 물리공격 다이얼로그
     def atk_dialog_close(self):
         self.atk_dialog.close()
 
