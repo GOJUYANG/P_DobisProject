@@ -175,7 +175,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # 필드 리스트
         self.dict_field = {'불': False, '물': False, '숲': False, '눈': False}
 
-        self.dict_field_kvalue = {'area_fire': '불의 지역', 'area_snow': '눈의 지역', 'area_forest': '숲의 지역', 'area_water': '물의 지역'}
+        self.dict_field_kvalue = {'area_fire': '불의 지역', 'area_snow': '눈의 지역', 'area_forest': '숲의 지역',
+                                  'area_water': '물의 지역'}
 
         # 획득한 아이템 리스트 / 변수명 :  아이템명, 보유개수, 이미지소스
         self.dict_item = {'revival_potion': {'name': '부활포션', 'count': 0, 'image': ''},
@@ -478,7 +479,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                 if tuple_v is not None and not is_same_direct and not is_place_door:
                     self.play_bgm(tuple_v[0])
                     if tuple_v[0] == '일반몬스터':
-                        self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.dict_field_kvalue[self.field_area]} 몬스터를 만났습니다')
+                        self.renew_log_view(QIcon('./img_src/alarm.png'),
+                                            f'{self.dict_field_kvalue[self.field_area]} 몬스터를 만났습니다')
                         enemy = tuple_v[1]
                         battle_widnow = BattleClass(str_area=self.field_area, str_maze_floor=self.maze_floor,
                                                     bool_meet_monster=True, bool_meet_maze_gard=False,
@@ -507,6 +509,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                                                                                                self.field_area),
                                                     dict_user_gard=self.dict_user_gard)
                         battle_widnow.exec()
+                        self.dict_user_gard = battle_widnow.dict_user_gard
                         self.field_turn += 1
                         self.set_maze_door_loc()
                     elif tuple_v[0] == '아이템':
@@ -1080,7 +1083,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                 choice_dlg.exec_()
             str_job = choice_dlg.job
 
-            if str_job != '':
+            if str_job != '' or item in ['부활포션', '텐트']:
                 self.dict_item, self.dict_user_gard, msg = self.use_item(str_job, str_item, self.dict_item,
                                                                          self.dict_user_gard)
                 self.renew_log_view(QIcon('./img_src/alarm.png'), msg)
