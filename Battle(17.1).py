@@ -482,11 +482,15 @@ class BattleClass(QDialog, main_class):
 
             self.list_skill_to_user_gard[8].clicked.connect(lambda x, y=i: self.wizard_skill_effect_3(x,y,'map_find', 'map', 70))
 
-        elif self.bool_meet_gard or self.bool_meet_maze_gard:
-            print("버튼연결")
+        # elif self.bool_meet_gard or self.bool_meet_maze_gard:
+        #     for btn in self.list_attack_btn:
+        #         btn.clicked.connect(lambda: self.attack_connect(btn))
+        #
+        #
+        # elif self.bool_meet_boss_monster:
+        #     for btn in self.list_attack_btn:
+        #         btn.clicked.connect(lambda: self.attack_connect(btn))
 
-        elif self.bool_meet_boss_monster:
-            print("버튼연결")
 
     ### 함수 선언 ###
     # [공격]버튼 함수에 connect, 그 전에 몬스터 버튼은 disconnect이 되어있다.
@@ -2752,8 +2756,10 @@ class BattleClass(QDialog, main_class):
             if damage_key == 'attack':
                 # 출력 메세지
                 self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp-atk_monster_damage
+                if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                 self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-{list_target[int_monster_target_c]}의 hp가 {origin_hp-atk_monster_damage:.1f}로 떨어졌다!"""
+{list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                 print(
                     f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
                 print(f"-받은 데미지 : {atk_monster_damage}")
@@ -2761,8 +2767,10 @@ class BattleClass(QDialog, main_class):
             elif damage_key == 'skill':
                 if int_skill_sucess <= 30:
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp - atk_monster_damage
+                    if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                     self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-{list_target[int_monster_target_c]}의 hp가 {origin_hp-atk_monster_damage:.1f}로 떨어졌다!"""
+{list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                     print(
                         f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
                     print(f"-받은 데미지 : {atk_monster_damage}")
@@ -2796,7 +2804,9 @@ class BattleClass(QDialog, main_class):
             if monster_damage == 0.05:
                 self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
                 str_damage_name = str_damage_name[1] + '_attack'
-                # 출력 메세지
+                if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                    # 출력 메세지
                 self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
     그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
 
@@ -2804,6 +2814,8 @@ class BattleClass(QDialog, main_class):
                 if int_skill_sucess <= 30:
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
                     str_damage_name = str_damage_name[1] + '_ball'
+                    if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                     # 출력 메세지
                     self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
     그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
