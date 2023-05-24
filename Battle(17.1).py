@@ -393,6 +393,9 @@ class Main(QDialog, main_class):
         self.war_start.clicked.connect(self.show_war_result)
         self.war_start.clicked.connect(self.equip_btn_disabled)
 
+# -----5.24 추가 부분 (필요 설정 값)---------------------------------------------------------------------------------------
+        self.war_start.clicked.connect(self.monster_creat)
+        
         # self.list_frame[i].findChildren(QPushButton)[i] -> i:0 공격 / 1:장비 / 2:스킬 / 3:도망
         for i in range(6):
             self.list_frame[i].findChildren(QPushButton)[0].clicked.connect(lambda x, y=i: self.atk_choice(x, y))
@@ -2484,9 +2487,11 @@ class Main(QDialog, main_class):
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
                     self.list_job_lb[i].setPixmap(QPixmap(f'../{self.list_job[i]}/died.png'))
-
+  
+# ---5.24변경 함수 분리(수호대버튼활성화 / 몬스터생성)--------------------------------------------------------------------------#
+     def monster_creat(self):
             if self.bool_meet_monster:
-                self.monster_li.clear()  #디버깅1)수호대가 죽을 때마다 monster_li.clear()해줌으로써 몬스터의 이미지가 변경되고 있음.
+                #self.monster_li.clear()  #디버깅1)수호대가 죽을 때마다 monster_li.clear()해줌으로써 몬스터의 이미지가 변경되고 있음.
                 area = self.dict_field_monster['area'].split('_')
                 self.battle_dialog.setText(f"{area[1]}지역에서 벌어진 전투 시작!")
                 for k in range(self.dict_field_monster['info']['int_cnt']):
@@ -2586,7 +2591,7 @@ class Main(QDialog, main_class):
                     self.list_enemy_btn[k].setIconSize(QSize(100, 100))
 
             elif self.bool_meet_enemy_monster:
-                self.monster_li.clear()
+                #self.monster_li.clear()
                 self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 전투 시작!")
                 for j in range(self.dict_maze_monster['int_cnt']):
                     self.list_enemy_line[j].setText(f"몬스터 HP: {self.dict_maze_monster['list_hp'][j]}")
