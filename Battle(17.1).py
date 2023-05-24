@@ -13,7 +13,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 # 메인화면
-main = resource_path('../qt/this_is_boki_dialog.ui')
+main = resource_path('ui_src/this_is_boki_dialog.ui')
 main_class = uic.loadUiType(main)[0]
 
 class BattleClass(QDialog, main_class):
@@ -385,10 +385,11 @@ class BattleClass(QDialog, main_class):
                                         self.skill_btn_wizard_white_map_find]
 
         ### qt 연결 ###
-        # self.war_start.clicked.connect(self.show_war_result)
-        self.war_start.clicked.connect(self.battle_location)
-        self.war_start.clicked.connect(self.equip_btn_disabled)
-        self.war_start.clicked.connect(self.monster_creat)
+        if self.bool_meet_monster:
+            # self.show_war_result()
+            self.battle_location()
+            self.equip_btn_disabled()
+            self.monster_creat()
 
         # self.list_frame[i].findChildren(QPushButton)[i] -> i:0 공격 / 1:장비 / 2:스킬 / 3:도망
         for i in range(6):
