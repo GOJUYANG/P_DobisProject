@@ -16,7 +16,7 @@ class FieldClass():
         elif str_area == 'area_water':
             dict_info = {'int_cnt': monster_cnt, 'hp': hp_monster,
                          'attack': ['aqua_attack', 0.05], 'skill': ['aqua_ball', 0.10]}
-        elif str_area == 'area_water':
+        elif str_area == 'area_forest':
             dict_info = {'int_cnt': monster_cnt, 'hp': hp_monster,
                          'attack': ['air_attack', 0.05], 'skill': ['air_ball', 0.10]}
         else:
