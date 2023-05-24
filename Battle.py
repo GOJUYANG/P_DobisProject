@@ -65,17 +65,17 @@ class BattleClass(QDialog, Ui_Dialog):
 
         # -----5.24 추가 부분 (백법사의 map_find 스킬을 위한 변수)-------------------------------------------------------------------
         ## 필드 ##
-        if self.dict_field_monster['type'] == 'field_monster':
-            self.bool_meet_monster = True
-        elif self.dict_enemy_gard['type'] == 'field_enemy_gard':
-            self.bool_meet_gard = True
-        ## 던전 ##
-        elif self.dict_field_monster['type'] == 'maze_monster':
-            self.bool_meet_enemy_monster = True
-        elif self.dict_enemy_gard['type'] == 'maze_enemy_gard':
-            self.bool_meet_maze_gard = True
-        elif self.dict_boss_monster['type'] == 'boss':
-            self.bool_meet_boss_monster = True
+        # if self.dict_field_monster['type'] == 'field_monster':
+        #     self.bool_meet_monster = True
+        # elif self.dict_enemy_gard['type'] == 'field_enemy_gard':
+        #     self.bool_meet_gard = True
+        # ## 던전 ##
+        # elif self.dict_field_monster['type'] == 'maze_monster':
+        #     self.bool_meet_enemy_monster = True
+        # elif self.dict_enemy_gard['type'] == 'maze_enemy_gard':
+        #     self.bool_meet_maze_gard = True
+        # elif self.dict_boss_monster['type'] == 'boss':
+        #     self.bool_meet_boss_monster = True
 
         ### 전투클래스 내에서만 사용되는 변수 ###
         self.list_job = ['warrior', 'archer', 'swordman', 'wizard_red', 'wizard_black', 'wizard_white']
@@ -251,6 +251,10 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_enemy_btn[i].disconnect()
         for i in range(loop):
             self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_atk_choice(x, y, btn))
+        for i in range(loop):
+            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.gard_atk_choice(x, y, btn))
+        for i in range(loop):
+            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.boss_monster_atk_choice(x, y, btn))
 
     def skill_connect(self, btn):
         if self.bool_meet_monster:
