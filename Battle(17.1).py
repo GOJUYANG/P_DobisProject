@@ -389,8 +389,8 @@ class BattleClass(QDialog, main_class):
                                         self.skill_btn_wizard_white_map_find]
 
         ### qt 연결 ###
+        #self.war_start.clicked.connect(self.show_war_result)
         self.war_start.clicked.connect(self.battle_location)
-        self.war_start.clicked.connect(self.show_war_result)
         self.war_start.clicked.connect(self.equip_btn_disabled)
 
 # -----5.24 추가 부분 (필요 설정 값)---------------------------------------------------------------------------------------
