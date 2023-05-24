@@ -5,6 +5,9 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget, QApplication, QGraphicsOpacityEffect, QPushButton, QVBoxLayout
+from Dialog import VideoPlayer
+
+
 
 from_class = uic.loadUiType("./ui_src/intro.ui")[0]
 
@@ -53,6 +56,8 @@ class WindowClass(QDialog, from_class):
     def keyPressEvent(self, event):
         self.timer.stop()
         self.close()
+        v = VideoPlayer()
+        v.exec_()
 
     # def fade(self):
     #     for i in range(50):

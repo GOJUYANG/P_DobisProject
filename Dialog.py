@@ -1,3 +1,5 @@
+from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -33,9 +35,6 @@ class CustomDialog(QDialog):
         return self.cheatkey
 
 
-
-
-
 class ChoiceJopDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -69,6 +68,7 @@ class ChoiceJopDialog(QDialog):
             pass
         else:
             self.close()
+
 
 from view.gard_name import Ui_Dialog
 
@@ -136,6 +136,7 @@ class GiveGardName(QDialog, Ui_Dialog):
         else:
             pass
 
+
 class ChoiceJopDialogPush(QDialog):
     def __init__(self):
         super().__init__()
@@ -164,3 +165,36 @@ class ChoiceJopDialogPush(QDialog):
         self.job = job
         self.close()
 
+
+class VideoPlayer(QDialog):
+    def __init__(self):
+        super().__init__()
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        self.resize(1200, 800)
+        self.setContentsMargins(0, 0, 0, 0)
+        self.center()
+        self.media_player = QMediaPlayer(self, QMediaPlayer.VideoSurface)
+        self.video_widget = QVideoWidget()
+        layout = QVBoxLayout()
+        layout.addWidget(self.video_widget)
+        layout.setContentsMargins(0,0,0,0)
+        widget = QWidget(self)
+        widget.resize(1200, 800)
+        widget.setLayout(layout)
+        widget.setContentsMargins(0,0,0,0)
+        self.media_player.setVideoOutput(self.video_widget)
+        media_content = QMediaContent(QUrl.fromLocalFile('video_src/레전드오브복이.wmv'))
+        self.media_player.setMedia(media_content)
+        self.media_player.play()
+
+
+
+
+    def mouseDoubleClickEvent(self, event):
+        self.close()
+
+    def center(self):
+        frame_geometry = self.frameGeometry()
+        center_point = QDesktopWidget().availableGeometry().center()
+        frame_geometry.moveCenter(center_point)
+        self.move(frame_geometry.topLeft())

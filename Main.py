@@ -519,7 +519,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         battle_widnow = BattleClass(str_area=self.field_area,
                                                     bool_meet_monster=False, bool_meet_maze_gard=False,
                                                     bool_meet_gard=True,
-                                                    bool_meet_enemy_monster=False, Dbool_meet_boss_monster=False,
+                                                    bool_meet_enemy_monster=False, bool_meet_boss_monster=False,
                                                     dict_enemy_gard=self.field_meet_enemy_gard(self.dict_user_gard,
                                                                                                self.field_area),
                                                     dict_user_gard=self.dict_user_gard)
