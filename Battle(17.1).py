@@ -19,7 +19,7 @@ main = resource_path('../qt/this_is_boki_dialog.ui')
 main_class = uic.loadUiType(main)[0]
 
 
-class Main(QDialog, main_class):
+class BattleClass(QDialog, main_class):
     def __init__(self, **kwargs):
         super().__init__()
         self.setupUi(self)
@@ -3229,6 +3229,6 @@ class Main(QDialog, main_class):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = Main()
+    ex = BattleClass()
     ex.show()
     app.exec_()
