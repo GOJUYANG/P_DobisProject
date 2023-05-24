@@ -14,10 +14,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(1014, 876)
+        Dialog.resize(1014, 929)
         Dialog.setStyleSheet("")
         self.stackedWidget = QtWidgets.QStackedWidget(Dialog)
-        self.stackedWidget.setGeometry(QtCore.QRect(10, 335, 981, 451))
+        self.stackedWidget.setGeometry(QtCore.QRect(11, 336, 981, 490))
         self.stackedWidget.setObjectName("stackedWidget")
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
@@ -2451,7 +2451,7 @@ class Ui_Dialog(object):
         self.enemy_line2.addLayout(self.vertical_9)
         self.verticalLayout.addLayout(self.enemy_line2)
         self.btn_widget = QtWidgets.QWidget(Dialog)
-        self.btn_widget.setGeometry(QtCore.QRect(9, 791, 991, 81))
+        self.btn_widget.setGeometry(QtCore.QRect(9, 840, 991, 80))
         self.btn_widget.setObjectName("btn_widget")
         self.layoutWidget_4 = QtWidgets.QWidget(self.btn_widget)
         self.layoutWidget_4.setGeometry(QtCore.QRect(0, 10, 981, 61))
@@ -2765,7 +2765,7 @@ class Ui_Dialog(object):
         self.btn_goback.setObjectName("btn_goback")
 
         self.retranslateUi(Dialog)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):

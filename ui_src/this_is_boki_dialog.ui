@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1014</width>
-    <height>876</height>
+    <height>929</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,14 +19,14 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>335</y>
+     <x>11</x>
+     <y>336</y>
      <width>981</width>
-     <height>451</height>
+     <height>490</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>4</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QWidget" name="job_widget" native="true">
@@ -7292,9 +7292,9 @@ QPushButton:checked {background-color : silver;}</string>
    <property name="geometry">
     <rect>
      <x>9</x>
-     <y>791</y>
+     <y>840</y>
      <width>991</width>
-     <height>81</height>
+     <height>80</height>
     </rect>
    </property>
    <widget class="QWidget" name="layoutWidget_4">
