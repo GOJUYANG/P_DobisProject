@@ -249,12 +249,15 @@ class BattleClass(QDialog, Ui_Dialog):
 
         for i in range(loop):
             self.list_enemy_btn[i].disconnect()
-        for i in range(loop):
-            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_atk_choice(x, y, btn))
-        for i in range(loop):
-            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.gard_atk_choice(x, y))
-        for i in range(loop):
-            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.boss_monster_atk_choice(x, y))
+        if self.bool_meet_monster or self.bool_meet_enemy_monster:
+            for i in range(loop):
+                self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_atk_choice(x, y, btn))
+        if self.bool_meet_gard or self.bool_meet_maze_gard:
+            for i in range(loop):
+                self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.gard_atk_choice(x, y))
+        if self.bool_meet_boss_monster:
+            for i in range(loop):
+                self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.boss_monster_atk_choice(x, y))
 
     def skill_connect(self, btn):
         if self.bool_meet_monster:
@@ -1444,18 +1447,24 @@ class BattleClass(QDialog, Ui_Dialog):
     # 각 캐릭터의 [공격]버튼에 따른 누가/누구에게/nnn데미지 입었습니다. battle_dialog 메세지띄우기
     def gard_atk_choice(self, x, index):
 
-        damage = self.selected_option
-        self.battle_dialog.append(f"수호대{self.name}을/를 공격해 {damage}데미지를 입혔다.")
-        if self.bool_meet_gard or self.bool_meet_maze_gard:
-            self.dict_enemy_gard[self.list_job[index]]['hp'] = self.dict_enemy_gard[self.list_job[index]]['hp'] - damage
-            self.list_enemy_line[index].setText(
-                f"{self.list_job[index]} HP:{self.dict_enemy_gard[self.list_job[index]]['hp']}")
-            if self.dict_enemy_gard[self.list_job[index]]['hp'] <= 0:
-                self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
-                self.list_enemy_line[index].setText(f"{self.list_job[index]} HP: 0")
-                self.list_enemy_btn[index].setDisabled(True)
+        if self.selected_option == 0:
+            self.battle_dialog.append("아무 공격도 입혀지지 않았습니다. 행동을 선택해주세요")
+        else:
+            damage = self.selected_option
+            print(f"공격데미지 : {damage}")
+            self.battle_dialog.append(f"수호대{self.name}을/를 공격해 {damage}데미지를 입혔다.")
+            if self.bool_meet_gard or self.bool_meet_maze_gard:
+                self.dict_enemy_gard[self.list_job[index]]['hp'] = self.dict_enemy_gard[self.list_job[index]]['hp'] - damage
+                self.list_enemy_line[index].setText(
+                    f"{self.list_job[index]} HP:{self.dict_enemy_gard[self.list_job[index]]['hp']}")
+                if self.dict_enemy_gard[self.list_job[index]]['hp'] <= 0:
+                    self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
+                    self.list_enemy_line[index].setText(f"{self.list_job[index]} HP: 0")
+                    self.list_enemy_btn[index].setDisabled(True)
 
-        QTimer.singleShot(2000, self.enemy_gard_atk)
+            QTimer.singleShot(2000, self.enemy_gard_atk)
+
+        self.selected_option = 0
 
     # 타수호대의 유저 수호대 랜덤공격 : (일반공격/스킬/아이템사용)
     def enemy_gard_atk(self):
@@ -2718,26 +2727,32 @@ class BattleClass(QDialog, Ui_Dialog):
     # 각 직업의 [공격] + battle_dialog 메세지
     def boss_monster_atk_choice(self, x, index):
 
-        if index == 0:
-            atk_job, damage = self.name, self.selected_option
-            self.battle_dialog.append(f"{atk_job}이/가 {self.dict_boss_monster['name']} 을/를 공격해 {damage}데미지를 입혔다.")
-            self.hp_enemy_0.setText(f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp'] - damage}")
-            if self.dict_boss_monster['hp'] <= 0:
-                self.dict_boss_monster['hp'] = 0
-                self.enemy_0.setText(f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp']}")
-                self.enemy_0.setDisabled(True)
+        if self.selected_option == 0:
+            self.battle_dialog.append("아무 공격도 입혀지지 않았습니다. 행동을 선택해주세요")
         else:
-            atk_job, damage = self.name, self.selected_option
-            self.battle_dialog.append(f"{atk_job}이/가 {self.monster_li[index]} 을/를 공격해 {damage}데미지를 입혔다.")
-            self.list_enemy_line[index].setText(
-                f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1] - damage}")
-            if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
-                self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
-                self.list_enemy_line[index].setText(
-                    f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1]}")
-                self.list_enemy_btn[index].setDisabled(True)
+            damage = self.selected_option
+            atk_job = self.name
+            print(f"공격데미지 : {damage}")
 
-        QTimer.singleShot(2000, self.boss_monster_atk)
+            if index == 0:
+                self.battle_dialog.append(f"{atk_job}이/가 {self.dict_boss_monster['name']} 을/를 공격해 {damage}데미지를 입혔다.")
+                self.hp_enemy_0.setText(f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp'] - damage}")
+                if self.dict_boss_monster['hp'] <= 0:
+                    self.dict_boss_monster['hp'] = 0
+                    self.enemy_0.setText(f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp']}")
+                    self.enemy_0.setDisabled(True)
+            else:
+                self.battle_dialog.append(f"{atk_job}이/가 {self.monster_li[index]} 을/를 공격해 {damage}데미지를 입혔다.")
+                self.list_enemy_line[index].setText(
+                    f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1] - damage}")
+                if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
+                    self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
+                    self.list_enemy_line[index].setText(
+                        f"던전몬스터 HP:{self.dict_boss_monster['list_field_monster'][1][index - 1]}")
+                    self.list_enemy_btn[index].setDisabled(True)
+
+            QTimer.singleShot(2000, self.boss_monster_atk)
+        self.selected_option = 0
 
     # 보스몬스터/던전몬스터의 유저 수호대 (랜덤)공격
     def boss_monster_atk(self):
