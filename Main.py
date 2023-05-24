@@ -1014,13 +1014,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
     # 유저 스텟 갱신
     def renew_gard_status(self):
-        if self.dict_user_gard['warrior']['hp'] > 0:
+        if self.dict_user_gard['warrior']['survival']:
             self.movie = QMovie(self.dict_user_gard['warrior']['image'])
             self.img_warrior.setScaledContents(True)
             self.img_warrior.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.img_warrior.setMovie(self.movie)
             self.movie.start()
-        elif self.dict_user_gard['warrior']['hp'] <= 0:
+        elif not self.dict_user_gard['warrior']['survival']:
             self.movie = QMovie(self.dict_user_gard['warrior']['die_image'])
             self.img_warrior.setScaledContents(True)
             self.img_warrior.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -1031,13 +1031,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.hp_warrior.setValue(int(self.dict_user_gard['warrior']['hp']))
         self.mp_warrior.setValue(0)
 
-        if self.dict_user_gard['archer']['hp'] > 0:
+        if self.dict_user_gard['archer']['survival']:
             self.movie = QMovie(self.dict_user_gard['archer']['image'])
             self.img_archer.setScaledContents(True)
             self.img_archer.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.img_archer.setMovie(self.movie)
             self.movie.start()
-        elif self.dict_user_gard['archer']['hp'] <= 0:
+        elif not self.dict_user_gard['archer']['survival']:
             self.movie = QMovie(self.dict_user_gard['archer']['die_image'])
             self.img_archer.setScaledContents(True)
             self.img_archer.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -1049,13 +1049,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.mp_archer.setMaximum(int(self.dict_user_gard['archer']['max_mp']))
         self.mp_archer.setValue(int(self.dict_user_gard['archer']['mp']))
 
-        if self.dict_user_gard['swordman']['hp'] > 0:
+        if self.dict_user_gard['swordman']['survival']:
             self.movie = QMovie(self.dict_user_gard['swordman']['image'])
             self.img_swordman.setScaledContents(True)
             self.img_swordman.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.img_swordman.setMovie(self.movie)
             self.movie.start()
-        elif self.dict_user_gard['swordman']['hp'] <= 0:
+        elif not self.dict_user_gard['swordman']['survival']:
             self.movie = QMovie(self.dict_user_gard['swordman']['die_image'])
             self.img_swordman.setScaledContents(True)
             self.img_swordman.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -1067,13 +1067,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.mp_swordman.setMaximum(int(self.dict_user_gard['swordman']['max_mp']))
         self.mp_swordman.setValue(int(self.dict_user_gard['swordman']['mp']))
 
-        if self.dict_user_gard['wizard_red']['hp'] > 0:
+        if self.dict_user_gard['wizard_red']['survival']:
             self.movie = QMovie(self.dict_user_gard['wizard_red']['image'])
             self.img_wizard_red.setScaledContents(True)
             self.img_wizard_red.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.img_wizard_red.setMovie(self.movie)
             self.movie.start()
-        elif self.dict_user_gard['wizard_red']['hp'] <= 0:
+        elif not self.dict_user_gard['wizard_red']['survival']:
             self.movie = QMovie(self.dict_user_gard['wizard_red']['die_image'])
             self.img_wizard_red.setScaledContents(True)
             self.img_wizard_red.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -1085,13 +1085,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.mp_wizard_red.setMaximum(int(self.dict_user_gard['wizard_red']['max_mp']))
         self.mp_wizard_red.setValue(int(self.dict_user_gard['wizard_red']['mp']))
 
-        if self.dict_user_gard['wizard_black']['hp'] > 0:
+        if self.dict_user_gard['wizard_black']['survival']:
             self.movie = QMovie(self.dict_user_gard['wizard_black']['image'])
             self.img_wizard_black.setScaledContents(True)
             self.img_wizard_black.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.img_wizard_black.setMovie(self.movie)
             self.movie.start()
-        elif self.dict_user_gard['wizard_black']['hp'] <= 0:
+        elif not self.dict_user_gard['wizard_black']['survival']:
             self.movie = QMovie(self.dict_user_gard['wizard_black']['die_image'])
             self.img_wizard_black.setScaledContents(True)
             self.img_wizard_black.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -1103,13 +1103,13 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         self.mp_wizard_black.setMaximum(int(self.dict_user_gard['wizard_black']['max_mp']))
         self.mp_wizard_black.setValue(int(self.dict_user_gard['wizard_black']['mp']))
 
-        if self.dict_user_gard['wizard_white']['hp'] > 0:
+        if self.dict_user_gard['wizard_white']['survival']:
             self.movie = QMovie(self.dict_user_gard['wizard_white']['image'])
             self.img_wizard_white.setScaledContents(True)
             self.img_wizard_white.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.img_wizard_white.setMovie(self.movie)
             self.movie.start()
-        elif self.dict_user_gard['wizard_white']['hp'] <= 0:
+        elif not self.dict_user_gard['wizard_white']['survival']:
             self.movie = QMovie(self.dict_user_gard['wizard_white']['die_image'])
             self.img_wizard_white.setScaledContents(True)
             self.img_wizard_white.setAlignment(Qt.AlignmentFlag.AlignCenter)
