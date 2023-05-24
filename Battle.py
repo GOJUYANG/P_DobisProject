@@ -489,8 +489,6 @@ class BattleClass(QDialog, Ui_Dialog):
         # self.skill_btn_wizard_white_mp_up.connect()
         # self.skill_btn_wizard_white_map_find.connect()
 
-    ### 함수 선언 ###
-    # [공격]버튼 함수에 connect, 그 전에 몬스터 버튼은 disconnect이 되어있다.
     def attack_connect(self, btn):
         if self.bool_meet_monster:
             loop = self.dict_field_monster['info']['int_cnt']
@@ -841,7 +839,7 @@ class BattleClass(QDialog, Ui_Dialog):
     # 전투화면으로 전환시 각 캐릭터의 [공격]버튼에 따른 QDialog창 생성
     def atk_choice(self, x, index):
 
-        self.atk_dialog = QDialog()
+        self.atk_dialog = QDialog(self)
         self.atk_dialog.setWindowTitle("ATTACK")
 
         radio_button1 = QRadioButton(f"물리공격(현재 공격력: {self.dict_user_gard[self.list_job[index]]['power']})")

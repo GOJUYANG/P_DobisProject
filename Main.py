@@ -175,6 +175,8 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # 필드 리스트
         self.dict_field = {'불': False, '물': False, '숲': False, '눈': False}
 
+        self.dict_field_kvalue = {'area_fire': '불의 지역', 'area_snow': '눈의 지역', 'area_forest': '숲의 지역', 'area_water': '물의 지역'}
+
         # 획득한 아이템 리스트 / 변수명 :  아이템명, 보유개수, 이미지소스
         self.dict_item = {'revival_potion': {'name': '부활포션', 'count': 0, 'image': ''},
                           'tent': {'name': '텐트', 'count': 0, 'image': ''},
@@ -471,7 +473,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         self.list_lb_gard[self.stackedWidget.currentIndex()].x(), self.y)
                     self.alarm_where_field(self.list_lb_gard[self.stackedWidget.currentIndex()].x(), self.y)
 
-                tuple_v = self.field_move_event(self.dict_user_gard, self.field_turn, self.field_area)
+                tuple_v = self.field_move_event(self.dict_user_gard, self.field_turn)
 
                 if tuple_v is not None and not is_same_direct and not is_place_door:
                     self.play_bgm(tuple_v[0])
@@ -1247,7 +1249,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = False
             self.field_area = 'area_fire'
-            self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area}에 입장하였습니다.')
+            self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.dict_field_kvalue[self.field_area]}에 입장하였습니다.')
             self.play_bgm()
         if int_x + error_range_w > self.area_water.pos().x() and int_y + error_range_h < self.area_water.pos().y() and not \
                 self.dict_field['눈']:
@@ -1256,7 +1258,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = False
             self.field_area = 'area_snow'
-            self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area}에 입장하였습니다.')
+            self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.dict_field_kvalue[self.field_area]}에 입장하였습니다.')
             self.play_bgm()
         if int_x + error_range_w < self.area_water.pos().x() and int_y + error_range_h > self.area_water.pos().y() and not \
                 self.dict_field['숲']:
@@ -1265,7 +1267,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = True
             self.dict_field['물'] = False
             self.field_area = 'area_forest'
-            self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area}에 입장하였습니다.')
+            self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.dict_field_kvalue[self.field_area]}에 입장하였습니다.')
             self.play_bgm()
         if int_x + error_range_w > self.area_water.pos().x() and int_y + error_range_h > self.area_water.pos().y() and not \
                 self.dict_field['물']:
@@ -1274,10 +1276,10 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.dict_field['숲'] = False
             self.dict_field['물'] = True
             self.field_area = 'area_water'
-            self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.field_area}에 입장하였습니다.')
+            self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.dict_field_kvalue[self.field_area]}에 입장하였습니다.')
             self.play_bgm()
 
-    # 로그창 갱신
+    # 로그창 갱신d
     def renew_log_view(self, q_icon, str_msg):
         # icon = QIcon('./img_src/alarm.png')
         icon_item = QListWidgetItem(q_icon, str_msg)
@@ -1360,7 +1362,6 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
         # 음악 재생
         self.player.play()
-
 
 
 if __name__ == '__main__':
