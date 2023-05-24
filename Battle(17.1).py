@@ -2,7 +2,6 @@ import os, sys
 import random
 import time
 
-import keyboard
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -13,11 +12,9 @@ def resource_path(relative_path):
     base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
 
-
 # 메인화면
 main = resource_path('../qt/this_is_boki_dialog.ui')
 main_class = uic.loadUiType(main)[0]
-
 
 class BattleClass(QDialog, main_class):
     def __init__(self, **kwargs):
@@ -75,8 +72,8 @@ class BattleClass(QDialog, main_class):
         #         self.bool_meet_boss_monster = True
 
         # 테스트용 임의설정 값 #
-        self.bool_meet_monster = False
-        self.bool_meet_gard = True
+        self.bool_meet_monster = True
+        self.bool_meet_gard = False
         self.bool_meet_enemy_monster = False
         self.bool_meet_maze_gard = False
         self.bool_meet_boss_monster = False
@@ -98,12 +95,12 @@ class BattleClass(QDialog, main_class):
         self.dict_user_gard = {'gard': user_gard,
                                'location': {'region': '', 'x': 0, 'y': 0},
                                'warrior': {'survival': True,
-                                           'lv': 20, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+                                           'lv': 20, 'hp': 30, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
                                            'equipment': ['silver_helmet', 'bronze_armor', 'bronze_shield',
                                                          'bronze_sword'],
                                            'skill': {10: 'slice_chop'}},
                                'archer': {'survival': True,
-                                          'lv': 20, 'hp': 150, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 300,
+                                          'lv': 20, 'hp': 30, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 300,
                                           'equipment': [],
                                           'skill': {10: 'target_shot',
                                                     15: 'dual_shot',
@@ -173,7 +170,6 @@ class BattleClass(QDialog, main_class):
         list_enemy_lvs = random.choices(range(15, 21), k=6)
         int_hp_up = 1.2
         int_power_up = random.choice([1.1, 1.2, 1.3, 1.4, 1.5])
-
 
         if self.dict_user_gard['gard'] == 'light_gard':
             str_enemy_gard = random.choice(['moon_gard', 'star_gard', 'earth_gard'])
@@ -389,13 +385,11 @@ class BattleClass(QDialog, main_class):
                                         self.skill_btn_wizard_white_map_find]
 
         ### qt 연결 ###
-        #self.war_start.clicked.connect(self.show_war_result)
+        # self.war_start.clicked.connect(self.show_war_result)
         self.war_start.clicked.connect(self.battle_location)
         self.war_start.clicked.connect(self.equip_btn_disabled)
-
-# -----5.24 추가 부분 (필요 설정 값)---------------------------------------------------------------------------------------
         self.war_start.clicked.connect(self.monster_creat)
-        
+
         # self.list_frame[i].findChildren(QPushButton)[i] -> i:0 공격 / 1:장비 / 2:스킬 / 3:도망
         for i in range(6):
             self.list_frame[i].findChildren(QPushButton)[0].clicked.connect(lambda x, y=i: self.atk_choice(x, y))
@@ -2487,213 +2481,212 @@ class BattleClass(QDialog, main_class):
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
                     self.list_job_lb[i].setPixmap(QPixmap(f'../{self.list_job[i]}/died.png'))
-  
-# ---5.24변경 함수 분리(수호대버튼활성화 / 몬스터생성)--------------------------------------------------------------------------#
-     def monster_creat(self):
-            if self.bool_meet_monster:
-                #self.monster_li.clear()  #디버깅1)수호대가 죽을 때마다 monster_li.clear()해줌으로써 몬스터의 이미지가 변경되고 있음.
-                area = self.dict_field_monster['area'].split('_')
-                self.battle_dialog.setText(f"{area[1]}지역에서 벌어진 전투 시작!")
-                for k in range(self.dict_field_monster['info']['int_cnt']):
-                    self.list_enemy_line[k].setText(f"몬스터 HP: {str(self.dict_field_monster['info']['hp'][k])}")
-                    if self.dict_field_monster['area'] == 'area_fire':
-                        if self.dict_field_monster['info']['hp'][k] <= 250:
-                            self.monster_li.append('small_dragon[1]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 300:
-                            self.monster_li.append('small_dragon[2]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 400:
-                            self.monster_li.append('small_dragon[3]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 500:
-                            self.monster_li.append('small_dragon[4]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 600:
-                            self.monster_li.append('small_dragon[5]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 700:
-                            self.monster_li.append('demon[1]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 800:
-                            self.monster_li.append('demon[2]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 900:
-                            self.monster_li.append('demon[3]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 950:
-                            self.monster_li.append('demon[4]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 1000:
-                            self.monster_li.append('demon[5]')
-                    elif self.dict_field_monster['area'] == 'area_water':
-                        if self.dict_field_monster['info']['hp'][k] <= 250:
-                            self.monster_li.append('dragon[1]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 300:
-                            self.monster_li.append('dragon[2]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 400:
-                            self.monster_li.append('dragon[3]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 500:
-                            self.monster_li.append('dragon[4]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 600:
-                            self.monster_li.append('dragon[5]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 700:
-                            self.monster_li.append('jinn[1]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 800:
-                            self.monster_li.append('jinn[2]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 900:
-                            self.monster_li.append('jinn[3]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 950:
-                            self.monster_li.append('jinn[4]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 1000:
-                            self.monster_li.append('jinn[5]')
-                    elif self.dict_field_monster['area'] == 'area_forest':
-                        if self.dict_field_monster['info']['hp'][k] <= 250:
-                            self.monster_li.append('lizard[1]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 300:
-                            self.monster_li.append('lizard[2]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 400:
-                            self.monster_li.append('lizard[3]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 500:
-                            self.monster_li.append('lizard[4]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 600:
-                            self.monster_li.append('lizard[5]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 700:
-                            self.monster_li.append('medusa[1]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 800:
-                            self.monster_li.append('medusa[2]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 900:
-                            self.monster_li.append('medusa[3]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 950:
-                            self.monster_li.append('medusa[4]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 1000:
-                            self.monster_li.append('medusa[5]')
-                    elif self.dict_field_monster['area'] == 'area_snow':
-                        if self.dict_field_monster['info']['hp'][k] <= 250:
-                            self.monster_li.append('snow[1]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 300:
-                            self.monster_li.append('snow[2]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 400:
-                            self.monster_li.append('snow[3]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 500:
-                            self.monster_li.append('snow[4]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 600:
-                            self.monster_li.append('snow[5]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 700:
-                            self.monster_li.append('snow[6]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 800:
-                            self.monster_li.append('snow[7]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 900:
-                            self.monster_li.append('snow[8]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 950:
-                            self.monster_li.append('snow[9]')
-                        elif self.dict_field_monster['info']['hp'][k] <= 1000:
-                            self.monster_li.append('snow[10]')
 
-                    self.battle_dialog.append(
-                        f"HP: {str(self.dict_field_monster['info']['hp'][k])}의 {self.monster_li[k]}를 만났다!")
-                    pixmap = QPixmap(f'../data/{self.dict_field_monster["area"]}/{self.monster_li[k]}.png')
-                    pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
-                    icon = QIcon()
-                    icon.addPixmap(pixmap)
-                    self.list_enemy_btn[k].setIcon(icon)
-                    self.list_enemy_btn[k].setIconSize(QSize(100, 100))
+    def monster_creat(self):
+        if self.bool_meet_monster:
+            # self.monster_li.clear()  #디버깅1)수호대가 죽을 때마다 monster_li.clear()해줌으로써 몬스터의 이미지가 변경되고 있음.
+            area = self.dict_field_monster['area'].split('_')
+            self.battle_dialog.setText(f"{area[1]}지역에서 벌어진 전투 시작!")
+            for k in range(self.dict_field_monster['info']['int_cnt']):
+                self.list_enemy_line[k].setText(f"몬스터 HP: {str(self.dict_field_monster['info']['hp'][k])}")
+                if self.dict_field_monster['area'] == 'area_fire':
+                    if self.dict_field_monster['info']['hp'][k] <= 250:
+                        self.monster_li.append('small_dragon[1]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 300:
+                        self.monster_li.append('small_dragon[2]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 400:
+                        self.monster_li.append('small_dragon[3]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 500:
+                        self.monster_li.append('small_dragon[4]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 600:
+                        self.monster_li.append('small_dragon[5]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 700:
+                        self.monster_li.append('demon[1]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 800:
+                        self.monster_li.append('demon[2]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 900:
+                        self.monster_li.append('demon[3]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 950:
+                        self.monster_li.append('demon[4]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 1000:
+                        self.monster_li.append('demon[5]')
+                elif self.dict_field_monster['area'] == 'area_water':
+                    if self.dict_field_monster['info']['hp'][k] <= 250:
+                        self.monster_li.append('dragon[1]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 300:
+                        self.monster_li.append('dragon[2]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 400:
+                        self.monster_li.append('dragon[3]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 500:
+                        self.monster_li.append('dragon[4]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 600:
+                        self.monster_li.append('dragon[5]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 700:
+                        self.monster_li.append('jinn[1]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 800:
+                        self.monster_li.append('jinn[2]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 900:
+                        self.monster_li.append('jinn[3]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 950:
+                        self.monster_li.append('jinn[4]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 1000:
+                        self.monster_li.append('jinn[5]')
+                elif self.dict_field_monster['area'] == 'area_forest':
+                    if self.dict_field_monster['info']['hp'][k] <= 250:
+                        self.monster_li.append('lizard[1]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 300:
+                        self.monster_li.append('lizard[2]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 400:
+                        self.monster_li.append('lizard[3]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 500:
+                        self.monster_li.append('lizard[4]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 600:
+                        self.monster_li.append('lizard[5]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 700:
+                        self.monster_li.append('medusa[1]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 800:
+                        self.monster_li.append('medusa[2]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 900:
+                        self.monster_li.append('medusa[3]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 950:
+                        self.monster_li.append('medusa[4]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 1000:
+                        self.monster_li.append('medusa[5]')
+                elif self.dict_field_monster['area'] == 'area_snow':
+                    if self.dict_field_monster['info']['hp'][k] <= 250:
+                        self.monster_li.append('snow[1]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 300:
+                        self.monster_li.append('snow[2]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 400:
+                        self.monster_li.append('snow[3]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 500:
+                        self.monster_li.append('snow[4]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 600:
+                        self.monster_li.append('snow[5]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 700:
+                        self.monster_li.append('snow[6]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 800:
+                        self.monster_li.append('snow[7]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 900:
+                        self.monster_li.append('snow[8]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 950:
+                        self.monster_li.append('snow[9]')
+                    elif self.dict_field_monster['info']['hp'][k] <= 1000:
+                        self.monster_li.append('snow[10]')
 
-            elif self.bool_meet_enemy_monster:
-                #self.monster_li.clear()
-                self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 전투 시작!")
-                for j in range(self.dict_maze_monster['int_cnt']):
-                    self.list_enemy_line[j].setText(f"몬스터 HP: {self.dict_maze_monster['list_hp'][j]}")
-                    if self.dict_maze_monster['list_hp'][j] <= 250:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[1]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('dragon[1]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('lizard[1]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[1]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 300:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[2]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('dragon[2]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('lizard[2]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[2]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 400:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[3]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('dragon[3]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('lizard[3]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[3]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 500:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[4]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('dragon[4]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('lizard[4]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[4]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 600:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[5]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('dragon[5]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('lizard[5]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[5]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 700:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('demon[1]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('jinn[1]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('medusa[1]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[6]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 800:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('demon[2]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('jinn[2]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('medusa[2]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[7]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 900:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('demon[3]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('jinn[3]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('medusa[3]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[8]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 950:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('demon[4]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('jinn[4]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('medusa[4]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[9]')
-                    elif self.dict_maze_monster['list_hp'][j] <= 1000:
-                        if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
-                            self.monster_li.append('demon[5]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
-                            self.monster_li.append('jinn[5]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
-                            self.monster_li.append('medusa[5]')
-                        elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
-                            self.monster_li.append('snow[10]')
+                self.battle_dialog.append(
+                    f"HP: {str(self.dict_field_monster['info']['hp'][k])}의 {self.monster_li[k]}를 만났다!")
+                pixmap = QPixmap(f'../data/{self.dict_field_monster["area"]}/{self.monster_li[k]}.png')
+                pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
+                icon = QIcon()
+                icon.addPixmap(pixmap)
+                self.list_enemy_btn[k].setIcon(icon)
+                self.list_enemy_btn[k].setIconSize(QSize(100, 100))
 
-                    self.battle_dialog.append(f"HP: {self.dict_maze_monster['list_hp'][j]}의 {self.monster_li[j]}를 만났다!")
-                    pixmap = QPixmap(
-                        f'../data/{self.dict_maze_monster["list_area_monster"][j]}/{self.monster_li[j]}.png')
-                    pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
-                    icon = QIcon()
-                    icon.addPixmap(pixmap)
-                    self.list_enemy_btn[j].setIcon(icon)
-                    self.list_enemy_btn[j].setIconSize(QSize(100, 100))
+        elif self.bool_meet_enemy_monster:
+            # self.monster_li.clear()
+            self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 전투 시작!")
+            for j in range(self.dict_maze_monster['int_cnt']):
+                self.list_enemy_line[j].setText(f"몬스터 HP: {self.dict_maze_monster['list_hp'][j]}")
+                if self.dict_maze_monster['list_hp'][j] <= 250:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[1]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('dragon[1]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('lizard[1]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[1]')
+                elif self.dict_maze_monster['list_hp'][j] <= 300:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[2]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('dragon[2]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('lizard[2]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[2]')
+                elif self.dict_maze_monster['list_hp'][j] <= 400:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[3]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('dragon[3]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('lizard[3]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[3]')
+                elif self.dict_maze_monster['list_hp'][j] <= 500:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[4]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('dragon[4]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('lizard[4]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[4]')
+                elif self.dict_maze_monster['list_hp'][j] <= 600:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[5]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('dragon[5]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('lizard[5]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[5]')
+                elif self.dict_maze_monster['list_hp'][j] <= 700:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('demon[1]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('jinn[1]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('medusa[1]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[6]')
+                elif self.dict_maze_monster['list_hp'][j] <= 800:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('demon[2]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('jinn[2]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('medusa[2]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[7]')
+                elif self.dict_maze_monster['list_hp'][j] <= 900:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('demon[3]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('jinn[3]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('medusa[3]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[8]')
+                elif self.dict_maze_monster['list_hp'][j] <= 950:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('demon[4]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('jinn[4]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('medusa[4]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[9]')
+                elif self.dict_maze_monster['list_hp'][j] <= 1000:
+                    if self.dict_maze_monster['list_area_monster'][j] == 'area_fire':
+                        self.monster_li.append('demon[5]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_water':
+                        self.monster_li.append('jinn[5]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_forest':
+                        self.monster_li.append('medusa[5]')
+                    elif self.dict_maze_monster['list_area_monster'][j] == 'area_snow':
+                        self.monster_li.append('snow[10]')
+
+                self.battle_dialog.append(f"HP: {self.dict_maze_monster['list_hp'][j]}의 {self.monster_li[j]}를 만났다!")
+                pixmap = QPixmap(
+                    f'../data/{self.dict_maze_monster["list_area_monster"][j]}/{self.monster_li[j]}.png')
+                pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
+                icon = QIcon()
+                icon.addPixmap(pixmap)
+                self.list_enemy_btn[j].setIcon(icon)
+                self.list_enemy_btn[j].setIconSize(QSize(100, 100))
 
     # 각 캐릭터의 [공격]버튼 수행
     def monster_atk_choice(self, x, index, btn):
