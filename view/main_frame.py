@@ -3453,8 +3453,8 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "레전드 오브 복이"))
         self.lb_gard_name.setText(_translate("MainWindow", "수호대명"))
-        self.pb_use_item.setText(_translate("MainWindow", "아이템 정보"))
-        self.pb_use_item_2.setText(_translate("MainWindow", "아이템 사용"))
+        self.pb_use_item.setText(_translate("MainWindow", "아이템 사용"))
+        self.pb_use_item_2.setText(_translate("MainWindow", "아이템 정보"))
         self.mp_1.setText(_translate("MainWindow", "MP"))
         self.mp_warrior.setFormat(_translate("MainWindow", "%v"))
         self.hp_1.setText(_translate("MainWindow", "HP"))
