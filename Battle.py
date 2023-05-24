@@ -252,9 +252,9 @@ class BattleClass(QDialog, Ui_Dialog):
         for i in range(loop):
             self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_atk_choice(x, y, btn))
         for i in range(loop):
-            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.gard_atk_choice(x, y, btn))
+            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.gard_atk_choice(x, y))
         for i in range(loop):
-            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.boss_monster_atk_choice(x, y, btn))
+            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.boss_monster_atk_choice(x, y))
 
     def skill_connect(self, btn):
         if self.bool_meet_monster:
