@@ -575,7 +575,7 @@ class BattleClass(QDialog, main_class):
         for i in range(loop):
             self.list_enemy_btn[i].disconnect()
         for i in range(loop):
-            self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_atk_choice(x, y, btn))
+            self.list_enemy_btn[i].clicked.connect(lambda x, y=i, z=self.list_enemy_btn[i]: self.monster_atk_choice(x, y, z))
 
     def skill_connect(self, btn):
         if self.bool_meet_monster:
@@ -968,14 +968,18 @@ class BattleClass(QDialog, main_class):
 
     # 한번 누른 구성원의 [공격]버튼은 적의 턴이 끝날때 까지 비활성화.
     def attack_btn_clicked(self, x, index):
+        survivor = []
         if not x:
             self.list_attack_btn[index].setEnabled(False)
             self.list_skill_btn[index].setEnabled(False)
-            self.int_btn_clicked_cnt = index + 1
-        for i, job in enumerate(self.list_job):
-            if self.dict_user_gard[job]['survival']:
-                self.int_survival = i
-        if self.int_btn_clicked_cnt == self.int_survival + 1:
+            self.int_btn_clicked_cnt += 1
+        for k, v in self.dict_user_gard.items():
+            if k not in ['gard', 'location']:
+                if self.dict_user_gard[k]['survival']:
+                    survivor.append(k)
+        print(f"len(survivor): {len(survivor)}")
+        print(f"int_btn_clicked_cnt: {self.int_btn_clicked_cnt}")
+        if self.int_btn_clicked_cnt == len(survivor):
             for i, job in enumerate(self.list_job):
                 if self.dict_user_gard[job]['survival']:
                     self.list_attack_btn[i].setEnabled(True)
