@@ -180,7 +180,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
         # 획득한 아이템 리스트 / 변수명 :  아이템명, 보유개수, 이미지소스
         self.dict_item = {'revival_potion': {'name': '부활포션', 'count': 0, 'image': ''},
-                          'tent': {'name': '텐트', 'count': 1, 'image': ''},
+                          'tent': {'name': '텐트', 'count': 0, 'image': ''},
                           'all_potion_high': {'name': 'ALL포션(상)', 'count': 0, 'image': ''},
                           'all_potion_middle': {'name': 'ALL포션(중)', 'count': 0, 'image': ''},
                           'all_potion_low': {'name': 'ALL포션(하)', 'count': 0, 'image': ''},
@@ -257,16 +257,16 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
         # 수호대
         self.dict_user_gard = {'gard': '',
-                               'warrior': {'survival': False,
+                               'warrior': {'survival': True,
                                            'image': '',
                                            'die_image': '',
-                                           'lv': 30, 'hp': 0, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
+                                           'lv': 1, 'hp': 300, 'max_hp': 300, 'mp': 0, 'max_mp': 0, 'power': 200,
                                            'equipment': [],
                                            'skill': {10: 'slice_chop'}},
                                'archer': {'survival': True,
                                           'image': '',
                                           'die_image': '',
-                                          'lv': 1, 'hp': 50, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 300,
+                                          'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 300,
                                           'equipment': [],
                                           'skill': {10: 'target_shot',
                                                     15: 'dual_shot',
@@ -274,7 +274,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                                'swordman': {'survival': True,
                                             'image': '',
                                             'die_image': '',
-                                            'lv': 1, 'hp': 50, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 250,
+                                            'lv': 1, 'hp': 150, 'max_hp': 150, 'mp': 150, 'max_mp': 150, 'power': 250,
                                             'equipment': [],
                                             'skill': {10: 'slice_chop'}},
                                'wizard_red': {'survival': True,
