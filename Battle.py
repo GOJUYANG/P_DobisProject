@@ -235,8 +235,8 @@ class BattleClass(QDialog, Ui_Dialog):
         self.int_btn_clicked_cnt = self.stackedWidget.currentIndex()
         self.stackedWidget.setCurrentIndex(0)
 
-        ### 함수 선언 ###
-        # [공격]버튼 함수에 connect, 그 전에 몬스터 버튼은 disconnect이 되어있다.
+### 함수 선언 ###
+    # [공격]버튼 함수에 connect, 그 전에 몬스터 버튼은 disconnect이 되어있다.
     def attack_connect(self, btn):
         if self.bool_meet_monster:
             loop = self.dict_field_monster['info']['int_cnt']
@@ -282,31 +282,30 @@ class BattleClass(QDialog, Ui_Dialog):
                     lambda x, y=i: self.swordman_skill_effect(x, y, self.skill_btn_swordman_slice_chop))
             elif btn == self.list_skill_to_enemy[5]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'fire_ball', 'part', 30, 30))
+                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'fire_ball', 'part', 30, 30))
             elif btn == self.list_skill_to_enemy[6]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'fire_wall', 'all', 50, 50))
+                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'fire_wall', 'all', 50, 50))
             elif btn == self.list_skill_to_enemy[7]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'thunder_breaker', 'all', 60, 60))
+                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'thunder_breaker', 'all', 60, 60, ))
             elif btn == self.list_skill_to_enemy[8]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'bilzzard', 'all', 70, 70))
+                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'bilzzard', 'all', 70, 70))
             elif btn == self.list_skill_to_enemy[9]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_black', 'fire_ball', 'part', 30, 30))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_black', 'fire_ball', 'part', 30, 30))
             elif btn == self.list_skill_to_enemy[10]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_black', 'fire_wall', 'all', 50, 50))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_black', 'fire_wall', 'all', 50, 50))
             elif btn == self.list_skill_to_enemy[11]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_black', 'thunder_breaker', 'all', 60,
-                                                              60))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_black', 'thunder_breaker', 'all', 60, 60))
             elif btn == self.list_skill_to_enemy[12]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_black', 'bilzzard', 'all', 70, 70))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_black', 'bilzzard', 'all', 70, 70))
 
-        # -----5.24 추가 부분 (백법사의 hp_up)-------------------------------------------------------------------------------------
+#-----5.24 추가 부분 (백법사의 hp_up)-------------------------------------------------------------------------------------
         for i in range(5):
             if btn == self.list_skill_to_user_gard[6]:
                 # 유저 수호대 공격버튼이 사용가능한 상태라면
@@ -320,7 +319,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.user_gard_frame.findChildren(QPushButton)[5].setEnabled(True)
                 self.stackedWidget.setCurrentIndex(7)
                 self.user_gard_frame.findChildren(QPushButton)[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_3(x, y, 'hp_up', 'hp', 30))
+                    lambda x, y=i: self.wizard_skill_effect_3(x,y,'hp_up', 'hp', 30))
 
             # mp_up 미구현
             # elif btn == self.list_skill_to_user_gard[7]:
@@ -503,8 +502,7 @@ class BattleClass(QDialog, Ui_Dialog):
         list_update_job3 = []
         for i in range(6):
             if self.dict_user_gard[self.list_job[i]]['lv'] % 10 == 0:
-                self.dict_user_gard[self.list_job[i]]['power'] += self.dict_user_gard[self.list_job[i]][
-                                                                      'power'] * 0.1
+                self.dict_user_gard[self.list_job[i]]['power'] += self.dict_user_gard[self.list_job[i]]['power'] * 0.1
                 list_update_job3.append(self.list_job[i])
 
             list_update_job3 = ','.join(list_update_job3)
@@ -681,13 +679,13 @@ class BattleClass(QDialog, Ui_Dialog):
         self.list_skill_btn = []
         list_gif_lb = []
         if index == 3:
-            self.movie = QMovie('img_src/wizard_red/skill2.gif', QByteArray(), self)
+            self.movie = QMovie('../wizard_red/skill2.gif', QByteArray(), self)
             self.gif_3_1.setMovie(self.movie)
             self.movie.start()
         for i in range(6):
             list_gif_lb.append(getattr(self, f"gif_{i}"))
             self.list_skill_btn.append(getattr(self, f"pb_skill_job_{self.list_job[i]}"))
-            self.movie = QMovie(f'img_src/{self.list_job[i]}/skill.gif', QByteArray(), self)
+            self.movie = QMovie(f'../{self.list_job[i]}/skill.gif', QByteArray(), self)
             list_gif_lb[i].setMovie(self.movie)
             self.movie.start()
 
@@ -704,8 +702,7 @@ class BattleClass(QDialog, Ui_Dialog):
         job_skill_btn = self.sender()
         job_skill_choice = []
         for i, button in enumerate(self.list_skill_btn):  # 여기서 button = 각 직업의 [스킬]버튼
-            dict_skill_list = self.dict_user_gard[self.list_job[i]][
-                'skill']  # dict_skill_list는 각 직업의 skill 딕셔너리가 담긴다.
+            dict_skill_list = self.dict_user_gard[self.list_job[i]]['skill']  # dict_skill_list는 각 직업의 skill 딕셔너리가 담긴다.
             if job_skill_btn == button:
                 for lv, name in dict_skill_list.items():
                     if self.list_job[i] == 'wizard_red':
@@ -776,8 +773,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
             if self.bool_meet_monster:
                 self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
-                self.list_enemy_line[index].setText(
-                    f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
+                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
                 if self.dict_field_monster['info']['hp'][index] <= 0:
                     self.list_enemy_line[index].setText(f"몬스터 HP: 0")
                     self.list_enemy_btn[index].setDisabled(True)
@@ -835,8 +831,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
             if self.bool_meet_monster:
                 self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
-                self.list_enemy_line[index].setText(
-                    f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
+                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
                 if self.dict_field_monster['info']['hp'][index] <= 0:
                     self.list_enemy_line[index].setText(f"몬스터 HP: 0")
                     self.list_enemy_btn[index].setDisabled(True)
@@ -903,8 +898,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.battle_dialog.append(f"[궁수]의 MP가 50줄었습니다.")
 
                 if self.bool_meet_monster:
-                    self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][
-                                                                       index] - damage
+                    self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
                     self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster['info']['hp'][index]}")
                     if self.dict_field_monster['info']['hp'][index] <= 0:
                         self.list_enemy_line[index].setText(f"몬스터 HP: 0")
@@ -972,8 +966,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.battle_dialog.append(f"[궁수]의 MP가 70줄었습니다.")
 
                 if self.bool_meet_monster:
-                    self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][
-                                                                       index] - damage
+                    self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
                     self.list_enemy_line[index].setText(
                         f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
                     if self.dict_field_monster['info']['hp'][index] <= 0:
@@ -982,8 +975,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
                 elif self.bool_meet_enemy_monster:
                     self.dict_maze_monster['list_hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
-                    self.list_enemy_line[index].setText(
-                        f"몬스터 HP:{self.dict_maze_monster['list_hp'][index] - damage}")
+                    self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index] - damage}")
                     if self.dict_maze_monster['list_hp'][index] <= 0:
                         self.dict_maze_monster['list_hp'][index] = 0
                         self.list_enemy_line[index].setText(f"몬스터 HP: 0")
@@ -1036,8 +1028,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
             if self.bool_meet_monster:
                 self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
-                self.list_enemy_line[index].setText(
-                    f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
+                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
                 if self.dict_field_monster['info']['hp'][index] <= 0:
                     self.list_enemy_line[index].setText(f"몬스터 HP: 0")
                     self.list_enemy_btn[index].setDisabled(True)
@@ -1140,8 +1131,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.stackedWidget.setCurrentIndex(0)
 
                 if self.bool_meet_monster:
-                    self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][
-                                                                       index] - damage
+                    self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
                     self.list_enemy_line[index].setText(
                         f"몬스터 HP:{self.dict_field_monster['info']['hp'][index]}")
                     if self.dict_field_monster['info']['hp'][index] <= 0:
@@ -1214,8 +1204,7 @@ class BattleClass(QDialog, Ui_Dialog):
             elif self.bool_meet_enemy_monster:
                 for i in range(self.dict_maze_monster['int_cnt']):
                     self.dict_maze_monster['list_hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
-                    self.list_enemy_line[index].setText(
-                        f"몬스터 HP:{self.dict_maze_monster['list_hp'][index] - damage}")
+                    self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index] - damage}")
                     if self.dict_maze_monster['list_hp'][index] <= 0:
                         self.dict_maze_monster['list_hp'][index] = 0
                         self.list_enemy_line[index].setText(f"몬스터 HP: 0")
@@ -1263,11 +1252,10 @@ class BattleClass(QDialog, Ui_Dialog):
         if str_skill_name == 'hp_up':
             if str_hp_or_mp_or_map == 'hp':
                 origin_power = self.dict_user_gard[self.list_job[index]]['power']
-                power_up = random.choice([1.5, 1.6, 1.7])
+                power_up = random.choice([1.5,1.6,1.7])
                 damage = origin_power * power_up
 
-                self.battle_dialog.append(
-                    f"[백법사]의 {str_skill_name} 사용! {self.list_job[index]}의 공격력이 {power_up}배 상승!")
+                self.battle_dialog.append(f"[백법사]의 {str_skill_name} 사용! {self.list_job[index]}의 공격력이 {power_up}배 상승!")
                 self.battle_dialog.append(f"{self.list_job[index]}의 공격력 : {damage} (1턴 유지)")
 
                 if self.bool_meet_monster:
@@ -1295,10 +1283,9 @@ class BattleClass(QDialog, Ui_Dialog):
                     for i in range(6):
                         if self.dict_enemy_gard[self.list_job[i]] > 0:
                             target_enemy = self.dict_enemy_gard[self.list_job[i]]
-                        self.dict_enemy_gard[self.list_job[i]]['hp'] = self.dict_enemy_gard[self.list_job[i]][
-                                                                           'hp'] - damage
+                        self.dict_enemy_gard[self.list_job[i]]['hp'] = self.dict_enemy_gard[self.list_job[i]]['hp'] - damage
                         self.list_enemy_line[i].setText(
-                            f"{self.list_job[i]} HP:{self.dict_enemy_gard[self.list_job[i]]['hp']}")
+                        f"{self.list_job[i]} HP:{self.dict_enemy_gard[self.list_job[i]]['hp']}")
                         if self.dict_enemy_gard[self.list_job[i]]['hp'] <= 0:
                             self.dict_enemy_gard[self.list_job[i]]['hp'] = 0
                             self.list_enemy_line[i].setText(f"{self.list_job[i]} HP: 0")
@@ -1321,8 +1308,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.stackedWidget.setCurrentIndex(0)
                 self.battle_dialog.append(f"스킬 사용으로 [백법사]의 MP {minus_mp}소진")
                 self.dict_user_gard['wizard_white']['mp'] -= minus_mp
-                self.battle_dialog.append(
-                    f"[확인용] {self.list_job[index]}의 공격력 : {self.dict_user_gard[self.list_job[index]]['power']}")
+                self.battle_dialog.append(f"[확인용] {self.list_job[index]}의 공격력 : {self.dict_user_gard[self.list_job[index]]['power']}")
 
         # 유저 수호대의 방어력을 1턴 50%상승시킨다.
         # 상승된 유저 수호대 직업은 무조건 다음 몬스터의 공격대상이 된다.
@@ -1373,7 +1359,7 @@ class BattleClass(QDialog, Ui_Dialog):
         self.current_pos = self.list_job_lb[self.index].pos()
         print(self.current_pos)
         if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.)
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack1.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/attack1.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 200)
             QTimer.singleShot(500, self.move_image_forward2)
             # self.timer.stop()
@@ -1381,7 +1367,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
     def move_image_forward2(self):
         if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack2.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/attack2.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 300)
             QTimer.singleShot(500, self.move_image_back)
             # self.timer.stop()
@@ -1389,7 +1375,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
     def move_image_back(self):
         if self.current_pos.x() < 900:  # 원래 위치로 돌아가는 x 좌표
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/walk1.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/walk1.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y())
             self.timer.stop()
 
@@ -1431,9 +1417,8 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.battle_dialog.setText(
                         f"{self.dict_enemy_gard['gard']}와의 전투 시작!")
                     for k in range(6):
-                        self.list_enemy_line[k].setText(
-                            f"{self.list_job[k]} HP: {self.dict_enemy_gard[self.list_job[k]]['hp']}")
-                        pixmap = QPixmap(f'img_src/{self.list_job[k]}/reverse.png')
+                        self.list_enemy_line[k].setText(f"{self.list_job[k]} HP: {self.dict_enemy_gard[self.list_job[k]]['hp']}")
+                        pixmap = QPixmap(f'../{self.list_job[k]}/reverse.png')
                         pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                         icon = QIcon()
                         icon.addPixmap(pixmap)
@@ -1441,12 +1426,11 @@ class BattleClass(QDialog, Ui_Dialog):
                         self.list_enemy_btn[k].setIconSize(QSize(100, 100))
 
                 elif self.bool_meet_maze_gard:
-                    self.battle_dialog.setText(
-                        f"{self.int_floor}층에서 벌어진 {self.dict_enemy_gard['gard']}와의 수호대와의 전투 시작!")
+                    self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 {self.dict_enemy_gard['gard']}와의 수호대와의 전투 시작!")
                     for j in range(6):
                         self.list_enemy_line[j].setText(
                             f"{self.list_job[j]} HP: {self.dict_enemy_gard[self.list_job[j]]['hp']}")
-                        pixmap = QPixmap(f'img_src/{self.list_job[j]}/reverse.png')
+                        pixmap = QPixmap(f'../{self.list_job[j]}/reverse.png')
                         pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                         icon = QIcon()
                         icon.addPixmap(pixmap)
@@ -1459,8 +1443,7 @@ class BattleClass(QDialog, Ui_Dialog):
         damage = self.selected_option
         self.battle_dialog.append(f"수호대{self.name}을/를 공격해 {damage}데미지를 입혔다.")
         if self.bool_meet_gard or self.bool_meet_maze_gard:
-            self.dict_enemy_gard[self.list_job[index]]['hp'] = self.dict_enemy_gard[self.list_job[index]][
-                                                                   'hp'] - damage
+            self.dict_enemy_gard[self.list_job[index]]['hp'] = self.dict_enemy_gard[self.list_job[index]]['hp'] - damage
             self.list_enemy_line[index].setText(
                 f"{self.list_job[index]} HP:{self.dict_enemy_gard[self.list_job[index]]['hp']}")
             if self.dict_enemy_gard[self.list_job[index]]['hp'] <= 0:
@@ -1489,8 +1472,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 # 유저수호대 피해자 공격받아 hp감소(공격력 증가시키는 버프 사용 고려)
                 if self.use_hp_up:  # 백법사 hp_up버프
                     self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
-                                                                           'power'] * (
-                                                                               1 + random.randint(5, 7) / 10)
+                                                                           'power'] * (1 + random.randint(5, 7) / 10)
                     print(self.dict_user_gard[str_choice_user_gard]['hp'])
                     print(self.dict_enemy_gard[str_choice_enemy_gard]['power'])
                     print(1 + random.randint(5, 7) / 10)
@@ -1682,19 +1664,16 @@ class BattleClass(QDialog, Ui_Dialog):
                 # HP포션 사용
                 if str_enemy_use_item == 'hp_potion_high':
                     print("필드 HP(상) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.7
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.7
                 elif str_enemy_use_item == 'hp_potion_middle':
                     print("필드 HP(중) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.5
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.5
                 elif str_enemy_use_item == 'hp_potion_low':
                     print("필드 HP(하) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.3
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.3
 
                 # MP포션 사용
                 elif str_enemy_use_item == 'mp_potion_high':
@@ -1710,21 +1689,18 @@ class BattleClass(QDialog, Ui_Dialog):
                 # ALL포션 사용
                 elif str_enemy_use_item == 'all_potion_high':
                     print("필드 ALL(상) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.7
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.7
                     # self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard]['max_hp'] * 0.7
                 elif str_enemy_use_item == 'all_potion_middle':
                     print("필드 ALL(중) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.5
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.5
                     # self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard]['max_hp'] * 0.5
                 elif str_enemy_use_item == 'all_potion_low':
                     print("필드 ALL(하) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.3
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.3
                     # self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard]['max_hp'] * 0.3
 
         # 던전에서 적군수호대 조우
@@ -1776,22 +1752,19 @@ class BattleClass(QDialog, Ui_Dialog):
                     skill_num = random.choice([10, 15, 20])
                     str_enemy_skill = self.dict_enemy_gard[str_choice_enemy_gard]['skill'][skill_num]
                     if str_enemy_skill == 'target_shot':
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(2, 5) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(2, 5) / 10)
                         print("던전1층 아처 타겟샷 발동")
                     elif str_enemy_skill == 'dual_shot':
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(4, 6) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(4, 6) / 10)
                         print("던전1층 아처 듀얼샷 발동")
                     else:
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(5, 7) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(5, 7) / 10)
                         print("던전1층 아처 마스터샷 발동")
                 # 던전 1층에서 검사 스킬 사용
                 elif str_choice_enemy_gard == 'swordman':
@@ -1930,22 +1903,19 @@ class BattleClass(QDialog, Ui_Dialog):
                     skill_num = random.choice([10, 15, 20])
                     str_enemy_skill = self.dict_enemy_gard[str_choice_enemy_gard]['skill'][skill_num]
                     if str_enemy_skill == 'target_shot':
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(2, 5) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(2, 5) / 10)
                         print("던전2층 아처 타겟샷 발동")
                     elif str_enemy_skill == 'dual_shot':
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(4, 6) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(4, 6) / 10)
                         print("던전2층 아처 듀얼 샷 발동")
                     else:
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(5, 7) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(5, 7) / 10)
                         print("던전2층 아처 마스터샷 발동")
                 # 검사 스킬 사용
                 elif str_choice_enemy_gard == 'swordman':
@@ -1957,9 +1927,8 @@ class BattleClass(QDialog, Ui_Dialog):
                     skill_num = random.choice([1, 15, 20, 25])
                     str_enemy_skill = self.dict_enemy_gard[str_choice_enemy_gard]['skill'][skill_num]
                     if str_enemy_skill == 'fire_ball':
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] * 1.3
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] * 1.3
                         print("던전2층 흑법사 파이어볼 발동")
                     elif str_enemy_skill == 'fire_wall':
                         self.use_fire_wall = True
@@ -1979,16 +1948,14 @@ class BattleClass(QDialog, Ui_Dialog):
                         str_heal_enemy = random.choice(
                             ['warrior', 'archer', 'swordman', 'wizard_red', 'wizard_black', 'wizard_white'])
                         if str_enemy_skill == 'heal_normal':
-                            self.dict_enemy_gard[str_heal_enemy]['hp'] += self.dict_enemy_gard[str_heal_enemy][
-                                                                              'max_hp'] \
+                            self.dict_enemy_gard[str_heal_enemy]['hp'] += self.dict_enemy_gard[str_heal_enemy]['max_hp'] \
                                                                           * random.randint(3, 7) / 10
                             print("던전2층 백법사 레벨 30미만 힐 노말 발동")
                         elif str_enemy_skill == 'hp_up':
                             self.use_hp_up = True
                             print("던전2층 백법사 레벨 30미만 에이치피 업 발동", self.use_hp_up)
                         elif str_enemy_skill == 'heal_greater':
-                            self.dict_enemy_gard[str_heal_enemy]['hp'] += self.dict_enemy_gard[str_heal_enemy][
-                                                                              'max_hp'] \
+                            self.dict_enemy_gard[str_heal_enemy]['hp'] += self.dict_enemy_gard[str_heal_enemy]['max_hp'] \
                                                                           * random.randint(6, 10) / 10
                             print("던전2층 백법사 레벨 30미만 힐 그레이터 발동")
                     else:
@@ -1997,8 +1964,7 @@ class BattleClass(QDialog, Ui_Dialog):
                         str_heal_enemy = random.choice(
                             ['warrior', 'archer', 'swordman', 'wizard_red', 'wizard_black', 'wizard_white'])
                         if str_enemy_skill == 'heal_normal':
-                            self.dict_enemy_gard[str_heal_enemy]['hp'] += self.dict_enemy_gard[str_heal_enemy][
-                                                                              'max_hp'] \
+                            self.dict_enemy_gard[str_heal_enemy]['hp'] += self.dict_enemy_gard[str_heal_enemy]['max_hp'] \
                                                                           * random.randint(3, 7) / 10
                             print("던전2층 백법사 레벨 30일때 힐 노말 발동")
                         elif str_enemy_skill == 'hp_up':
@@ -2101,22 +2067,19 @@ class BattleClass(QDialog, Ui_Dialog):
                     skill_num = random.choice([10, 15, 20])
                     str_enemy_skill = self.dict_enemy_gard[str_choice_enemy_gard]['skill'][skill_num]
                     if str_enemy_skill == 'target_shot':
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(2, 5) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(2, 5) / 10)
                         print("던전3층 아처 타겟샷 발동")
                     elif str_enemy_skill == 'dual_shot':
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(4, 6) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(4, 6) / 10)
                         print("던전3층 아처 듀얼샷 발동")
                     else:
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] \
-                            * (1 + random.randint(5, 7) / 10)
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] \
+                                                                           * (1 + random.randint(5, 7) / 10)
                         print("던전3층 마스터샷 발동")
                 # 검사 스킬 사용
                 elif str_choice_enemy_gard == 'swordman':
@@ -2128,9 +2091,8 @@ class BattleClass(QDialog, Ui_Dialog):
                     skill_num = random.choice([1, 15, 20, 25])
                     str_enemy_skill = self.dict_enemy_gard[str_choice_enemy_gard]['skill'][skill_num]
                     if str_enemy_skill == 'fire_ball':
-                        self.dict_user_gard[str_choice_user_gard]['hp'] -= \
-                            self.dict_enemy_gard[str_choice_enemy_gard][
-                                'power'] * 1.3
+                        self.dict_user_gard[str_choice_user_gard]['hp'] -= self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                               'power'] * 1.3
                         print("던전3층 흑법사 파이어볼 발동")
                     elif str_enemy_skill == 'fire_wall':
                         self.use_fire_wall = True
@@ -2172,8 +2134,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     if skill_num == 1:
                         str_enemy_skill = random.choice(['heal_normal', 'fire_ball'])
                         if str_enemy_skill == 'heal_normal':
-                            self.dict_enemy_gard[str_heal_enemy]['hp'] += self.dict_enemy_gard[str_heal_enemy][
-                                                                              'max_hp'] \
+                            self.dict_enemy_gard[str_heal_enemy]['hp'] += self.dict_enemy_gard[str_heal_enemy]['max_hp'] \
                                                                           * random.randint(3, 7) / 10
                             print("던전3층 적법사 힐 노말 발동")
                         else:
@@ -2213,19 +2174,16 @@ class BattleClass(QDialog, Ui_Dialog):
                 str_enemy_use_item = random.choice(list_enemy_items)
                 if str_enemy_use_item == 'hp_potion_high':
                     print("던전 HP(상) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.7
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.7
                 elif str_enemy_use_item == 'hp_potion_middle':
                     print("던전 HP(중) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.5
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.5
                 elif str_enemy_use_item == 'hp_potion_low':
                     print("던전 HP(하) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.3
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.3
 
                 # MP포션 사용
                 elif str_enemy_use_item == 'mp_potion_high':
@@ -2240,23 +2198,20 @@ class BattleClass(QDialog, Ui_Dialog):
                 # ALL포션 사용
                 elif str_enemy_use_item == 'all_potion_high':
                     print("던전 ALL(상) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.7
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.7
                     # self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_heal_enemy]['max_hp'] * 0.7
 
                 elif str_enemy_use_item == 'all_potion_middle':
                     print("던전 ALL(중) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.5
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.5
                     # self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_heal_enemy]['max_hp'] * 0.5
 
                 elif str_enemy_use_item == 'all_potion_low':
                     print("던전 ALL(하) 포션 사용")
-                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += \
-                        self.dict_enemy_gard[str_choice_enemy_gard][
-                            'max_hp'] * 0.3
+                    self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_choice_enemy_gard][
+                                                                             'max_hp'] * 0.3
                     # self.dict_enemy_gard[str_choice_enemy_gard]['hp'] += self.dict_enemy_gard[str_heal_enemy]['max_hp'] * 0.3
 
     # -------------몬스터와의 전투-------------------------------------------------------------------------------------------#
@@ -2273,9 +2228,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_attack_btn[i].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
-                    self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/died.png'))
-
-        # ---5.24변경 함수 분리(수호대버튼활성화 / 몬스터생성)--------------------------------------------------------------------------#
+                    self.list_job_lb[i].setPixmap(QPixmap(f'../{self.list_job[i]}/died.png'))
 
     def monster_creat(self):
         if self.bool_meet_monster:
@@ -2371,7 +2324,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
                 self.battle_dialog.append(
                     f"HP: {str(self.dict_field_monster['info']['hp'][k])}의 {self.monster_li[k]}를 만났다!")
-                pixmap = QPixmap(f'img_src/{self.dict_field_monster["area"]}/{self.monster_li[k]}.png')
+                pixmap = QPixmap(f'../data/{self.dict_field_monster["area"]}/{self.monster_li[k]}.png')
                 pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                 icon = QIcon()
                 icon.addPixmap(pixmap)
@@ -2476,7 +2429,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
                 self.battle_dialog.append(f"HP: {self.dict_maze_monster['list_hp'][j]}의 {self.monster_li[j]}를 만났다!")
                 pixmap = QPixmap(
-                    f'img_src/{self.dict_maze_monster["list_area_monster"][j]}/{self.monster_li[j]}.png')
+                    f'../data/{self.dict_maze_monster["list_area_monster"][j]}/{self.monster_li[j]}.png')
                 pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                 icon = QIcon()
                 icon.addPixmap(pixmap)
@@ -2485,31 +2438,36 @@ class BattleClass(QDialog, Ui_Dialog):
 
     # 각 캐릭터의 [공격]버튼 수행
     def monster_atk_choice(self, x, index, btn):
-        print(btn.objectName())
+        # print(btn.objectName())
+
         if btn.objectName() in ['pb_atk_warrior', 'pb_atk_archer', 'pb_atk_swordman',
                                 'pb_atk_wizard_red', 'pb_atk_wizard_black', 'pb_atk_wizard_white']:
-            damage = self.selected_option
-            print(f"공격데미지 : {damage}")
+            if self.selected_option == 0:
+                self.battle_dialog.append("아무 공격도 입혀지지 않았습니다. 행동을 선택해주세요")
+            else:
+                damage = self.selected_option
+                print(f"공격데미지 : {damage}")
 
-            # 오류#예상부분 : 죽은몬스터를 self.monster_li에서 제거하는 순간 index오류 발생할 가능성 농후
-            self.battle_dialog.append(f"{self.name}이/가{self.monster_li[index]}을/를 공격해 {damage}데미지를 입혔다.")
-            if self.bool_meet_monster:
-                self.list_enemy_line[index].setText(
-                    f"몬스터 HP:{self.dict_field_monster['info']['hp'][index] - damage}")
-                self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
-                print(f"선택몬스터의 맞기전 hp:{self.dict_field_monster['info']['hp'][index]}")
-                print(f"hp-데미지:{self.dict_field_monster['info']['hp'][index] - damage}")
-                if self.dict_field_monster['info']['hp'][index] <= 0:
-                    self.list_enemy_line[index].setText(f"몬스터 HP: 0")
-                    self.list_enemy_btn[index].setDisabled(True)
+                # 오류#예상부분 : 죽은몬스터를 self.monster_li에서 제거하는 순간 index오류 발생할 가능성 농후
+                self.battle_dialog.append(f"{self.name}이/가{self.monster_li[index]}을/를 공격해 {damage}데미지를 입혔다.")
+                if self.bool_meet_monster:
+                    self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
+                    self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_field_monster['info']['hp'][index]}")
+                    print(f"선택몬스터의 맞기전 hp:{self.dict_field_monster['info']['hp'][index]}")
+                    print(f"hp-데미지:{self.dict_field_monster['info']['hp'][index] - damage}")
+                    if self.dict_field_monster['info']['hp'][index] <= 0:
+                        self.list_enemy_line[index].setText(f"몬스터 HP: 0")
+                        self.list_enemy_btn[index].setDisabled(True)
 
-            elif self.bool_meet_enemy_monster:
-                self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index] - damage}")
-                if self.dict_maze_monster['list_hp'][index] <= 0:
-                    self.list_enemy_line[index].setText(f"몬스터 HP: 0")
-                    self.list_enemy_btn[index].setDisabled(True)
+                elif self.bool_meet_enemy_monster:
+                    self.dict_maze_monster['list_hp'][index] = self.dict_maze_monster['list_hp'][index] - damage
+                    self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index]}")
+                    if self.dict_maze_monster['list_hp'][index] <= 0:
+                        self.list_enemy_line[index].setText(f"몬스터 HP: 0")
+                        self.list_enemy_btn[index].setDisabled(True)
+                QTimer.singleShot(2000, self.monster_atk)
 
-            QTimer.singleShot(2000, self.monster_atk)
+            self.selected_option = 0
 
     # 몬스터의 유저 수호대 (랜덤)공격
     def monster_atk(self):
@@ -2542,13 +2500,13 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.atk_mon = self.monster_li[atk_monster]
 
             origin_hp = self.dict_user_gard[list_target[int_monster_target_c]]['hp']
-            atk_monster_damage = abs(self.dict_field_monster['info']['hp'][atk_monster] * damage_num)
+            atk_monster_damage = self.dict_field_monster['info']['hp'][atk_monster] * damage_num
 
             if damage_key == 'attack':
                 # 출력 메세지
-                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp - atk_monster_damage
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp-atk_monster_damage
                 self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-{list_target[int_monster_target_c]}의 hp가 {origin_hp - atk_monster_damage:.1f}로 떨어졌다!"""
+{list_target[int_monster_target_c]}의 hp가 {origin_hp-atk_monster_damage:.1f}로 떨어졌다!"""
                 print(
                     f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
                 print(f"-받은 데미지 : {atk_monster_damage}")
@@ -2557,7 +2515,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 if int_skill_sucess <= 30:
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp - atk_monster_damage
                     self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-{list_target[int_monster_target_c]}의 hp가 {origin_hp - atk_monster_damage:.1f}로 떨어졌다!"""
+{list_target[int_monster_target_c]}의 hp가 {origin_hp-atk_monster_damage:.1f}로 떨어졌다!"""
                     print(
                         f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
                     print(f"-받은 데미지 : {atk_monster_damage}")
@@ -2589,8 +2547,7 @@ class BattleClass(QDialog, Ui_Dialog):
             monster_damage = self.dict_maze_monster['list_damage'][atk_monster]
             str_damage_name = self.dict_maze_monster['list_area_monster'][atk_monster].split('_')
             if monster_damage == 0.05:
-                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][
-                                                                                    atk_monster] * monster_damage
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
                 str_damage_name = str_damage_name[1] + '_attack'
                 # 출력 메세지
                 self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
@@ -2598,8 +2555,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
             elif monster_damage == 0.1:
                 if int_skill_sucess <= 30:
-                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= \
-                        self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
                     str_damage_name = str_damage_name[1] + '_ball'
                     # 출력 메세지
                     self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
@@ -2636,12 +2592,11 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_attack_btn[i].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
-                    self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/died.png'))
+                    self.list_job_lb[i].setPixmap(QPixmap(f'../{self.list_job[i]}/died.png'))
 
             if self.bool_meet_boss_monster:
                 self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 {self.dict_boss_monster['name']}와의 전투 시작!")
-                self.list_enemy_line[0].setText(
-                    f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp']}")
+                self.list_enemy_line[0].setText(f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp']}")
                 for j in range(self.dict_boss_monster['list_field_monster'][0]):
                     self.list_enemy_line[j + 1].setText(
                         f"던전몬스터 HP: {self.dict_boss_monster['list_field_monster'][1][j]}")
@@ -2738,7 +2693,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.battle_dialog.append(
                         f"HP: {self.dict_boss_monster['list_field_monster'][1][j]}의 {self.monster_li[j]}를 만났다!")
                     pixmap = QPixmap(
-                        f'img_src/{self.dict_boss_monster["list_field_monster"][2][j]}/{self.monster_li[j]}.png')
+                        f'../data/{self.dict_boss_monster["list_field_monster"][2][j]}/{self.monster_li[j]}.png')
                     pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                     icon = QIcon()
                     icon.addPixmap(pixmap)
@@ -2747,7 +2702,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
                 for l in range(7):
                     if self.int_floor == l + 1:
-                        self.movie = QMovie(f'img_src/boss_monster/{l + 1}.gif', QByteArray(), self)
+                        self.movie = QMovie(f'../data/boss_monster/{l + 1}.gif', QByteArray(), self)
                         self.movie.frameChanged.connect(
                             lambda frame: self.enemy_0.setIcon(QIcon(self.movie.currentPixmap())))
                         if self.int_floor in [1, 5, 6, 7]:
@@ -2861,8 +2816,7 @@ class BattleClass(QDialog, Ui_Dialog):
                                                       'mp_potion_high', 'mp_potion_middle', 'mp_potion_low',
                                                       'all_potion_high', 'all_potion_middle', 'all_potion_low',
                                                       'silver_helmet', 'bronze_armor', 'iron_shield', 'bronze_bow',
-                                                      'red_glove', 'red_cape', 'bronze_pants'],
-                                                     k=fire_cnt * int_mul)
+                                                      'red_glove', 'red_cape', 'bronze_pants'], k=fire_cnt * int_mul)
                 return list_fire_drop_item
             elif self.dict_field_monster['area'] == 'area_water':
                 water_cnt = self.dict_field_monster['area_water']['int_cnt']
@@ -3017,11 +2971,6 @@ class BattleClass(QDialog, Ui_Dialog):
                 pass
         else:
             print('보스를 죽이지 못했습니다.')
-            pass
-
-    def keyPressEvent(self, event):
-        print(event.key())
-        if event.key() == Qt.Key.Key_Escape:
             pass
 
 
