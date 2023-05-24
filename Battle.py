@@ -679,13 +679,13 @@ class BattleClass(QDialog, Ui_Dialog):
         self.list_skill_btn = []
         list_gif_lb = []
         if index == 3:
-            self.movie = QMovie('../wizard_red/skill2.gif', QByteArray(), self)
+            self.movie = QMovie('img_src/wizard_red/skill2.gif', QByteArray(), self)
             self.gif_3_1.setMovie(self.movie)
             self.movie.start()
         for i in range(6):
             list_gif_lb.append(getattr(self, f"gif_{i}"))
             self.list_skill_btn.append(getattr(self, f"pb_skill_job_{self.list_job[i]}"))
-            self.movie = QMovie(f'../{self.list_job[i]}/skill.gif', QByteArray(), self)
+            self.movie = QMovie(f'img_src/{self.list_job[i]}/skill.gif', QByteArray(), self)
             list_gif_lb[i].setMovie(self.movie)
             self.movie.start()
 
@@ -1359,7 +1359,7 @@ class BattleClass(QDialog, Ui_Dialog):
         self.current_pos = self.list_job_lb[self.index].pos()
         print(self.current_pos)
         if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.)
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/attack1.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack1.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 200)
             QTimer.singleShot(500, self.move_image_forward2)
             # self.timer.stop()
@@ -1367,7 +1367,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
     def move_image_forward2(self):
         if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/attack2.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack2.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 300)
             QTimer.singleShot(500, self.move_image_back)
             # self.timer.stop()
@@ -1375,7 +1375,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
     def move_image_back(self):
         if self.current_pos.x() < 900:  # 원래 위치로 돌아가는 x 좌표
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'../{self.list_job[self.index]}/walk1.png'))
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/walk1.png'))
             self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y())
             self.timer.stop()
 
@@ -1418,7 +1418,7 @@ class BattleClass(QDialog, Ui_Dialog):
                         f"{self.dict_enemy_gard['gard']}와의 전투 시작!")
                     for k in range(6):
                         self.list_enemy_line[k].setText(f"{self.list_job[k]} HP: {self.dict_enemy_gard[self.list_job[k]]['hp']}")
-                        pixmap = QPixmap(f'../{self.list_job[k]}/reverse.png')
+                        pixmap = QPixmap(f'img_src/{self.list_job[k]}/reverse.png')
                         pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                         icon = QIcon()
                         icon.addPixmap(pixmap)
@@ -1430,7 +1430,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     for j in range(6):
                         self.list_enemy_line[j].setText(
                             f"{self.list_job[j]} HP: {self.dict_enemy_gard[self.list_job[j]]['hp']}")
-                        pixmap = QPixmap(f'../{self.list_job[j]}/reverse.png')
+                        pixmap = QPixmap(f'img_src/{self.list_job[j]}/reverse.png')
                         pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                         icon = QIcon()
                         icon.addPixmap(pixmap)
@@ -2228,7 +2228,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_attack_btn[i].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
-                    self.list_job_lb[i].setPixmap(QPixmap(f'../{self.list_job[i]}/died.png'))
+                    self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/died.png'))
 
     def monster_creat(self):
         if self.bool_meet_monster:
@@ -2324,7 +2324,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
                 self.battle_dialog.append(
                     f"HP: {str(self.dict_field_monster['info']['hp'][k])}의 {self.monster_li[k]}를 만났다!")
-                pixmap = QPixmap(f'../data/{self.dict_field_monster["area"]}/{self.monster_li[k]}.png')
+                pixmap = QPixmap(f'img_src/{self.dict_field_monster["area"]}/{self.monster_li[k]}.png')
                 pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                 icon = QIcon()
                 icon.addPixmap(pixmap)
@@ -2429,7 +2429,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
                 self.battle_dialog.append(f"HP: {self.dict_maze_monster['list_hp'][j]}의 {self.monster_li[j]}를 만났다!")
                 pixmap = QPixmap(
-                    f'../data/{self.dict_maze_monster["list_area_monster"][j]}/{self.monster_li[j]}.png')
+                    f'img_src/{self.dict_maze_monster["list_area_monster"][j]}/{self.monster_li[j]}.png')
                 pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                 icon = QIcon()
                 icon.addPixmap(pixmap)
@@ -2592,7 +2592,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_attack_btn[i].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
-                    self.list_job_lb[i].setPixmap(QPixmap(f'../{self.list_job[i]}/died.png'))
+                    self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/died.png'))
 
             if self.bool_meet_boss_monster:
                 self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 {self.dict_boss_monster['name']}와의 전투 시작!")
@@ -2693,7 +2693,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.battle_dialog.append(
                         f"HP: {self.dict_boss_monster['list_field_monster'][1][j]}의 {self.monster_li[j]}를 만났다!")
                     pixmap = QPixmap(
-                        f'../data/{self.dict_boss_monster["list_field_monster"][2][j]}/{self.monster_li[j]}.png')
+                        f'img_src/{self.dict_boss_monster["list_field_monster"][2][j]}/{self.monster_li[j]}.png')
                     pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
                     icon = QIcon()
                     icon.addPixmap(pixmap)
@@ -2702,7 +2702,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
                 for l in range(7):
                     if self.int_floor == l + 1:
-                        self.movie = QMovie(f'../data/boss_monster/{l + 1}.gif', QByteArray(), self)
+                        self.movie = QMovie(f'img_src/boss_monster/{l + 1}.gif', QByteArray(), self)
                         self.movie.frameChanged.connect(
                             lambda frame: self.enemy_0.setIcon(QIcon(self.movie.currentPixmap())))
                         if self.int_floor in [1, 5, 6, 7]:
