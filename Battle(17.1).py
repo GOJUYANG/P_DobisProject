@@ -2751,15 +2751,15 @@ class BattleClass(QDialog, main_class):
                     self.atk_mon = self.monster_li[atk_monster]
 
             origin_hp = self.dict_user_gard[list_target[int_monster_target_c]]['hp']
-            atk_monster_damage = self.dict_field_monster['info']['hp'][atk_monster] * damage_num
+            atk_monster_damage = abs(self.dict_field_monster['info']['hp'][atk_monster] * damage_num)
 
             if damage_key == 'attack':
                 # 출력 메세지
-                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp-atk_monster_damage
+                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp - atk_monster_damage
                 if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                 self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-{list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+                {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                 print(
                     f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
                 print(f"-받은 데미지 : {atk_monster_damage}")
