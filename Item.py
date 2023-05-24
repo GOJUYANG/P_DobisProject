@@ -30,12 +30,14 @@ class ItemClass():
                 dict_user_gard[job]['survival'] = True
                 msg = '부활포션을 사용하였습니다.'
 
-        if dict_user_gard[str_job]['survival'] == True:
-            if str_item == 'tent':
-                for job in list_job:
+        if str_item == 'tent':
+            for job in list_job:
+                if dict_user_gard[job]['survival'] == True:
                     dict_user_gard[job]['hp'] = dict_user_gard[job]['max_hp']
                     msg = '텐트를 사용하였습니다.'
-            elif str_item == 'hp_potion_high':
+
+        if dict_user_gard[str_job]['survival'] == True:
+            if str_item == 'hp_potion_high':
                 dict_user_gard[str_job]['hp'] += dict_user_gard[str_job]['max_hp'] * 0.7
                 msg = 'HP포션(상)을 사용하였습니다.'
             elif str_item == 'hp_potion_middle':
