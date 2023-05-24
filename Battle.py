@@ -282,16 +282,16 @@ class BattleClass(QDialog, Ui_Dialog):
                     lambda x, y=i: self.swordman_skill_effect(x, y, self.skill_btn_swordman_slice_chop))
             elif btn == self.list_skill_to_enemy[5]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'fire_ball', 'part', 30, 30))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'fire_ball', 'part', 30, 30))
             elif btn == self.list_skill_to_enemy[6]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'fire_wall', 'all', 50, 50))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'fire_wall', 'all', 50, 50))
             elif btn == self.list_skill_to_enemy[7]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'thunder_breaker', 'all', 60, 60, ))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'thunder_breaker', 'all', 60, 60))
             elif btn == self.list_skill_to_enemy[8]:
                 self.list_enemy_btn[i].clicked.connect(
-                    lambda x, y=i: self.wizard_skill_effect_2('wizard_red', 'bilzzard', 'all', 70, 70))
+                    lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_red', 'bilzzard', 'all', 70, 70))
             elif btn == self.list_skill_to_enemy[9]:
                 self.list_enemy_btn[i].clicked.connect(
                     lambda x, y=i: self.wizard_skill_effect_2(x, y, 'wizard_black', 'fire_ball', 'part', 30, 30))
