@@ -482,15 +482,83 @@ class BattleClass(QDialog, main_class):
 
             self.list_skill_to_user_gard[8].clicked.connect(lambda x, y=i: self.wizard_skill_effect_3(x,y,'map_find', 'map', 70))
 
-        # elif self.bool_meet_gard or self.bool_meet_maze_gard:
-        #     for btn in self.list_attack_btn:
-        #         btn.clicked.connect(lambda: self.attack_connect(btn))
-        #
-        #
-        # elif self.bool_meet_boss_monster:
-        #     for btn in self.list_attack_btn:
-        #         btn.clicked.connect(lambda: self.attack_connect(btn))
+        elif self.bool_meet_gard or self.bool_meet_maze_gard:
+            for btn in self.list_attack_btn:
+                btn.clicked.connect(lambda: self.attack_connect(btn))
 
+            self.list_skill_to_enemy[0].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[0]))
+            self.list_skill_to_enemy[1].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[1]))
+            self.list_skill_to_enemy[2].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[2]))
+            self.list_skill_to_enemy[3].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[3]))
+            self.list_skill_to_enemy[4].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[4]))
+            self.list_skill_to_enemy[5].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[5]))
+            self.list_skill_to_enemy[6].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[6]))
+            self.list_skill_to_enemy[7].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[7]))
+            self.list_skill_to_enemy[8].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[8]))
+            self.list_skill_to_enemy[9].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[9]))
+            self.list_skill_to_enemy[10].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[10]))
+            self.list_skill_to_enemy[11].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[11]))
+            self.list_skill_to_enemy[12].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[12]))
+
+            self.list_skill_to_user_gard[0].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_red', 'heal_normal', 'part', 30, 70, 30))
+            self.list_skill_to_user_gard[1].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_red', 'heal_greater', 'part', 60, 100, 50))
+            self.list_skill_to_user_gard[2].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_red', 'heal_all', 'all', 40, 80, 70))
+
+            self.list_skill_to_user_gard[3].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_white', 'heal_normal', 'part', 30, 70, 30))
+            self.list_skill_to_user_gard[4].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_white', 'heal_greater', 'part', 60, 100, 50))
+            self.list_skill_to_user_gard[5].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_white', 'heal_all', 'all', 40, 80, 70))
+
+            self.list_skill_to_user_gard[6].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
+
+            # mp_up (5.24 미구현 상태)
+            # self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+
+            self.list_skill_to_user_gard[8].clicked.connect(lambda x, y=i: self.wizard_skill_effect_3(x,y,'map_find', 'map', 70))
+
+        elif self.bool_meet_boss_monster:
+            for btn in self.list_attack_btn:
+                btn.clicked.connect(lambda: self.attack_connect(btn))
+
+            self.list_skill_to_enemy[0].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[0]))
+            self.list_skill_to_enemy[1].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[1]))
+            self.list_skill_to_enemy[2].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[2]))
+            self.list_skill_to_enemy[3].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[3]))
+            self.list_skill_to_enemy[4].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[4]))
+            self.list_skill_to_enemy[5].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[5]))
+            self.list_skill_to_enemy[6].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[6]))
+            self.list_skill_to_enemy[7].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[7]))
+            self.list_skill_to_enemy[8].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[8]))
+            self.list_skill_to_enemy[9].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[9]))
+            self.list_skill_to_enemy[10].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[10]))
+            self.list_skill_to_enemy[11].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[11]))
+            self.list_skill_to_enemy[12].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[12]))
+
+            self.list_skill_to_user_gard[0].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_red', 'heal_normal', 'part', 30, 70, 30))
+            self.list_skill_to_user_gard[1].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_red', 'heal_greater', 'part', 60, 100, 50))
+            self.list_skill_to_user_gard[2].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_red', 'heal_all', 'all', 40, 80, 70))
+
+            self.list_skill_to_user_gard[3].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_white', 'heal_normal', 'part', 30, 70, 30))
+            self.list_skill_to_user_gard[4].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_white', 'heal_greater', 'part', 60, 100, 50))
+            self.list_skill_to_user_gard[5].clicked.connect(
+                lambda: self.wizard_skill_effect('wizard_white', 'heal_all', 'all', 40, 80, 70))
+
+            self.list_skill_to_user_gard[6].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
+
+            # mp_up (5.24 미구현 상태)
+            # self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+
+            self.list_skill_to_user_gard[8].clicked.connect(lambda x, y=i: self.wizard_skill_effect_3(x,y,'map_find', 'map', 70))
 
     ### 함수 선언 ###
     # [공격]버튼 함수에 connect, 그 전에 몬스터 버튼은 disconnect이 되어있다.
@@ -2762,7 +2830,7 @@ class BattleClass(QDialog, main_class):
                 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                 print(
                     f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
-                print(f"-받은 데미지 : {atk_monster_damage}")
+                print(f"받은 데미지 : {atk_monster_damage}")
 
             elif damage_key == 'skill':
                 if int_skill_sucess <= 30:
