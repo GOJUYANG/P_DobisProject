@@ -173,8 +173,7 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_skill_to_user_gard[6].clicked.connect(
                 lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
 
-            # mp_up (5.24 미구현 상태)
-            # self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+            self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
 
             self.list_skill_to_user_gard[8].clicked.connect(
                 lambda x, y=i: self.wizard_skill_effect_3(x, y, 'map_find', 'map', 70))
@@ -214,8 +213,7 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_skill_to_user_gard[6].clicked.connect(
                 lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
 
-            # mp_up (5.24 미구현 상태)
-            # self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+            self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
 
             self.list_skill_to_user_gard[8].clicked.connect(
                 lambda x, y=i: self.wizard_skill_effect_3(x, y, 'map_find', 'map', 70))
@@ -254,8 +252,7 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_skill_to_user_gard[6].clicked.connect(
                 lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
 
-            # mp_up (5.24 미구현 상태)
-            # self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+            self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
 
             self.list_skill_to_user_gard[8].clicked.connect(
                 lambda x, y=i: self.wizard_skill_effect_3(x, y, 'map_find', 'map', 70))
