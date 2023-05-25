@@ -85,25 +85,19 @@ class mazeClass:
         dict_teleport_stock = {'first': 5, 'second': 5, 'third': 5, 'fourth': 5, 'fifth': 5, 'sixth': 5, 'seventh': 5}
         return dict_teleport_stock
 
-    def maze_move_event(self, int_floor, dict_user_gard, int_turn):
+    def maze_move_event(self, int_floor):
         ratio = random.randint(1, 100)
         if ratio <= 30:
-            bool_meet_maze_monster = True
-            int_turn += 1
-            return '일반몬스터', self.maze_meet_monster(int_floor, dict_user_gard), bool_meet_maze_monster, int_turn
+            return '일반몬스터', int_floor
         elif ratio <= 45:
-
             return '아군수호대', self.maze_meet_ally_gard()
         elif ratio <= 60:
-            bool_meet_enemy_gard = True
-            int_turn += 1
-            return '적군수호대', self.maze_meet_enemy_gard(int_floor, dict_user_gard), bool_meet_enemy_gard, int_turn
+            return '적군수호대', int_floor
         else:
-            return '이동'
+            return '이동', int_floor
 
     # 일반몬스터 만남(1~10마리)
-    def maze_meet_monster(self, int_floor, dict_user_gard):
-        int_floor = int_floor
+    def maze_meet_monster(self):
         int_monster_count = random.randint(1, 10)
         # 일반몬스터 구성
         dict_maze_monster = {'int_cnt': int_monster_count,
@@ -113,7 +107,7 @@ class mazeClass:
                              'list_damage': random.choices([0.05, 0.1], k=int_monster_count)}
         # 시연님 상속받기
 
-        return int_floor, dict_maze_monster, dict_user_gard
+        return dict_maze_monster
 
     # 아군 수호대 만남-9종류의 포션과 장비 중 나눔받음
     def maze_meet_ally_gard(self):
@@ -224,7 +218,7 @@ class mazeClass:
                                                       10: 'hp_up',
                                                       15: 'heal_greater',
                                                       30: 'heal_all'}}}
-        return int_floor, dict_enemy_gard, dict_user_gard
+        return dict_enemy_gard
 
     # 던전 보스 위치
     def maze_boss_location(self, int_floor):
@@ -293,7 +287,7 @@ class mazeClass:
                                  'name': '로드오브보기', 'hp': int_boss_hp, 'attack': ['c_attack', 0.05],
                                  'skill': ['hell_boki', 0.1],
                                  'list_field_monster': [int_cnt, list_hp, list_area]}
-        return int_floor, dict_boss_monster
+        return dict_boss_monster
 
     # 텔레포트 사용
     def maze_use_teleport(self, int_floor, dict_teleport_stock):
