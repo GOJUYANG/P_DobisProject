@@ -21,7 +21,6 @@ from PyQt5.uic.properties import QtGui
 
 from view.this_is_boki_dialog import Ui_Dialog
 
-
 class BattleClass(QDialog, Ui_Dialog):
     def __init__(self, **kwargs):
         super().__init__()
@@ -63,29 +62,24 @@ class BattleClass(QDialog, Ui_Dialog):
         if 'int_next_entrance_y' in kwargs:
             self.int_next_entrance_y = kwargs['int_next_entrance_y']
 
-        # -----5.24 추가 부분 (백법사의 map_find 스킬을 위한 변수)-------------------------------------------------------------------
-        ## 필드 ##
-        # if self.dict_field_monster['type'] == 'field_monster':
-        #     self.bool_meet_monster = True
-        # elif self.dict_enemy_gard['type'] == 'field_enemy_gard':
-        #     self.bool_meet_gard = True
-        # ## 던전 ##
-        # elif self.dict_field_monster['type'] == 'maze_monster':
-        #     self.bool_meet_enemy_monster = True
-        # elif self.dict_enemy_gard['type'] == 'maze_enemy_gard':
-        #     self.bool_meet_maze_gard = True
-        # elif self.dict_boss_monster['type'] == 'boss':
-        #     self.bool_meet_boss_monster = True
-
         ### 전투클래스 내에서만 사용되는 변수 ###
         self.list_job = ['warrior', 'archer', 'swordman', 'wizard_red', 'wizard_black', 'wizard_white']
         self.monster_li = []
-        self.bool_war_result = False
         self.list_origin_power = []
+        self.bool_war_result = False
+        self.int_war_cnt = 0
         self.int_btn_clicked_cnt = 0  # 수호대의 캐릭터 중 survival:True 수와 비교하여 버튼 활성화/비활성화를 체크하기 위함.
         self.int_survival = 0  # 수호대 캐릭터 중 survival:True 숫자
         self.skill_effect_2 = 0
-        self.skill_effect_3 = 0
+        self.origin_mp = 0
+        self.atk_mon = ''
+        self.mp_up_used = ''
+        self.mp_up = False
+        self.used_hp_up = None
+        self.use_hp_up = False
+        self.use_fire_wall = False
+        self.use_thunder_breaker = False
+        self.use_bilzzard = False
 
         ### qt object ###
         self.battle_dialog.verticalScrollBar().maximum()
@@ -126,7 +120,6 @@ class BattleClass(QDialog, Ui_Dialog):
         self.equip_btn_disabled()
         self.monster_creat()
 
-        # -----5.24 추가 부분 (필요 설정 값)---------------------------------------------------------------------------------------
         # self.list_frame[i].findChildren(QPushButton)[i] -> i:0 공격 / 1:장비 / 2:스킬 / 3:도망
         for i in range(6):
             self.list_frame[i].findChildren(QPushButton)[0].clicked.connect(lambda x, y=i: self.atk_choice(x, y))
@@ -139,10 +132,11 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_frame[i].findChildren(QPushButton)[2].clicked.connect(lambda x, y=i: self.skill_widget_open(x, y))
 
 
+        # case1) [필드]에서 [몬스터]를 만난 경우의 [공격/스킬]버튼의 함수 연결
         if self.bool_meet_monster:
             for btn in self.list_attack_btn:
                 btn.clicked.connect(lambda: self.attack_connect(btn))
-            # -----5.24 변경 부분 (버튼 커넥트)---------------------------------------------------------------------------------------
+
             self.list_skill_to_enemy[0].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[0]))
             self.list_skill_to_enemy[1].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[1]))
             self.list_skill_to_enemy[2].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[2]))
@@ -173,15 +167,17 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_skill_to_user_gard[6].clicked.connect(
                 lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
 
-            self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+            self.list_skill_to_user_gard[7].clicked.connect(
+                lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
 
             self.list_skill_to_user_gard[8].clicked.connect(
                 lambda x, y=i: self.wizard_skill_effect_3(x, y, 'map_find', 'map', 70))
 
+        # case2) [던전]에서 [몬스터]를 만난 경우의 [공격/스킬]버튼의 함수 연결
         elif self.bool_meet_enemy_monster:
             for btn in self.list_attack_btn:
                 btn.clicked.connect(lambda: self.attack_connect(btn))
-            # -----5.24 변경 부분 (버튼 커넥트)---------------------------------------------------------------------------------------
+
             self.list_skill_to_enemy[0].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[0]))
             self.list_skill_to_enemy[1].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[1]))
             self.list_skill_to_enemy[2].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[2]))
@@ -213,11 +209,13 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_skill_to_user_gard[6].clicked.connect(
                 lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
 
-            self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+            self.list_skill_to_user_gard[7].clicked.connect(
+                lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
 
             self.list_skill_to_user_gard[8].clicked.connect(
                 lambda x, y=i: self.wizard_skill_effect_3(x, y, 'map_find', 'map', 70))
 
+        # case3,4) [필드][던전]에서 [적수호대]를 만난 경우의 [공격/스킬]버튼의 함수 연결
         elif self.bool_meet_gard or self.bool_meet_maze_gard:
             for btn in self.list_attack_btn:
                 btn.clicked.connect(lambda: self.attack_connect(btn))
@@ -252,11 +250,13 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_skill_to_user_gard[6].clicked.connect(
                 lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
 
-            self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+            self.list_skill_to_user_gard[7].clicked.connect(
+                lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
 
             self.list_skill_to_user_gard[8].clicked.connect(
                 lambda x, y=i: self.wizard_skill_effect_3(x, y, 'map_find', 'map', 70))
 
+        # case5) [던전]에서 [보스몬스터]를 만난 경우의 [공격/스킬]버튼의 함수 연결
         elif self.bool_meet_boss_monster:
             for btn in self.list_attack_btn:
                 btn.clicked.connect(lambda: self.attack_connect(btn))
@@ -292,8 +292,8 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_skill_to_user_gard[6].clicked.connect(
                 lambda x: self.skill_connect(self.list_skill_to_user_gard[6]))
 
-            # mp_up (5.24 미구현 상태)
-            # self.list_skill_to_user_gard[7].clicked.connect(lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
+            self.list_skill_to_user_gard[7].clicked.connect(
+                lambda x: self.skill_connect(self.list_skill_to_user_gard[7]))
 
             self.list_skill_to_user_gard[8].clicked.connect(
                 lambda x, y=i: self.wizard_skill_effect_3(x, y, 'map_find', 'map', 70))
@@ -323,7 +323,7 @@ class BattleClass(QDialog, Ui_Dialog):
             self.list_enemy_btn[i].disconnect()
         if self.bool_meet_monster or self.bool_meet_enemy_monster:
             for i in range(loop):
-                self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.monster_atk_choice(x, y, btn))
+                self.list_enemy_btn[i].clicked.connect(lambda x, y=i, z=self.list_enemy_btn[i]: self.monster_atk_choice(x, y, btn))
         if self.bool_meet_gard or self.bool_meet_maze_gard:
             for i in range(loop):
                 self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.gard_atk_choice(x, y))
@@ -343,6 +343,8 @@ class BattleClass(QDialog, Ui_Dialog):
 
         for i in range(loop):
             self.list_enemy_btn[i].disconnect()
+
+        # 하단의 스킬들은 list_enemy_btn을 클릭 뒤 실행
         for i in range(loop):
             if btn == self.list_skill_to_enemy[0]:
                 self.list_enemy_btn[i].clicked.connect(
@@ -384,8 +386,9 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.list_enemy_btn[i].clicked.connect(
                     lambda x, y=i: self.wizard_skill_effect_2(x, y,'wizard_black', 'bilzzard', 'all', 70, 70))
 
-#-----5.24 추가 부분 (백법사의 hp_up, mp_up)-------------------------------------------------------------------------------------
+#백법사 스킬은 유저구성원을 누른 뒤 실행(hp_up, mp_up)
         for i in range(5):
+            # hp_up
             if btn == self.list_skill_to_user_gard[6]:
                 # 유저 수호대 공격버튼이 사용가능한 상태라면
                 if self.list_attack_btn[i].isEnabled():
@@ -399,7 +402,8 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.stackedWidget.setCurrentIndex(7)
                 self.user_gard_frame.findChildren(QPushButton)[i].clicked.connect(
                     lambda x, y=i: self.wizard_skill_effect_3(x,y,'hp_up', 'hp', 30))
-#5.24 추가(21:10) (백법사의 mp_up)---------------------------------------------------------------------------
+
+            # mp_up
             elif btn == self.list_skill_to_user_gard[7]:
                 survivor = []
                 for k,v in self.dict_user_gard.items():
@@ -413,7 +417,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.user_gard_frame.findChildren(QPushButton)[i].clicked.connect(
                     lambda x, y=i: self.wizard_skill_effect_3(x,y,'mp_up', 'mp', 50))
 
-    # 전투결과(승패) 반환
+    # 전투결과(승패) 반환 -> return
     def show_war_result(self):
         user_died = 0
         enemy_died = 0
@@ -492,7 +496,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
         return self.bool_war_result
 
-    # 전투 횟수 카운트
+    # 전투 횟수 카운트 -> return
     def war_cnt(self):
         if self.bool_war_result:
             self.int_war_cnt += 1
@@ -1402,6 +1406,7 @@ class BattleClass(QDialog, Ui_Dialog):
         # 유저 수호대의 방어력을 1턴 50%상승시킨다.
         elif str_skill_name == 'mp_up':
             if str_hp_or_mp_or_map == 'mp':
+                self.mp_up = True
                 self.mp_up_used = self.list_job[index]
                 self.origin_mp = self.dict_user_gard[self.list_job[index]]['mp']
                 self.battle_dialog.append(f"[백법사]의 {str_skill_name} 사용! {self.list_job[index]}의 방어력이 {1.5}배 상승!")
@@ -1410,6 +1415,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.battle_dialog.append(f"스킬 사용으로 [백법사]의 MP{minus_mp}소진")
                 self.dict_user_gard['wizard_white']['mp'] -= minus_mp
                 self.stackedWidget.setCurrentIndex(0)
+                self.mp_up = False
 
         # 필드에서 현재 턴의 출입구 위치(던전입구 좌표값) 확인 가능
         elif str_skill_name == 'map_find':
@@ -2524,6 +2530,123 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.list_enemy_btn[j].setIcon(icon)
                 self.list_enemy_btn[j].setIconSize(QSize(100, 100))
 
+        elif self.bool_meet_boss_monster:
+            self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 {self.dict_boss_monster['name']}와의 전투 시작!")
+            self.list_enemy_line[0].setText(f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp']}")
+            for j in range(self.dict_boss_monster['list_field_monster'][0]):
+                self.list_enemy_line[j + 1].setText(
+                    f"던전몬스터 HP: {self.dict_boss_monster['list_field_monster'][1][j]}")
+                if self.dict_boss_monster['list_field_monster'][1][j] <= 250:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[1]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('dragon[1]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('lizard[1]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[1]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 300:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[2]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('dragon[2]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('lizard[2]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[2]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 400:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[3]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('dragon[3]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('lizard[3]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[3]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 500:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[4]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('dragon[4]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('lizard[4]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[4]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 600:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('small_dragon[5]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('dragon[5]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('lizard[5]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[5]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 700:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('demon[1]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('jinn[1]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('medusa[1]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[6]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 800:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('demon[2]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('jinn[2]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('medusa[2]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[7]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 900:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('demon[3]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('jinn[3]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('medusa[3]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[8]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 950:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('demon[4]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('jinn[4]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('medusa[4]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[9]')
+                elif self.dict_boss_monster['list_field_monster'][1][j] <= 1000:
+                    if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
+                        self.monster_li.append('demon[5]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
+                        self.monster_li.append('jinn[5]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
+                        self.monster_li.append('medusa[5]')
+                    elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
+                        self.monster_li.append('snow[10]')
+                self.battle_dialog.append(
+                    f"HP: {self.dict_boss_monster['list_field_monster'][1][j]}의 {self.monster_li[j]}를 만났다!")
+                pixmap = QPixmap(
+                    f'img_src/{self.dict_boss_monster["list_field_monster"][2][j]}/{self.monster_li[j]}.png')
+                pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
+                icon = QIcon()
+                icon.addPixmap(pixmap)
+                self.list_enemy_btn[j + 1].setIcon(icon)
+                self.list_enemy_btn[j + 1].setIconSize(QSize(100, 100))
+
+            for l in range(7):
+                if self.int_floor == l + 1:
+                    self.movie = QMovie(f'img_src/boss_monster/{l + 1}.gif', QByteArray(), self)
+                    self.movie.frameChanged.connect(
+                        lambda frame: self.enemy_0.setIcon(QIcon(self.movie.currentPixmap())))
+                    if self.int_floor in [1, 5, 6, 7]:
+                        self.enemy_0.setIconSize(QSize(180, 180))
+                    else:
+                        self.enemy_0.setIconSize(QSize(100, 100))
+                    self.movie.start()
+
     # 각 캐릭터의 [공격]버튼 수행
     def monster_atk_choice(self, x, index, btn):
         # print(btn.objectName())
@@ -2536,7 +2659,6 @@ class BattleClass(QDialog, Ui_Dialog):
                 damage = self.selected_option
                 print(f"공격데미지 : {damage}")
 
-                # 오류#예상부분 : 죽은몬스터를 self.monster_li에서 제거하는 순간 index오류 발생할 가능성 농후
                 self.battle_dialog.append(f"{self.name}이/가{self.monster_li[index]}을/를 공격해 {damage}데미지를 입혔다.")
                 if self.bool_meet_monster:
                     self.dict_field_monster['info']['hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
@@ -2559,11 +2681,12 @@ class BattleClass(QDialog, Ui_Dialog):
 
     # 몬스터의 유저 수호대 (랜덤)공격
     def monster_atk(self):
-
+        # 몬스터의 타겟은 survival:True상태인 유저수호대
         list_target = []
         for k in self.list_job:
             if self.dict_user_gard[k]['survival']:
                 list_target.append(k)
+
         int_monster_skill_c = random.randint(0, 1)
         int_monster_target_c = random.randint(0, len(list_target) - 1)
         int_skill_sucess = random.randint(0, 100)
@@ -2577,9 +2700,9 @@ class BattleClass(QDialog, Ui_Dialog):
         damage_name = self.dict_field_monster['info'][damage_key][0]
         damage_num = self.dict_field_monster['info'][damage_key][1]
 
-        # 필드에서 지역몬스터를 만났다.
+        # [필드/몬스터]
+        # 예외처리) 죽은 몬스터는 공격을 할 수 없다.
         if self.bool_meet_monster:
-            # 죽은 몬스터는 공격를 하지 못한다.
             atk_monster = random.randint(0, len(self.monster_li) - 1)
             for i in range(self.dict_field_monster['info']['int_cnt']):
                 print(atk_monster)
@@ -2588,45 +2711,73 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.atk_mon = self.monster_li[atk_monster]
 
             origin_hp = self.dict_user_gard[list_target[int_monster_target_c]]['hp']
-            atk_monster_damage = self.dict_field_monster['info']['hp'][atk_monster] * damage_num
+            atk_monster_damage = abs(self.dict_field_monster['info']['hp'][atk_monster] * damage_num)
 
-            if self.mp_up_used == list_target[int_monster_target_c]:
-                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
-                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
+            if self.mp_up:
+                if self.mp_up_used == list_target[int_monster_target_c]:
+                    self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                    self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
 
-            elif self.mp_up_used != list_target[int_monster_target_c]:
-                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
-                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
+                elif self.mp_up_used != list_target[int_monster_target_c]:
+                    self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                    self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
 
-            if damage_key == 'attack':
-                # 출력 메세지
-                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp-atk_monster_damage
-                if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
-                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
-                self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-                {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
-                print(
-                    f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
-                print(f"받은 데미지 : {atk_monster_damage}")
+                self.battle_dialog.append(f"{self.mp_up_used}의 mp가 원상복귀 되었습니다.")
+                print(f"확인용 -> self.dict_user_gard[self.mp_up_used]의 원상복귀 mp : {self.dict_user_gard[self.mp_up_used]['mp']}")
 
-            elif damage_key == 'skill':
-                if int_skill_sucess <= 30:
+                if damage_key == 'attack':
+                    # 출력 메세지
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp - atk_monster_damage
-                    if origin_hp - atk_monster_damage <= 0:
+                    if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
                         self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                     self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
                     {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                     print(
                         f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
-                    print(f"-받은 데미지 : {atk_monster_damage}")
-                else:
+                    print(f"받은 데미지 : {atk_monster_damage}")
+
+                elif damage_key == 'skill':
+                    if int_skill_sucess <= 30:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp - atk_monster_damage
+                        if origin_hp - atk_monster_damage <= 0:
+                            self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                        self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
+                        {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+                        print(
+                            f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
+                        print(f"-받은 데미지 : {atk_monster_damage}")
+                    else:
+                        # 출력 메세지
+                        self.battle_msg = "몬스터의 스킬이 먹히지 않았습니다. 아무일도 일어나지 않았습니다."
+
+            elif not self.mp_up:
+                if damage_key == 'attack':
                     # 출력 메세지
-                    self.battle_msg = "몬스터의 스킬이 먹히지 않았습니다. 아무일도 일어나지 않았습니다."
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp-atk_monster_damage
+                    if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                    self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
+                    {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+                    print(
+                        f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
+                    print(f"받은 데미지 : {atk_monster_damage}")
+
+                elif damage_key == 'skill':
+                    if int_skill_sucess <= 30:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = origin_hp - atk_monster_damage
+                        if origin_hp - atk_monster_damage <= 0:
+                            self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                        self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
+                        {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+                        print(
+                            f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
+                        print(f"-받은 데미지 : {atk_monster_damage}")
+                    else:
+                        # 출력 메세지
+                        self.battle_msg = "몬스터의 스킬이 먹히지 않았습니다. 아무일도 일어나지 않았습니다."
 
             # 최종 출력 메세지
             self.battle_dialog.append(self.battle_msg)
-            self.battle_dialog.append(f"{self.mp_up_used}의 mp가 원상복귀 되었습니다.")
-            print(f"확인용 -> self.dict_user_gard[self.mp_up_used]의 원상복귀 mp : {self.dict_user_gard[self.mp_up_used]['mp']}")
 
             # 공격을 받은 유저수호대의 hp가 0이 되었을 때
             if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
@@ -2649,41 +2800,70 @@ class BattleClass(QDialog, Ui_Dialog):
             monster_damage = self.dict_maze_monster['list_damage'][atk_monster]
             str_damage_name = self.dict_maze_monster['list_area_monster'][atk_monster].split('_')
 
-            if self.mp_up_used == list_target[int_monster_target_c]:
-                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
-                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
+            if self.mp_up:
+                if self.mp_up_used == list_target[int_monster_target_c]:
+                    self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                    self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
 
-            elif self.mp_up_used != list_target[int_monster_target_c]:
-                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
-                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
+                elif self.mp_up_used != list_target[int_monster_target_c]:
+                    self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                    self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
 
-            if monster_damage == 0.05:
-                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
-                str_damage_name = str_damage_name[1] + '_attack'
-                if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
-                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
-                # 출력 메세지
-                self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
-    그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+                self.battle_dialog.append(f"{self.mp_up_used}의 mp가 원상복귀 되었습니다.")
+                print(f"확인용 -> self.dict_user_gard[self.mp_up_used]의 원상복귀 mp : {self.dict_user_gard[self.mp_up_used]['mp']}")
 
-            elif monster_damage == 0.1:
-                if int_skill_sucess <= 30:
+                if monster_damage == 0.05:
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
-                    str_damage_name = str_damage_name[1] + '_ball'
+                    str_damage_name = str_damage_name[1] + '_attack'
                     if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
                         self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                     # 출력 메세지
                     self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
-    그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
 
-                else:
+                elif monster_damage == 0.1:
+                    if int_skill_sucess <= 30:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
+                        str_damage_name = str_damage_name[1] + '_ball'
+
+                        if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                            self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                        # 출력 메세지
+                        self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다!
+그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+
+                    else:
+                        # 출력 메세지
+                        self.battle_msg = "몬스터의 스킬이 먹히지 않았습니다. 아무일도 일어나지 않았습니다."
+
+            elif not self.mp_up:
+                if monster_damage == 0.05:
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_maze_monster['list_hp'][
+                                                                                        atk_monster] * monster_damage
+                    str_damage_name = str_damage_name[1] + '_attack'
+
+                    if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
                     # 출력 메세지
-                    self.battle_msg = "몬스터의 스킬이 먹히지 않았습니다. 아무일도 일어나지 않았습니다."
+                    self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다! 그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+
+                elif monster_damage == 0.1:
+                    if int_skill_sucess <= 30:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= \
+                        self.dict_maze_monster['list_hp'][atk_monster] * monster_damage
+                        str_damage_name = str_damage_name[1] + '_ball'
+
+                        if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                            self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                        # 출력 메세지
+                        self.battle_msg = f"""{self.dict_maze_monster['list_area_monster'][atk_monster]}의 {self.monster_li[atk_monster]}가 {str_damage_name}공격을 걸었다! 그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+
+                    else:
+                        # 출력 메세지
+                        self.battle_msg = "몬스터의 스킬이 먹히지 않았습니다. 아무일도 일어나지 않았습니다."
 
             # 최종 출력 메세지
             self.battle_dialog.append(self.battle_msg)
-            self.battle_dialog.append(f"{self.mp_up_used}의 mp가 원상복귀 되었습니다.")
-            print(f"확인용 -> self.dict_user_gard[self.mp_up_used]의 원상복귀 mp : {self.dict_user_gard[self.mp_up_used]['mp']}")
 
             # 공격을 받은 유저수호대의 hp가 0이 되었을 때
             if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
@@ -2697,7 +2877,6 @@ class BattleClass(QDialog, Ui_Dialog):
     # -------------보스몬스터와의 전투----------------------------------------------------------------------------------------#
     # 보스 몬스터 조우 - 전투 가능한 구성원의 [공격][스킬]버튼 활성화, 보스+일반몬스터 이미지 로드
     def battle_boss_monster(self):
-
         for i in range(6):
             if self.list_job[i] in self.dict_user_gard.keys():
                 if self.dict_user_gard[self.list_job[i]]['survival']:
@@ -2710,123 +2889,6 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_frame[i].findChildren(QPushButton)[2].setDisabled(True)
                     self.list_frame[i].findChildren(QPushButton)[3].setDisabled(True)
                     self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/died.png'))
-
-            if self.bool_meet_boss_monster:
-                self.battle_dialog.setText(f"{self.int_floor}층에서 벌어진 {self.dict_boss_monster['name']}와의 전투 시작!")
-                self.list_enemy_line[0].setText(f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp']}")
-                for j in range(self.dict_boss_monster['list_field_monster'][0]):
-                    self.list_enemy_line[j + 1].setText(
-                        f"던전몬스터 HP: {self.dict_boss_monster['list_field_monster'][1][j]}")
-                    if self.dict_boss_monster['list_field_monster'][1][j] <= 250:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[1]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('dragon[1]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('lizard[1]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[1]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 300:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[2]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('dragon[2]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('lizard[2]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[2]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 400:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[3]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('dragon[3]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('lizard[3]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[3]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 500:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[4]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('dragon[4]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('lizard[4]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[4]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 600:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('small_dragon[5]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('dragon[5]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('lizard[5]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[5]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 700:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('demon[1]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('jinn[1]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('medusa[1]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[6]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 800:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('demon[2]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('jinn[2]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('medusa[2]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[7]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 900:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('demon[3]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('jinn[3]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('medusa[3]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[8]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 950:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('demon[4]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('jinn[4]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('medusa[4]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[9]')
-                    elif self.dict_boss_monster['list_field_monster'][1][j] <= 1000:
-                        if self.dict_boss_monster['list_field_monster'][2][j] == 'area_fire':
-                            self.monster_li.append('demon[5]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_water':
-                            self.monster_li.append('jinn[5]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_forest':
-                            self.monster_li.append('medusa[5]')
-                        elif self.dict_boss_monster['list_field_monster'][2][j] == 'area_snow':
-                            self.monster_li.append('snow[10]')
-                    self.battle_dialog.append(
-                        f"HP: {self.dict_boss_monster['list_field_monster'][1][j]}의 {self.monster_li[j]}를 만났다!")
-                    pixmap = QPixmap(
-                        f'img_src/{self.dict_boss_monster["list_field_monster"][2][j]}/{self.monster_li[j]}.png')
-                    pixmap.scaled(QSize(200, 200), Qt.IgnoreAspectRatio)
-                    icon = QIcon()
-                    icon.addPixmap(pixmap)
-                    self.list_enemy_btn[j + 1].setIcon(icon)
-                    self.list_enemy_btn[j + 1].setIconSize(QSize(100, 100))
-
-                for l in range(7):
-                    if self.int_floor == l + 1:
-                        self.movie = QMovie(f'img_src/boss_monster/{l + 1}.gif', QByteArray(), self)
-                        self.movie.frameChanged.connect(
-                            lambda frame: self.enemy_0.setIcon(QIcon(self.movie.currentPixmap())))
-                        if self.int_floor in [1, 5, 6, 7]:
-                            self.enemy_0.setIconSize(QSize(180, 180))
-                        else:
-                            self.enemy_0.setIconSize(QSize(100, 100))
-                        self.movie.start()
 
     # 각 직업의 [공격] + battle_dialog 메세지
     def boss_monster_atk_choice(self, x, index):
@@ -2869,64 +2931,135 @@ class BattleClass(QDialog, Ui_Dialog):
 
         int_monster_skill_c = random.randint(0, 1)
         int_monster_target_c = random.randint(0, len(list_target) - 1)
-        int_skill_suceess = random.randint(0, 100)
+        int_skill_sucess = random.randint(0, 100)
         atk_monster = random.randint(0, len(self.monster_li))
 
-        # 보스몬스터 -> 유저수호대 공격
-        if atk_monster == 0:
-            if int_monster_skill_c == 0:
-                damage = 'attack'
-                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_boss_monster['hp'] * 0.05
-                self.battle_msg = f"""{self.dict_boss_monster['name']}가 {self.dict_boss_monster[damage][0]}공격을 걸었다!
-그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
-            elif int_monster_skill_c == 1:
-                if int_skill_suceess <= 70:
-                    # 광역효과 추가해야함
-                    damage = 'skill'
-                    for k in range(len(list_target) - 1):
-                        self.dict_user_gard[list_target[k]]['hp'] -= self.dict_boss_monster['hp'] * 0.1
-                    self.battle_msg = f"""{self.dict_boss_monster['name']}가 {self.dict_boss_monster[damage][1]}공격을 걸었다!
-그 영향으로 수호대 모두의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
-                else:
-                    self.battle_msg = "보스가 스킬을 쓰던 중 삐끗하여 아무일도 일어나지 않았습니다..보스가 민망해합니다."
+        if self.mp_up:
+            if self.mp_up_used == list_target[int_monster_target_c]:
+                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
 
-            self.battle_dialog.append(self.battle_msg)
+            elif self.mp_up_used != list_target[int_monster_target_c]:
+                self.battle_dialog.append(f"백법사의 mp_up스킬로 {self.mp_up_used}의 mp가 1.5배 올라있는 상태")
+                self.dict_user_gard[self.mp_up_used]['mp'] = self.origin_mp
 
-        # 던전몬스터 -> 유저수호대 공격
-        else:
-            for j in range(self.dict_boss_monster['list_field_monster'][0]):
+            self.battle_dialog.append(f"{self.mp_up_used}의 mp가 원상복귀 되었습니다.")
+            print(f"확인용 -> self.dict_user_gard[self.mp_up_used]의 원상복귀 mp : {self.dict_user_gard[self.mp_up_used]['mp']}")
+
+            if atk_monster == 0:
                 if int_monster_skill_c == 0:
-                    monster_damage = 'attack'
-                    area = self.dict_boss_monster['list_field_monster'][2][j][5:]
-                    if area == 'water':
-                        area = 'aqua'
-                    elif area == 'forest':
-                        area = 'air'
-                    elif area == 'snow':
-                        area = 'ice'
-                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= \
-                        self.dict_boss_monster['list_field_monster'][1][j] * 0.05
+                    damage = 'attack'
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_boss_monster['hp'] * 0.05
+                    if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                    self.battle_msg = f"""{self.dict_boss_monster['name']}가 {self.dict_boss_monster[damage][0]}공격을 걸었다! 그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                 elif int_monster_skill_c == 1:
-                    monster_damage = 'ball'
-                    area = self.dict_boss_monster['list_field_monster'][2][j][5:]
-                    if area == 'water':
-                        area = 'aqua'
-                    elif area == 'forest':
-                        area = 'air'
-                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= \
-                        self.dict_boss_monster['list_field_monster'][1][j] * 0.1
+                    if int_skill_sucess <= 70:
+                        damage = 'skill'
+                        for k in range(len(list_target) - 1):
+                            self.dict_user_gard[list_target[k]]['hp'] -= self.dict_boss_monster['hp'] * 0.1
+                        if self.dict_user_gard[list_target[k]]['hp'] <= 0:
+                            self.dict_user_gard[list_target[k]]['hp'] = 0
+                        self.battle_msg = f"""{self.dict_boss_monster['name']}가 {self.dict_boss_monster[damage][1]}공격을 걸었다! 그 영향으로 수호대 모두의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+                    else:
+                        self.battle_msg = "보스가 스킬을 쓰던 중 삐끗하여 아무일도 일어나지 않았습니다..보스가 민망해합니다."
 
-            self.battle_dialog.append(
-                f"""{self.dict_boss_monster['list_field_monster'][2][j]}의 {self.monster_li[j]}가 {area}{monster_damage}공격을 걸었다!
+                self.battle_dialog.append(self.battle_msg)
+
+            # 던전몬스터 -> 유저수호대 공격
+            else:
+                for j in range(self.dict_boss_monster['list_field_monster'][0]):
+                    if int_monster_skill_c == 0:
+                        monster_damage = 'attack'
+                        area = self.dict_boss_monster['list_field_monster'][2][j][5:]
+                        if area == 'water':
+                            area = 'aqua'
+                        elif area == 'forest':
+                            area = 'air'
+                        elif area == 'snow':
+                            area = 'ice'
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= \
+                            self.dict_boss_monster['list_field_monster'][1][j] * 0.05
+                        if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                            self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+
+
+                    elif int_monster_skill_c == 1:
+                        if int_skill_sucess <= 30:
+                            monster_damage = 'ball'
+                            area = self.dict_boss_monster['list_field_monster'][2][j][5:]
+                            if area == 'water':
+                                area = 'aqua'
+                            elif area == 'forest':
+                                area = 'air'
+                            self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_boss_monster['list_field_monster'][1][j] * 0.1
+                            if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                                self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
+                        else:
+                            # 세부처리) 어떤 몬스터인가 이름 처리
+                            self.battle_dialog.append("몬스터의 스킬이 먹히지 않았습니다. 아무일도 일어나지 않았습니다.")
+
+                self.battle_dialog.append(f"""{self.dict_boss_monster['list_field_monster'][2][j]}의 {self.monster_li[j]}가 {area}{monster_damage}공격을 걸었다!
 그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!""")
 
-        if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
-            self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
-            self.dict_user_gard[list_target[int_monster_target_c]]['survival'] = False
-            self.battle_dialog.append(f"앗! 우리의 {list_target[int_monster_target_c]}가 전투불능상태가 되었습니다.")
-            QTimer.singleShot(1000, self.battle_monster)
+            if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                self.dict_user_gard[list_target[int_monster_target_c]]['survival'] = False
+                self.battle_dialog.append(f"앗! 우리의 {list_target[int_monster_target_c]}가 전투불능상태가 되었습니다.")
+                QTimer.singleShot(1000, self.battle_boss_monster)
 
-        self.show_war_result()
+            self.show_war_result()
+
+        elif not self.mp_up:
+            # 보스몬스터 -> 유저수호대 공격
+            if atk_monster == 0:
+                if int_monster_skill_c == 0:
+                    damage = 'attack'
+                    self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= self.dict_boss_monster['hp'] * 0.05
+                    self.battle_msg = f"""{self.dict_boss_monster['name']}가 {self.dict_boss_monster[damage][0]}공격을 걸었다! 그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+                elif int_monster_skill_c == 1:
+                    if int_skill_sucess <= 70:
+                        # 광역효과 추가해야함
+                        damage = 'skill'
+                        for k in range(len(list_target) - 1):
+                            self.dict_user_gard[list_target[k]]['hp'] -= self.dict_boss_monster['hp'] * 0.1
+                        self.battle_msg = f"""{self.dict_boss_monster['name']}가 {self.dict_boss_monster[damage][1]}공격을 걸었다! 그 영향으로 수호대 모두의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+                    else:
+                        self.battle_msg = "보스가 스킬을 쓰던 중 삐끗하여 아무일도 일어나지 않았습니다..보스가 민망해합니다."
+
+                self.battle_dialog.append(self.battle_msg)
+
+            # 던전몬스터 -> 유저수호대 공격
+            else:
+                for j in range(self.dict_boss_monster['list_field_monster'][0]):
+                    if int_monster_skill_c == 0:
+                        monster_damage = 'attack'
+                        area = self.dict_boss_monster['list_field_monster'][2][j][5:]
+                        if area == 'water':
+                            area = 'aqua'
+                        elif area == 'forest':
+                            area = 'air'
+                        elif area == 'snow':
+                            area = 'ice'
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= \
+                            self.dict_boss_monster['list_field_monster'][1][j] * 0.05
+                    elif int_monster_skill_c == 1:
+                        monster_damage = 'ball'
+                        area = self.dict_boss_monster['list_field_monster'][2][j][5:]
+                        if area == 'water':
+                            area = 'aqua'
+                        elif area == 'forest':
+                            area = 'air'
+                        self.dict_user_gard[list_target[int_monster_target_c]]['hp'] -= \
+                            self.dict_boss_monster['list_field_monster'][1][j] * 0.1
+
+                self.battle_dialog.append(f"""{self.dict_boss_monster['list_field_monster'][2][j]}의 {self.monster_li[j]}가 {area}{monster_damage}공격을 걸었다! 그 영향으로 {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!""")
+
+                if self.dict_user_gard[list_target[int_monster_target_c]]['hp'] <= 0:
+                    self.dict_user_gard[list_target[int_monster_target_c]]['survival'] = False
+                    self.battle_dialog.append(f"앗! 우리의 {list_target[int_monster_target_c]}가 전투불능상태가 되었습니다.")
+                    QTimer.singleShot(1000, self.battle_boss_monster)
+
+                self.show_war_result()
 
     # -------------전투+아이템(사용/획득)-------------------------------------------------------------------------------------#
     # 필드에서 일반몬스터 만났을때 승리한 후 아이템 얻는 함수
