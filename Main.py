@@ -938,10 +938,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             # 오차범위
             error_range_w = self.list_lb_entrance[0].width() / 2
             error_range_h = self.list_lb_entrance[0].height() / 2
-            if self.list_lb_entrance[0].x() - error_range_w < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].x() < self.list_lb_entrance[0].x() + error_range_w \
-                    and self.list_lb_entrance[0].y() - error_range_h < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].y() < self.list_lb_entrance[0].y() + error_range_h:
+            if self.list_lb_entrance[0].x() - error_range_w < self.list_lb_gard[self.stackedWidget.currentIndex()].x() < self.list_lb_entrance[0].x() + error_range_w and self.list_lb_entrance[0].y() - error_range_h < self.list_lb_gard[self.stackedWidget.currentIndex()].y() < self.list_lb_entrance[0].y() + error_range_h:
                 if int(self.lv_warrior.text().split('.')[1].strip()) < 30:
                     self.renew_log_view(QIcon('img_src/alarm.png'), '레벨 30미만 접근제한')
                 else:
@@ -966,17 +963,12 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                             Qt.AlignmentFlag.AlignCenter)
                 return True
             return False
+
         if self.stackedWidget.currentWidget() in self.list_stack_maze and self.stackedWidget.currentWidget() != self.stack_maze_8:
             # 오차범위
             error_range_w = self.list_lb_entrance[self.stackedWidget.currentIndex()].width() / 2
             error_range_h = self.list_lb_entrance[0].height() / 2
-            if self.list_lb_entrance[self.stackedWidget.currentIndex()].x() - error_range_w < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].x() < self.list_lb_entrance[
-                self.stackedWidget.currentIndex()].x() + error_range_w \
-                    and self.list_lb_entrance[self.stackedWidget.currentIndex()].y() - error_range_h < \
-                    self.list_lb_gard[
-                        self.stackedWidget.currentIndex()].y() < self.list_lb_entrance[
-                self.stackedWidget.currentIndex()].y() + error_range_h:
+            if self.list_lb_entrance[self.stackedWidget.currentIndex()].x() - error_range_w < self.list_lb_gard[self.stackedWidget.currentIndex()].x() < self.list_lb_entrance[self.stackedWidget.currentIndex()].x() + error_range_w and self.list_lb_entrance[self.stackedWidget.currentIndex()].y() - error_range_h < self.list_lb_gard[self.stackedWidget.currentIndex()].y() < self.list_lb_entrance[self.stackedWidget.currentIndex()].y() + error_range_h:
                 if self.list_lb_boss[self.stackedWidget.currentIndex() - 1].isVisible():
                     self.renew_log_view(QIcon('img_src/alarm.png'), '보스를 물리쳐야만 다음 층으로 진입할 수 있습니다.')
                 else:
@@ -984,12 +976,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                     self.change_map(self.stackedWidget.currentIndex() + 1)
                 return True
 
-            if self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() - error_range_w < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].x() < self.list_lb_exit[
-                self.stackedWidget.currentIndex() - 1].x() + error_range_w \
-                    and self.list_lb_exit[self.stackedWidget.currentIndex() - 1].y() - error_range_h < \
-                    self.list_lb_gard[self.self.stackedWidget.currentIndex()].y() < self.list_lb_exit[
-                self.self.stackedWidget.currentIndex() - 1].y() + error_range_h:
+            if self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() - error_range_w < self.list_lb_gard[self.stackedWidget.currentIndex()].x() < self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() + error_range_w and self.list_lb_exit[self.stackedWidget.currentIndex() - 1].y() - error_range_h < self.list_lb_gard[self.self.stackedWidget.currentIndex()].y() < self.list_lb_exit[self.self.stackedWidget.currentIndex() - 1].y() + error_range_h:
                 self.movie = QMovie('img_src/door/exit.gif')
                 self.list_lb_exit[self.stackedWidget.currentIndex() - 1].setScaledContents(True)
                 self.list_lb_exit[self.stackedWidget.currentIndex() - 1].setAlignment(
