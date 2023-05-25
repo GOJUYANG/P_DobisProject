@@ -23,7 +23,6 @@ class BattleClass(QDialog, main_class):
         self.timer = QTimer()
 
         ### 받아올 변수 ###
-
         # if 'bool_meet_gard' in kwargs:
         #     self.bool_meet_gard = kwargs['bool_meet_gard']
         # if 'bool_meet_monster' in kwargs:
@@ -47,7 +46,7 @@ class BattleClass(QDialog, main_class):
         # if 'dict_boss_monster' in kwargs:
         #     self.dict_boss_monster = kwargs['dict_boss_monster']
 
-#-----5.24 추가 부분 (백법사의 map_find 스킬을 위한 변수)-------------------------------------------------------------------
+        # -----5.24 추가 (백법사 map_find 변수)-----------------------------------------------------------------------------
         # if 'rand_maze_door_x' in kwargs:
         #     self.rand_maze_door_x = kwargs['rand_maze_door_x']
         # if 'rand_maze_door_y' in kwargs:
@@ -56,40 +55,22 @@ class BattleClass(QDialog, main_class):
         #     self.int_next_entrance_x = kwargs['int_next_entrance_x']
         # if 'int_next_entrance_y' in kwargs:
         #     self.int_next_entrance_y = kwargs['int_next_entrance_y']
-# -----5.24 추가 부분 (백법사의 map_find 스킬을 위한 변수)-------------------------------------------------------------------
 
-        #     ## 필드 ##
-        #     if self.dict_field_monster['type'] == 'field_monster':
-        #         self.bool_meet_monster = True
-        #     elif self.dict_enemy_gard['type'] == 'field_enemy_gard':
-        #         self.bool_meet_gard = True
-        #     ## 던전 ##
-        #     elif self.dict_field_monster['type'] == 'maze_monster':
-        #         self.bool_meet_enemy_monster = True
-        #     elif self.dict_enemy_gard['type'] == 'maze_enemy_gard':
-        #         self.bool_meet_maze_gard = True
-        #     elif self.dict_boss_monster['type'] == 'boss':
-        #         self.bool_meet_boss_monster = True
+# 받아올 변수들 임시 사용 #---------------------------------------------------------------------------------
 
         # 테스트용 임의설정 값 #
+        user_gard = 'earth_gard'
+        str_area = 'area_forest'
         self.bool_meet_monster = True
         self.bool_meet_gard = False
         self.bool_meet_enemy_monster = False
         self.bool_meet_maze_gard = False
         self.bool_meet_boss_monster = False
-        user_gard = 'earth_gard'
-        str_area = 'area_forest'
         self.int_floor = 1
         self.rand_maze_door_x = 200
         self.rand_maze_door_y = 200
         self.int_next_entrance_x = 100
         self.int_next_entrance_x = 100
-
-# -----5.24 추가 부분 (필요 설정 값)---------------------------------------------------------------------------------------
-        self.skill_effect_2 = 0
-        self.used_hp_up = None
-        self.int_war_cnt = 0
-#-----------------------------------------------------------------------------------------------------------------------
 
         ## 유저 수호대 ##
         self.dict_user_gard = {'gard': user_gard,
@@ -347,15 +328,25 @@ class BattleClass(QDialog, main_class):
                                       'skill': ['hell_boki', 0.1],
                                       'list_field_monster': [int_cnt, list_hp, list_area]}
 
-        ### 전투클래스 내에서만 사용되는 변수 ###
+
+### 전투클래스 내에서만 사용되는 변수 ###
         self.list_job = ['warrior', 'archer', 'swordman', 'wizard_red', 'wizard_black', 'wizard_white']
         self.monster_li = []
-        self.bool_war_result = False
         self.list_origin_power = []
+        self.bool_war_result = False
+        self.used_hp_up = None
         self.int_btn_clicked_cnt = 0  # 수호대의 캐릭터 중 survival:True 수와 비교하여 버튼 활성화/비활성화를 체크하기 위함.
         self.int_survival = 0  # 수호대 캐릭터 중 survival:True 숫자
+        self.skill_effect_2 = 0
+        self.int_war_cnt = 0
+        self.mp_up_used = ''
+        self.origin_mp = 0
+        self.use_hp_up = False
+        self.use_fire_wall = False
+        self.use_thunder_breaker = False
+        self.use_bilzzard = False
 
-        ### qt object ###
+### qt object ###
         self.battle_dialog.verticalScrollBar().maximum()
         self.list_frame = self.btn_widget.findChildren(QFrame)
         self.list_enemy_btn = self.groupBox.findChildren(QPushButton)
@@ -384,29 +375,35 @@ class BattleClass(QDialog, main_class):
                                         self.skill_btn_wizard_white_hp_up, self.skill_btn_wizard_white_mp_up,
                                         self.skill_btn_wizard_white_map_find]
 
-        ### qt 연결 ###
-        if self.bool_meet_monster:
+ ### qt 연결 ###
+        # 전투 시작 시 가장 먼저 호출될 함수들(배틀장소확인/장비버튼비활성화/몬스터생성)
+        if self.bool_meet_monster or self.bool_meet_enemy_monster or self.bool_meet_boss_monster:
             # self.show_war_result()
             self.battle_location()
             self.equip_btn_disabled()
             self.monster_creat()
+        elif self.bool_meet_gard or self.bool_meet_maze_gard:
+            # self.show_war_result()
+            self.battle_location()
+            self.equip_btn_disabled()
 
-        # self.list_frame[i].findChildren(QPushButton)[i] -> i:0 공격 / 1:장비 / 2:스킬 / 3:도망
+# self.list_frame[i].findChildren(QPushButton)[i] -> i:0 공격 / 1:장비 / 2:스킬 / 3:도망
         for i in range(6):
-            self.list_frame[i].findChildren(QPushButton)[0].clicked.connect(lambda x, y=i: self.atk_choice(x, y))
+            self.list_frame[i].findChildren(QPushButton)[0].clicked.connect(
+                lambda x, y=i: self.atk_choice(x, y))
             self.list_frame[i].findChildren(QPushButton)[0].clicked.connect(
                 lambda x, y=i: self.move_image_forward(x, y))
             self.list_frame[i].findChildren(QPushButton)[0].clicked.connect(
                 lambda x, y=i: self.attack_btn_clicked(x, y))
 
-            self.list_frame[i].findChildren(QPushButton)[2].clicked.connect(lambda x, y=i: self.skill_btn_clicked(x, y))
-            self.list_frame[i].findChildren(QPushButton)[2].clicked.connect(lambda x, y=i: self.skill_widget_open(x, y))
+            self.list_frame[i].findChildren(QPushButton)[2].clicked.connect(
+                lambda x, y=i: self.skill_btn_clicked(x, y))
+            self.list_frame[i].findChildren(QPushButton)[2].clicked.connect(
+                lambda x, y=i: self.skill_widget_open(x, y))
 
         if self.bool_meet_monster:
             for btn in self.list_attack_btn:
                 btn.clicked.connect(lambda: self.attack_connect(btn))
-
-# -----5.24 변경 부분 (버튼 커넥트)---------------------------------------------------------------------------------------
 
             self.list_skill_to_enemy[0].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[0]))
             self.list_skill_to_enemy[1].clicked.connect(lambda: self.skill_connect(self.list_skill_to_enemy[1]))
@@ -646,14 +643,21 @@ class BattleClass(QDialog, main_class):
                 self.user_gard_frame.findChildren(QPushButton)[i].clicked.connect(
                     lambda x, y=i: self.wizard_skill_effect_3(x,y,'hp_up', 'hp', 30))
 
-            # mp_up 미구현
-            # elif btn == self.list_skill_to_user_gard[7]:
-            #     self.stackedWidget.setCurrentIndex(7)
-            #     self.user_gard_frame.findChildren(QPushButton)[5].setDisabled(True)
-            #     self.user_gard_frame.findChildren(QPushButton)[i].clicked.connect(
-            #         lambda x, y=i: self.wizard_skill_effect_3(x,y,'mp_up', 'mp', 50))
+            # mp_up
+            elif btn == self.list_skill_to_user_gard[7]:
+                survivor = []
+                for k, v in self.dict_user_gard.items():
+                    if k not in ['gard', 'location']:
+                        if self.dict_user_gard[k]['survival']:
+                            survivor.append(k)
+                    if self.user_gard_frame.findChildren(QPushButton)[i].objectName() in survivor:
+                        self.user_gard_frame.findChildren(QPushButton)[i].setEnabled(True)
+                self.stackedWidget.setCurrentIndex(7)
+                self.user_gard_frame.findChildren(QPushButton)[5].setDisabled(True)
+                self.user_gard_frame.findChildren(QPushButton)[i].clicked.connect(
+                    lambda x, y=i: self.wizard_skill_effect_3(x, y, 'mp_up', 'mp', 50))
 
-    # 전투결과(승패) 반환
+# 전투결과(승패) 반환
     def show_war_result(self):
         user_died = 0
         enemy_died = 0
@@ -732,7 +736,7 @@ class BattleClass(QDialog, main_class):
 
         return self.bool_war_result
 
-    # 전투 횟수 카운트
+# 전투 횟수 카운트
     def war_cnt(self):
         if self.bool_war_result:
             self.int_war_cnt += 1
@@ -740,7 +744,7 @@ class BattleClass(QDialog, main_class):
             self.int_war_cnt += 1
         return self.int_war_cnt
 
-    # 전투횟수에 따른 EXP상승(n0레벨까지 n0판 당 +n레벨 상승) -> return
+# 전투횟수에 따른 EXP상승(n0레벨까지 n0판 당 +n레벨 상승) -> return
     def user_gard_lv_update(self):
         str_lv_update_msg1 = ''
         str_lv_update_msg2 = ''
@@ -1640,16 +1644,17 @@ class BattleClass(QDialog, main_class):
                 self.battle_dialog.append(f"[확인용] {self.list_job[index]}의 공격력 : {self.dict_user_gard[self.list_job[index]]['power']}")
 
         # 유저 수호대의 방어력을 1턴 50%상승시킨다.
-        # 상승된 유저 수호대 직업은 무조건 다음 몬스터의 공격대상이 된다.
-        # 공격대상으로 공격을 받으면 방어력이 원래대로 돌아간다.
-        # elif str_skill_name == 'mp_up':
-        #     if str_hp_or_mp_or_map == 'mp':
-        #
-        #         origin_mp = self.dict_user_gard[self.list_job[index]]['mp']
-        #         self.battle_dialog.append(f"[백법사]의 {str_skill_name} 사용! {self.dict_user_gard[self.list_job[index]]}의 방어력이 {1.5}배 상승!")
-        #         self.battle_dialog.append(f"{self.dict_user_gard[self.list_job[index]]}의 방어력 : {origin_mp * 1.5} (1턴 유지)")
-        #         self.battle_dialog.append(f"스킬 사용으로 [백법사]의 MP{minus_mp}소진")
-        #         self.dict_user_gard['wizard_white']['mp'] -= minus_mp
+        elif str_skill_name == 'mp_up':
+            if str_hp_or_mp_or_map == 'mp':
+                self.mp_up_used = ''
+                self.mp_up_used = self.list_job[index]
+                self.origin_mp = self.dict_user_gard[self.list_job[index]]['mp']
+                self.battle_dialog.append(f"[백법사]의 {str_skill_name} 사용! {self.list_job[index]}의 방어력이 {1.5}배 상승!")
+                self.dict_user_gard[self.list_job[index]]['mp'] = self.origin_mp * 1.5
+                self.battle_dialog.append(f"{self.list_job[index]}의 mp : {self.origin_mp * 1.5} (1턴 유지)")
+                self.battle_dialog.append(f"스킬 사용으로 [백법사]의 MP{minus_mp}소진")
+                self.dict_user_gard['wizard_white']['mp'] -= minus_mp
+                self.stackedWidget.setCurrentIndex(0)
 
         # 필드에서 현재 턴의 출입구 위치(던전입구 좌표값) 확인 가능
         elif str_skill_name == 'map_find':
