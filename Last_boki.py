@@ -13,7 +13,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 # 전투 화면 다이얼로그
-main = resource_path('ui_src/this_is_boki_dialog.ui')
+main = resource_path('img_src/qt/this_is_boki_dialog.ui')
 main_class = uic.loadUiType(main)[0]
 
 class BattleClass(QDialog, main_class):
@@ -66,10 +66,6 @@ class BattleClass(QDialog, main_class):
         self.bool_meet_enemy_monster = False
         self.bool_meet_maze_gard = False
         self.bool_meet_boss_monster = False
-        self.use_hp_up = False
-        self.use_fire_wall = False
-        self.use_thunder_breaker = False
-        self.use_bilzzard = False
         self.int_floor = 1
         self.rand_maze_door_x = 200
         self.rand_maze_door_y = 200
@@ -343,6 +339,12 @@ class BattleClass(QDialog, main_class):
         self.skill_effect_2 = 0
         self.used_hp_up = None
         self.int_war_cnt = 0
+        self.mp_up_used = ''
+        self.origin_mp = 0
+        self.use_hp_up = False
+        self.use_fire_wall = False
+        self.use_thunder_breaker = False
+        self.use_bilzzard = False
 
 ### qt object ###
         self.battle_dialog.verticalScrollBar().maximum()
@@ -559,19 +561,38 @@ class BattleClass(QDialog, main_class):
 
 #[공격]버튼은 모두 list_enemy_btn을 누르므로 우선 list_enemy_btn의 연결을 disconnect로 초기화 -> connect
     def attack_connect(self, btn):
-        if self.bool_meet_monster:
-            loop = self.dict_field_monster['info']['int_cnt']
-        elif self.bool_meet_enemy_monster:
-            loop = self.dict_maze_monster['int_cnt']
-        elif self.bool_meet_gard or self.bool_meet_maze_gard:
-            loop = 6
-        elif self.bool_meet_boss_monster:
-            loop = self.dict_boss_monster['list_field_monster'][0] + 1
+        if btn.objectName() in ['pb_atk_warrior', 'pb_atk_archer', 'pb_atk_swordman',
+                                'pb_atk_wizard_red', 'pb_atk_wizard_black', 'pb_atk_wizard_white']:
+            if self.bool_meet_monster:
+                loop = self.dict_field_monster['info']['int_cnt']
+            elif self.bool_meet_enemy_monster:
+                loop = self.dict_maze_monster['int_cnt']
+            elif self.bool_meet_gard or self.bool_meet_maze_gard:
+                loop = 6
+            elif self.bool_meet_boss_monster:
+                loop = self.dict_boss_monster['list_field_monster'][0] + 1
+            for i in range(loop):
+                self.list_enemy_btn[i].disconnect()
 
-        for i in range(loop):
-            self.list_enemy_btn[i].disconnect()
-        for i in range(loop):
-            self.list_enemy_btn[i].clicked.connect(lambda x, y=i, z=self.list_enemy_btn[i]: self.monster_atk_choice(x, y, z))
+            if self.bool_meet_monster:
+                loop = self.dict_field_monster['info']['int_cnt']
+                for i in range(loop):
+                    self.list_enemy_btn[i].clicked.connect(lambda x, y=i, z=self.list_enemy_btn[i]: self.monster_atk_choice(x, y, z))
+
+            elif self.bool_meet_enemy_monster:
+                loop = self.dict_maze_monster['int_cnt']
+                for i in range(loop):
+                    self.list_enemy_btn[i].clicked.connect(lambda x, y=i, z=self.list_enemy_btn[i]: self.monster_atk_choice(x, y, z))
+
+            elif self.bool_meet_gard or self.bool_meet_maze_gard:
+                loop = 6
+                for i in range(loop):
+                    self.list_enemy_btn[i].clicked.connect(lambda x, y=i, z=self.list_enemy_btn[i]: self.gard_atk_choice(x, y, z))
+
+            elif self.bool_meet_boss_monster:
+                loop = self.dict_boss_monster['list_field_monster'][0] + 1
+                for i in range(loop):
+                    self.list_enemy_btn[i].clicked.connect(lambda x, y=i, z=self.list_enemy_btn[i]: self.boss_monster_atk_choice(x, y, z))
 
 #[스킬]버튼 중 list_enemy_btn을 누르는 스킬 / 우선 list_enemy_btn의 연결을 disconnect로 초기화 -> connect
     def skill_connect(self, btn):
@@ -944,7 +965,7 @@ class BattleClass(QDialog, main_class):
         elif self.bool_meet_enemy_monster:
             self.battle_monster()
         elif self.bool_meet_boss_monster:
-            self.battle_boss_monster()
+            self.battle_boss_monster_atk_choice()
 
 # -------------전투 공통 함수 구간---------------------------------------------------------------------------------------
 
@@ -1139,7 +1160,7 @@ class BattleClass(QDialog, main_class):
         elif self.bool_meet_gard or self.bool_meet_maze_gard:
             QTimer.singleShot(2000, self.enemy_gard_atk)
         elif self.bool_meet_boss_monster:
-            QTimer.singleShot(2000, self.boss_gard_atk)
+            QTimer.singleShot(2000, self.boss_monster_atk)
 
 # -------------공통 구간 끝--------------------------------------------------------------------------------------#
 
@@ -1709,7 +1730,6 @@ class BattleClass(QDialog, main_class):
         # 유저 수호대의 방어력을 1턴 50%상승시킨다.
         elif str_skill_name == 'mp_up':
             if str_hp_or_mp_or_map == 'mp':
-                self.mp_up_used = ''
                 self.mp_up_used = self.list_job[index]
                 self.origin_mp = self.dict_user_gard[self.list_job[index]]['mp']
                 self.battle_dialog.append(f"[백법사]의 {str_skill_name} 사용! {self.list_job[index]}의 방어력이 {1.5}배 상승!")
@@ -2132,6 +2152,7 @@ class BattleClass(QDialog, main_class):
 # [필드/몬스터]
     # 예외처리) 죽은 몬스터는 공격을 할 수 없다.
         if self.bool_meet_monster:
+            self.atk_mon = ''
             atk_monster = random.randint(0, len(self.monster_li) - 1)
             for i in range(self.dict_field_monster['info']['int_cnt']):
                 # print(atk_monster)
@@ -2150,7 +2171,7 @@ class BattleClass(QDialog, main_class):
                     self.dict_user_gard[list_target[int_monster_target_c]]['hp'] = 0
 
                 self.battle_msg = f"""{self.dict_field_monster['area']}의 {self.atk_mon}가 {damage_name}공격을 걸었다!
-                {list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
+{list_target[int_monster_target_c]}의 hp가 {self.dict_user_gard[list_target[int_monster_target_c]]['hp']:.1f}로 떨어졌다!"""
                 print(f"{list_target[int_monster_target_c]} 현 hp : {origin_hp}")
                 print(f"받은 데미지 : {atk_monster_damage}")
 
@@ -2278,7 +2299,7 @@ class BattleClass(QDialog, main_class):
                         self.list_enemy_btn[j].setIconSize(QSize(100, 100))
 
 # [공격]버튼 -> battle_dialog 메세지
-    def gard_atk_choice(self, x, index):
+    def gard_atk_choice(self, x, index,btn):
 
         if self.selected_option == 0:
             self.battle_dialog.append("아무 공격도 입혀지지 않았습니다. 행동을 선택해주세요")
@@ -3066,7 +3087,7 @@ class BattleClass(QDialog, main_class):
                     self.list_job_lb[i].setPixmap(QPixmap(f'img_src/{self.list_job[i]}/died.png'))
 
 # 유저 수호대 [공격] + battle_dialog 메세지
-    def boss_monster_atk_choice(self, x, index):
+    def boss_monster_atk_choice(self, x, index, btn):
 
         if self.selected_option == 0:
             self.battle_dialog.append("아무 공격도 입혀지지 않았습니다. 행동을 선택해주세요")
