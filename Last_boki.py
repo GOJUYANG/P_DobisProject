@@ -13,7 +13,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 # 전투 화면 다이얼로그
-main = resource_path('img_src/qt/this_is_boki_dialog.ui')
+main = resource_path('ui_src/this_is_boki_dialog.ui')
 main_class = uic.loadUiType(main)[0]
 
 class BattleClass(QDialog, main_class):
