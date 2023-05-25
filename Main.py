@@ -976,7 +976,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                     self.change_map(self.stackedWidget.currentIndex() + 1)
                 return True
 
-            if self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() - error_range_w < self.list_lb_gard[self.stackedWidget.currentIndex()].x() < self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() + error_range_w and self.list_lb_exit[self.stackedWidget.currentIndex() - 1].y() - error_range_h < self.list_lb_gard[self.self.stackedWidget.currentIndex()].y() < self.list_lb_exit[self.self.stackedWidget.currentIndex() - 1].y() + error_range_h:
+            if self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() - error_range_w < self.list_lb_gard[self.stackedWidget.currentIndex()].x() < self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() + error_range_w and self.list_lb_exit[self.stackedWidget.currentIndex() - 1].y() - error_range_h < self.list_lb_gard[self.stackedWidget.currentIndex()].y() < self.list_lb_exit[self.stackedWidget.currentIndex() - 1].y() + error_range_h:
                 self.movie = QMovie('img_src/door/exit.gif')
                 self.list_lb_exit[self.stackedWidget.currentIndex() - 1].setScaledContents(True)
                 self.list_lb_exit[self.stackedWidget.currentIndex() - 1].setAlignment(
