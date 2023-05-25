@@ -39,7 +39,8 @@
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">QPushButton {background-color: transparent;}
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
      </property>
      <widget class="QLabel" name="black_wizard_lb">
       <property name="geometry">
@@ -6785,7 +6786,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -6797,7 +6798,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -6838,7 +6839,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -6850,7 +6851,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -6891,7 +6892,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -6903,7 +6904,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -6944,7 +6945,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -6956,7 +6957,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -6997,7 +6998,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -7009,7 +7010,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -7054,7 +7055,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -7066,7 +7067,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -7107,7 +7108,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -7119,7 +7120,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -7160,7 +7161,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -7172,7 +7173,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -7213,7 +7214,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -7225,7 +7226,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -7266,7 +7267,7 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="styleSheet">
            <string notr="true">QPushButton {background-color: transparent;}
-QPushButton:checked {background-color : silver;}</string>
+QPushButton:hover {background-color : rgb(188, 188, 188);}</string>
           </property>
           <property name="text">
            <string/>
@@ -7278,7 +7279,7 @@ QPushButton:checked {background-color : silver;}</string>
            </size>
           </property>
           <property name="checkable">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>

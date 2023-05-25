@@ -131,17 +131,16 @@ class FieldClass():
 
         return dict_enemy_gard
 
-
-    def field_move_event(self, dict_user_gard, str_area):  # 이동 중 이벤트 발생
+    def field_move_event(self, str_area):  # 이동 중 이벤트 발생
         ratio = random.randint(1, 100)
         if 0 < ratio <= 28:
-            return None
+            return '이동', str_area
         elif 28 < ratio <= 38:
-            return '적군수호대', self.field_meet_enemy_gard(dict_user_gard, str_area)
+            return '적군수호대', str_area
         elif 38 < ratio <= 58:
             return '아이템', self.field_move_random_drop(self.return_list_move_drop())
         elif 58 < ratio <= 88:
-            return '일반몬스터', self.field_meet_monster(str_area)
+            return '일반몬스터', str_area
         elif 88 < ratio <= 98:
             return '아군수호대', self.field_meet_ally_gard(self.return_list_move_drop(), self.return_move_meet_equipment())
         elif 98 < ratio <= 100:
