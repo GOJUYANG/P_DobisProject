@@ -20,6 +20,7 @@ from Battle import BattleClass
 
 
 class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
+    # 변수, 시그널, 타이머, 함수 호출
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -379,11 +380,6 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         # 수호대 상태 업데이트
         self.renew_gard_status()
 
-    # 로그창 비워주기
-    def clear_list_log_view(self):
-        if self.list_log.count() > 100:
-            self.list_log.clear()
-
     # 화면 가운데 위치
     def center(self):
         frame_geometry = self.frameGeometry()
@@ -508,6 +504,9 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         battle_widnow.exec()
                         self.dict_user_gard = battle_widnow.dict_user_gard
                         self.renew_gard_status()
+                        self.dict_item, self.dict_equip = self.get_item(
+                            battle_widnow.field_battle_get_items(self.field_area), self.dict_item, self.dict_equip)
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), '아이템을 획득했습니다')
                         self.field_turn += 1
                         self.set_maze_door_loc()
                     elif tuple_v[0] == '텐트':
@@ -531,6 +530,9 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
                         battle_widnow.exec()
                         self.dict_user_gard = battle_widnow.dict_user_gard
+                        self.dict_item, self.dict_equip = self.get_item(
+                            battle_widnow.gard_battle_get_items(), self.dict_item, self.dict_equip)
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), '아이템을 획득했습니다')
                         self.field_turn += 1
                         self.set_maze_door_loc()
                     elif tuple_v[0] == '아이템':
@@ -616,6 +618,9 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         battle_widnow.exec()
                         self.dict_user_gard = battle_widnow.dict_user_gard
                         self.renew_gard_status()
+                        self.dict_item, self.dict_equip = self.get_item(
+                            battle_widnow.maze_battle_get_items(bool_meet_maze_monster=True), self.dict_item, self.dict_equip)
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), '아이템을 획득했습니다')
                         self.maze_turn += 1
                         self.set_maze_door_loc()
                     elif tuple_v[0] == '아군수호대':
@@ -638,6 +643,10 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                         battle_widnow.exec()
                         self.dict_user_gard = battle_widnow.dict_user_gard
                         self.renew_gard_status()
+                        self.dict_item, self.dict_equip = self.get_item(
+                            battle_widnow.gard_battle_get_items(), self.dict_item,
+                            self.dict_equip)
+                        self.renew_log_view(QIcon('./img_src/alarm.png'), '아이템을 획득했습니다')
                         self.maze_turn += 1
                         self.set_maze_door_loc()
                     elif tuple_v == '이동':
@@ -729,6 +738,11 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             for k, v in dict_.items():
                 if k in equip:
                     v[key] = equip
+
+    # 로그창 비워주기
+    def clear_list_log_view(self):
+        if self.list_log.count() > 100:
+            self.list_log.clear()
 
     # 화면 전환
     def change_map(self, page):
@@ -903,6 +917,10 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
             if battle_widnow.bool_war_result:
                 self.renew_log_view(QIcon('img_src/alarm.png'), '보스와의 전투에서 승리하였습니다.')
+                self.dict_item, self.dict_equip = self.get_item(
+                    battle_widnow.boss_battle_get_items(), self.dict_item,
+                    self.dict_equip)
+                self.renew_log_view(QIcon('./img_src/alarm.png'), '아이템을 획득했습니다')
                 self.renew_log_view(QIcon('img_src/alarm.png'), '다음 층 입구로 가는 문이 열립니다.')
                 self.movie = QMovie('img_src/door/opendoor.gif')
                 self.list_lb_entrance[self.stackedWidget.currentIndex()].setScaledContents(True)
@@ -910,6 +928,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                 self.list_lb_entrance[self.stackedWidget.currentIndex()].setMovie(self.movie)
                 self.movie.start()
                 self.list_lb_boss[self.stackedWidget.currentIndex() - 1].setVisible(False)
+
             else:
                 self.renew_log_view(QIcon('img_src/alarm.png'), '보스와의 전투에서 패배하였습니다.')
 
@@ -919,10 +938,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             # 오차범위
             error_range_w = self.list_lb_entrance[0].width() / 2
             error_range_h = self.list_lb_entrance[0].height() / 2
-            if self.list_lb_entrance[0].x() - error_range_w < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].x() < self.list_lb_entrance[0].x() + error_range_w \
-                    and self.list_lb_entrance[0].y() - error_range_h < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].y() < self.list_lb_entrance[0].y() + error_range_h:
+            if self.list_lb_entrance[0].x() - error_range_w < self.list_lb_gard[self.stackedWidget.currentIndex()].x() < self.list_lb_entrance[0].x() + error_range_w and self.list_lb_entrance[0].y() - error_range_h < self.list_lb_gard[self.stackedWidget.currentIndex()].y() < self.list_lb_entrance[0].y() + error_range_h:
                 if int(self.lv_warrior.text().split('.')[1].strip()) < 30:
                     self.renew_log_view(QIcon('img_src/alarm.png'), '레벨 30미만 접근제한')
                 else:
@@ -947,17 +963,12 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                             Qt.AlignmentFlag.AlignCenter)
                 return True
             return False
+
         if self.stackedWidget.currentWidget() in self.list_stack_maze and self.stackedWidget.currentWidget() != self.stack_maze_8:
             # 오차범위
             error_range_w = self.list_lb_entrance[self.stackedWidget.currentIndex()].width() / 2
             error_range_h = self.list_lb_entrance[0].height() / 2
-            if self.list_lb_entrance[self.stackedWidget.currentIndex()].x() - error_range_w < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].x() < self.list_lb_entrance[
-                self.stackedWidget.currentIndex()].x() + error_range_w \
-                    and self.list_lb_entrance[self.stackedWidget.currentIndex()].y() - error_range_h < \
-                    self.list_lb_gard[
-                        self.stackedWidget.currentIndex()].y() < self.list_lb_entrance[
-                self.stackedWidget.currentIndex()].y() + error_range_h:
+            if self.list_lb_entrance[self.stackedWidget.currentIndex()].x() - error_range_w < self.list_lb_gard[self.stackedWidget.currentIndex()].x() < self.list_lb_entrance[self.stackedWidget.currentIndex()].x() + error_range_w and self.list_lb_entrance[self.stackedWidget.currentIndex()].y() - error_range_h < self.list_lb_gard[self.stackedWidget.currentIndex()].y() < self.list_lb_entrance[self.stackedWidget.currentIndex()].y() + error_range_h:
                 if self.list_lb_boss[self.stackedWidget.currentIndex() - 1].isVisible():
                     self.renew_log_view(QIcon('img_src/alarm.png'), '보스를 물리쳐야만 다음 층으로 진입할 수 있습니다.')
                 else:
@@ -965,13 +976,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                     self.change_map(self.stackedWidget.currentIndex() + 1)
                 return True
 
-            if self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() - error_range_w < self.list_lb_gard[
-                self.stackedWidget.currentIndex()].x() < self.list_lb_exit[
-                self.stackedWidget.currentIndex() - 1].x() + error_range_w \
-                    and self.list_lb_exit[self.stackedWidget.currentIndex() - 1].y() - error_range_h < \
-                    self.list_lb_gard[
-                        self.self.stackedWidget.currentIndex()].y() < self.list_lb_exit[
-                self.self.stackedWidget.currentIndex() - 1].y() + error_range_h:
+            if self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() - error_range_w < self.list_lb_gard[self.stackedWidget.currentIndex()].x() < self.list_lb_exit[self.stackedWidget.currentIndex() - 1].x() + error_range_w and self.list_lb_exit[self.stackedWidget.currentIndex() - 1].y() - error_range_h < self.list_lb_gard[self.self.stackedWidget.currentIndex()].y() < self.list_lb_exit[self.self.stackedWidget.currentIndex() - 1].y() + error_range_h:
                 self.movie = QMovie('img_src/door/exit.gif')
                 self.list_lb_exit[self.stackedWidget.currentIndex() - 1].setScaledContents(True)
                 self.list_lb_exit[self.stackedWidget.currentIndex() - 1].setAlignment(
@@ -1073,7 +1078,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
                     y += self.moveInt
             return x, y
 
-    # 유저 스텟 갱신
+    # 수호대 스텟 갱신
     def renew_gard_status(self):
         if self.dict_user_gard['warrior']['survival']:
             self.movie = QMovie(self.dict_user_gard['warrior']['image'])
@@ -1227,6 +1232,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
 
         print(rand_meteor_x, rand_meteor_y)
 
+    # 초기 입구 배치
     def set_init_maze_door(self):
         # 던전 입구
         if self.stackedWidget.currentWidget() == self.stack_field:
@@ -1359,6 +1365,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
         int_y = random.randint(0, self.maze_map_size - 1)
         return int_x, int_y
 
+    # 수호대 위치한 지역 알려주기
     def alarm_where_field(self, int_x, int_y):
         # 알림
         error_range_w = self.list_lb_gard[self.stackedWidget.currentIndex()].width() / 2
@@ -1400,7 +1407,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             self.renew_log_view(QIcon('./img_src/alarm.png'), f'{self.dict_field_kvalue[self.field_area]}에 입장하였습니다.')
             self.play_bgm()
 
-    # 로그창 갱신d
+    # 로그창 갱신
     def renew_log_view(self, q_icon, str_msg):
         # icon = QIcon('./img_src/alarm.png')
         icon_item = QListWidgetItem(q_icon, str_msg)
@@ -1462,6 +1469,7 @@ class MainClass(QMainWindow, Ui_MainWindow, ItemClass, mazeClass, FieldClass):
             msg.exec()
             pass
 
+    # 음악반복재생
     def play_music(self, path):
         # QMediaPlaylist 객체 생성
         self.playlist = QMediaPlaylist()

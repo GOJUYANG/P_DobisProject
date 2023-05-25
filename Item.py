@@ -8,17 +8,20 @@ class ItemClass():
     # 아이템 획득
     def get_item(self, list_item, dict_item, dict_equip):
         # 소모품
-        for item in list_item:
-            for k, v in dict_item.items():
-                if k == item:
-                    v['count'] += 1
-        # 장비
-        for equip in list_item:
-            for k, v in dict_equip.items():
-                if k == equip:
-                    if v['count'] < 3:
+        if list_item is not None:
+            for item in list_item:
+                for k, v in dict_item.items():
+                    if k == item:
                         v['count'] += 1
+            # 장비
+            for equip in list_item:
+                for k, v in dict_equip.items():
+                    if k == equip:
+                        if v['count'] < 3:
+                            v['count'] += 1
+            return dict_item, dict_equip
         return dict_item, dict_equip
+
 
     # 아이템 사용
     def use_item(self, str_job, str_item, dict_item, dict_user_gard):
@@ -31,14 +34,12 @@ class ItemClass():
                 msg = '부활포션을 사용하였습니다.'
             dict_item[str_item]['count'] -= 1
 
-
         if str_item == 'tent':
             for job in list_job:
                 if dict_user_gard[job]['survival'] == True:
                     dict_user_gard[job]['hp'] = dict_user_gard[job]['max_hp']
                     msg = '텐트를 사용하였습니다.'
             dict_item[str_item]['count'] -= 1
-
 
         if str_job != '':
             if dict_user_gard[str_job]['survival'] == True:
