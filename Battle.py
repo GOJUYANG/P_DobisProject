@@ -52,7 +52,6 @@ class BattleClass(QDialog, Ui_Dialog):
         if 'dict_boss_monster' in kwargs:
             self.dict_boss_monster = kwargs['dict_boss_monster']
 
-        # -----5.24 추가 부분 (백법사의 map_find 스킬을 위한 변수)-------------------------------------------------------------------
         if 'rand_maze_door_x' in kwargs:
             self.rand_maze_door_x = kwargs['rand_maze_door_x']
         if 'rand_maze_door_y' in kwargs:
@@ -318,9 +317,9 @@ class BattleClass(QDialog, Ui_Dialog):
             loop = 6
         elif self.bool_meet_boss_monster:
             loop = self.dict_boss_monster['list_field_monster'][0] + 1
-
         for i in range(loop):
             self.list_enemy_btn[i].disconnect()
+
         if self.bool_meet_monster or self.bool_meet_enemy_monster:
             for i in range(loop):
                 self.list_enemy_btn[i].clicked.connect(lambda x, y=i, z=self.list_enemy_btn[i]: self.monster_atk_choice(x, y, btn))
@@ -331,6 +330,7 @@ class BattleClass(QDialog, Ui_Dialog):
             for i in range(loop):
                 self.list_enemy_btn[i].clicked.connect(lambda x, y=i: self.boss_monster_atk_choice(x, y))
 
+# [스킬]버튼 중 list_enemy_btn을 누르는 스킬 / 우선 list_enemy_btn의 연결을 disconnect로 초기화 -> connect
     def skill_connect(self, btn):
         if self.bool_meet_monster:
             loop = self.dict_field_monster['info']['int_cnt']
@@ -493,7 +493,6 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.battle_dialog.append("전투 결과 : 보스몬스터 전투 패배")
                     self.bool_war_result = False
                     self.close()
-
         return self.bool_war_result
 
     # 전투 횟수 카운트 -> return
@@ -585,7 +584,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
         return self.dict_user_gard, str_lv_update_msg1, str_lv_update_msg2
 
-    # 10레벨당 전 공격력의 * 10% 상승 -> return
+# 10레벨당 전 공격력의 * 10% 상승 -> return
     def user_gard_power_update(self):
         str_power_update_msg = ''
         list_update_job3 = []
@@ -599,7 +598,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
         return self.dict_user_gard, str_power_update_msg
 
-    # 유저수호대 레벨에 따른 HP,MP 상승과 레벨 -> return
+# 유저수호대 레벨에 따른 HP,MP 상승과 레벨 -> return
     def user_gard_hpmp_update(self):
         str_hpmp_update_msg = ''
         list_update_job4 = []
@@ -691,7 +690,7 @@ class BattleClass(QDialog, Ui_Dialog):
 
         return self.dict_user_gard, str_hpmp_update_msg
 
-    # 배틀 로케이션과 만난 적 확인
+# 배틀 로케이션과 만난 적 확인하여 해당 함수 호출구간
     def battle_location(self):
         if self.bool_meet_gard:
             self.battle_gard()
@@ -705,7 +704,7 @@ class BattleClass(QDialog, Ui_Dialog):
             self.battle_boss_monster()
 
     # -------------전투 공통 함수---------------------------------------------------------------------------------_----------#
-    # 전투화면으로 전환시 각 캐릭터의 [공격]버튼에 따른 QDialog창 생성
+# 전투화면으로 전환시 각 캐릭터의 [공격]버튼에 따른 QDialog창 생성
     def atk_choice(self, x, index):
 
         self.atk_dialog = QDialog()
@@ -726,11 +725,59 @@ class BattleClass(QDialog, Ui_Dialog):
         OK_button.clicked.connect(self.atk_dialog_close)
         self.atk_dialog.exec_()
 
-    # 각 캐릭터의 [공격]버튼에 따른 QDialog창 닫기
+# QDialog창 닫기
     def atk_dialog_close(self):
         self.atk_dialog.close()
 
-    # 한번 누른 구성원의 [공격]버튼은 적의 턴이 끝날때 까지 비활성화.
+# 전투화면으로 전환시 각 캐릭터의 [장비]버튼 setDisabled처리
+    def equip_btn_disabled(self):
+        for i in range(6):
+            list_job_btn = self.list_frame[i].findChildren(QPushButton)[1].setDisabled(True)
+
+# [공격]버튼 클릭-> 이미지 라벨의 모션 수행
+    def move_image_forward(self, x, index):
+        self.index = index
+        self.current_pos = self.list_job_lb[self.index].pos()
+        print(self.current_pos)
+        if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.)
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack1.png'))
+            self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 200)
+            QTimer.singleShot(500, self.move_image_forward2)
+            # self.timer.stop()
+        return self.index
+
+    def move_image_forward2(self):
+        if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack2.png'))
+            self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 300)
+            QTimer.singleShot(500, self.move_image_back)
+            # self.timer.stop()
+        return self.index
+
+    def move_image_back(self):
+        if self.current_pos.x() < 900:  # 원래 위치로 돌아가는 x 좌표
+            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/walk1.png'))
+            self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y())
+            self.timer.stop()
+
+# [도망]버튼 클릭 : 확률에 따른 도망 성공/실패 -> 반환값(필드/전투화면)으로 넘기기(+battle_dialog출력)
+    def user_gard_run(self):
+        num = random.choice(range(1, 101))
+        sucess_rate = list(range(0, 31))
+        sucess_rate_num = random.choice(sucess_rate)
+        if sucess_rate_num < num:
+            self.battle_dialog.append(f"{100 - sucess_rate_num}%확률로 도망에 실패했습니다.전투화면이 유지됩니다.")
+            bool_run_mode = False
+        elif sucess_rate_num >= num:
+            if self.bool_meet_gard or self.bool_meet_monster:
+                back_to_loc = '필드'
+            elif self.bool_meet_maze_gard or self.bool_meet_enemy_monster or self.bool_meet_boss_monster:
+                back_to_loc = '던전'
+            self.battle_dialog.append(f"{sucess_rate_num}%확률로 도망에 성공했습니다. {back_to_loc}화면으로 돌아갑니다.")
+            bool_run_mode = True
+        return bool_run_mode
+
+# 유저 수호대 구성원의 [공격]버튼은 적의 턴이 끝날때 까지 비활성화.
     def attack_btn_clicked(self, x, index):
         survivor = []
         if not x:
@@ -750,7 +797,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_skill_btn[i].setEnabled(True)
                     self.int_btn_clicked_cnt = 0
 
-    # 한번 누른 구성원의 [스킬]버튼은 적의 턴이 끝날때 까지 비활성화.
+# 유저 수호대 구성원의 [스킬]버튼은 적의 턴이 끝날때 까지 비활성화.
     def skill_btn_clicked(self, x, index):
         if not x:
             self.list_attack_btn[index].setEnabled(False)
@@ -767,7 +814,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_skill_btn[i].setEnabled(True)
                     self.int_btn_clicked_cnt = 0
 
-    # [스킬]버튼에 따른 직업별 스킬창으로 화면전환(gif)
+# [스킬창] 직업별 스킬창전환(+gif)
     def skill_widget_open(self, x, index):
         self.list_skill_btn = []
         list_gif_lb = []
@@ -791,7 +838,7 @@ class BattleClass(QDialog, Ui_Dialog):
         else:
             self.stackedWidget.setCurrentIndex(index + 1)
 
-        # 직업 레벨에 따른 버튼 활성화/비활성화
+# [스킬창] 직업 레벨에 따른 버튼 활성화/비활성화
         job_skill_btn = self.sender()
         job_skill_choice = []
         for i, button in enumerate(self.list_skill_btn):  # 여기서 button = 각 직업의 [스킬]버튼
@@ -841,16 +888,28 @@ class BattleClass(QDialog, Ui_Dialog):
                             else:
                                 k.setDisabled(True)
 
-    # -------------스킬 구간----------------------------------------------------------------------------#
-    # 전투 후 스킬사용에 따른 초기화
-    def reset_user_gard(self):
-        for i in range(6):
-            self.dict_user_gard[self.list_job[i]]['power'] = self.list_origin_power[i]
-        if not self.bool_war_result:
-            self.dict_user_gard['warrior']['power'] = self.origin_power
-            for i in range(6):
-                self.dict_user_gard[self.list_job[i]]['power'] = self.list_origin_power[i]
+# 유저 수호대의 스킬 -> 몬스터 턴 호출함수
+    def monster_turn(self):
+        if self.bool_meet_monster or self.bool_meet_enemy_monster:
+            QTimer.singleShot(2000, self.monster_atk)
+        elif self.bool_meet_gard or self.bool_meet_maze_gard:
+            QTimer.singleShot(2000, self.enemy_gard_atk)
+        elif self.bool_meet_boss_monster:
+            QTimer.singleShot(2000, self.boss_monster_atk)
 
+# -------------공통 구간 끝--------------------------------------------------------------------------------------#
+
+# -------------스킬 구간----------------------------------------------------------------------------#
+    # 전투 후 스킬사용에 따른 초기화
+    # def reset_user_gard(self):
+    #     for i in range(6):
+    #         self.dict_user_gard[self.list_job[i]]['power'] = self.list_origin_power[i]
+    #     if not self.bool_war_result:
+    #         self.dict_user_gard['warrior']['power'] = self.origin_power
+    #         for i in range(6):
+    #             self.dict_user_gard[self.list_job[i]]['power'] = self.list_origin_power[i]
+
+# case1) [전사스킬]
     def warrior_skill_effect(self, x, index, btn):
         if btn.objectName() == 'skill_btn_warrior_slice_chop':
             origin_power = self.dict_user_gard['warrior']['power']
@@ -911,6 +970,8 @@ class BattleClass(QDialog, Ui_Dialog):
 
             self.monster_turn()
             return self.dict_user_gard
+
+# case2) [궁수스킬]
 
     def archer_skill_effect_1(self, x, index, btn):
         if btn.objectName() == 'skill_btn_archer_target_shot':
@@ -1107,6 +1168,8 @@ class BattleClass(QDialog, Ui_Dialog):
         self.monster_turn()
         return self.dict_user_gard
 
+# case3) [검사스킬]
+
     def swordman_skill_effect(self, x, index, btn):
         if btn.objectName() == 'skill_btn_swordman_slice_chop':
             origin_power = self.dict_user_gard['warrior']['power']
@@ -1130,7 +1193,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.dict_maze_monster['list_hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
                 self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index] - damage}")
                 if self.dict_maze_monster['list_hp'][index] <= 0:
-                    self.dict_maze_monster['list_hp'][index] = 0
+                    # self.dict_maze_monster['list_hp'][index] = 0
                     self.list_enemy_line[index].setText(f"몬스터 HP: 0")
                     self.list_enemy_btn[index].setDisabled(True)
 
@@ -1140,7 +1203,7 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.list_enemy_line[index].setText(
                     f"{self.list_job[index]} HP:{self.dict_enemy_gard[self.list_job[index]]['hp']}")
                 if self.dict_enemy_gard[self.list_job[index]]['hp'] <= 0:
-                    self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
+                    # self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
                     self.list_enemy_line[index].setText(f"{self.list_job[index]} HP: 0")
                     self.list_enemy_btn[index].setDisabled(True)
 
@@ -1150,7 +1213,7 @@ class BattleClass(QDialog, Ui_Dialog):
                         f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp'] - damage}")
                     self.dict_boss_monster['hp'] = self.dict_boss_monster['hp'] - damage
                     if self.dict_boss_monster['hp'] <= 0:
-                        self.dict_boss_monster['hp'] = 0
+                        # self.dict_boss_monster['hp'] = 0
                         self.enemy_0.setText(f"{self.dict_boss_monster['name']} HP: 0")
                         self.enemy_0.setDisabled(True)
                 else:
@@ -1159,13 +1222,15 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.dict_boss_monster['list_field_monster'][1][index - 1] = \
                         self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
                     if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
-                        self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
+                        # self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
                         self.list_enemy_line[index].setText(
                             f"던전몬스터 HP: 0")
                         self.list_enemy_btn[index].setDisabled(True)
 
         self.monster_turn()
         return self.dict_user_gard
+
+# case4) [삼총사 마법사스킬]
 
     def wizard_skill_effect(self, str_job, str_skill_name, str_part_or_all, int_min, int_max, int_mp):
         # 힐량
@@ -1235,7 +1300,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.dict_maze_monster['list_hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
                     self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index]}")
                     if self.dict_maze_monster['list_hp'][index] <= 0:
-                        self.dict_maze_monster['list_hp'][index] = 0
+                        # self.dict_maze_monster['list_hp'][index] = 0
                         self.list_enemy_line[index].setText(f"몬스터 HP: 0")
                         self.list_enemy_btn[index].setDisabled(True)
 
@@ -1245,7 +1310,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.list_enemy_line[index].setText(
                         f"{self.list_job[index]} HP:{self.dict_enemy_gard[self.list_job[index]]['hp']}")
                     if self.dict_enemy_gard[self.list_job[index]]['hp'] <= 0:
-                        self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
+                        # self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
                         self.list_enemy_line[index].setText(f"{self.list_job[index]} HP: 0")
                         self.list_enemy_btn[index].setDisabled(True)
 
@@ -1255,7 +1320,7 @@ class BattleClass(QDialog, Ui_Dialog):
                             f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp']}")
                         self.dict_boss_monster['hp'] = self.dict_boss_monster['hp'] - damage
                         if self.dict_boss_monster['hp'] <= 0:
-                            self.dict_boss_monster['hp'] = 0
+                            # self.dict_boss_monster['hp'] = 0
                             self.enemy_0.setText(f"{self.dict_boss_monster['name']} HP: 0")
                             self.enemy_0.setDisabled(True)
                     else:
@@ -1264,7 +1329,7 @@ class BattleClass(QDialog, Ui_Dialog):
                         self.dict_boss_monster['list_field_monster'][1][index - 1] = \
                             self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
                         if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
-                            self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
+                            # self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
                             self.list_enemy_line[index].setText(
                                 f"던전몬스터 HP: 0")
                             self.list_enemy_btn[index].setDisabled(True)
@@ -1299,7 +1364,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.dict_maze_monster['list_hp'][index] = self.dict_field_monster['info']['hp'][index] - damage
                     self.list_enemy_line[index].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][index] - damage}")
                     if self.dict_maze_monster['list_hp'][index] <= 0:
-                        self.dict_maze_monster['list_hp'][index] = 0
+                        # self.dict_maze_monster['list_hp'][index] = 0
                         self.list_enemy_line[index].setText(f"몬스터 HP: 0")
                         self.list_enemy_btn[index].setDisabled(True)
 
@@ -1308,7 +1373,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.dict_enemy_gard[self.list_job[index]]['hp'] = self.dict_enemy_gard[self.list_job[index]]['hp'] - damage
                     self.list_enemy_line[index].setText(f"{self.list_job[index]} HP:{self.dict_enemy_gard[self.list_job[index]]['hp']}")
                     if self.dict_enemy_gard[self.list_job[index]]['hp'] <= 0:
-                        self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
+                        # self.dict_enemy_gard[self.list_job[index]]['hp'] = 0
                         self.list_enemy_line[index].setText(f"{self.list_job[index]} HP: 0")
                         self.list_enemy_btn[index].setDisabled(True)
 
@@ -1319,7 +1384,7 @@ class BattleClass(QDialog, Ui_Dialog):
                             f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp'] - damage}")
                         self.dict_boss_monster['hp'] = self.dict_boss_monster['hp'] - damage
                         if self.dict_boss_monster['hp'] <= 0:
-                            self.dict_boss_monster['hp'] = 0
+                            # self.dict_boss_monster['hp'] = 0
                             self.enemy_0.setText(f"{self.dict_boss_monster['name']} HP: 0")
                             self.enemy_0.setDisabled(True)
                     else:
@@ -1328,7 +1393,7 @@ class BattleClass(QDialog, Ui_Dialog):
                         self.dict_boss_monster['list_field_monster'][1][index - 1] = \
                             self.dict_boss_monster['list_field_monster'][1][index - 1] - damage
                         if self.dict_boss_monster['list_field_monster'][1][index - 1] <= 0:
-                            self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
+                            # self.dict_boss_monster['list_field_monster'][1][index - 1] = 0
                             self.list_enemy_line[index].setText(
                                 f"던전몬스터 HP: 0")
                             self.list_enemy_btn[index].setDisabled(True)
@@ -1337,7 +1402,7 @@ class BattleClass(QDialog, Ui_Dialog):
         return self.dict_user_gard
 
     def wizard_skill_effect_3(self, x, index, str_skill_name, str_hp_or_mp_or_map, minus_mp):
-        # 백법사가 공격력, mp를 올려줄 유저 수호대를 선택한다. (선택 대상에 본인은 제외한다.->코드 553번줄)
+        # 백법사가 공격력, mp를 올려줄 유저 수호대를 선택한다. (선택 대상에 본인은 제외한다.->코드 663번줄)
         # 선택할 수 있는 유저의 버튼은 턴 소모를 하지 않은 자들 뿐이다.
         # 선택된 유저 수호대의 공격력이 1턴 50~70% 상승되고 바로 적을 공격한다. = damage
         # 모든 직업이 턴을 소모했다면 백법사의 공격력이 상승하여 바로 적을 공격한다.
@@ -1368,7 +1433,7 @@ class BattleClass(QDialog, Ui_Dialog):
                             self.dict_maze_monster['list_hp'][i] -= damage
                             self.list_enemy_line[i].setText(f"몬스터 HP:{self.dict_maze_monster['list_hp'][i]}")
                         if self.dict_maze_monster['list_hp'][i] <= 0:
-                            self.dict_maze_monster['list_hp'][i] = 0
+                            # self.dict_maze_monster['list_hp'][i] = 0
                             self.list_enemy_line[i].setText(f"몬스터 HP: 0")
                             self.list_enemy_btn[i].setDisabled(True)
 
@@ -1380,7 +1445,7 @@ class BattleClass(QDialog, Ui_Dialog):
                         self.list_enemy_line[i].setText(
                         f"{self.list_job[i]} HP:{self.dict_enemy_gard[self.list_job[i]]['hp']}")
                         if self.dict_enemy_gard[self.list_job[i]]['hp'] <= 0:
-                            self.dict_enemy_gard[self.list_job[i]]['hp'] = 0
+                            # self.dict_enemy_gard[self.list_job[i]]['hp'] = 0
                             self.list_enemy_line[i].setText(f"{self.list_job[i]} HP: 0")
                             self.list_enemy_btn[i].setDisabled(True)
 
@@ -1390,7 +1455,7 @@ class BattleClass(QDialog, Ui_Dialog):
                     self.hp_enemy_0.setText(
                         f"{self.dict_boss_monster['name']} HP: {self.dict_boss_monster['hp']}")
                     if self.dict_boss_monster['hp'] <= 0:
-                        self.dict_boss_monster['hp'] = 0
+                        # self.dict_boss_monster['hp'] = 0
                         self.enemy_0.setText(f"{self.dict_boss_monster['name']} HP: 0")
                         self.enemy_0.setDisabled(True)
 
@@ -1414,8 +1479,8 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.battle_dialog.append(f"{self.list_job[index]}의 mp : {self.origin_mp * 1.5} (1턴 유지)")
                 self.battle_dialog.append(f"스킬 사용으로 [백법사]의 MP{minus_mp}소진")
                 self.dict_user_gard['wizard_white']['mp'] -= minus_mp
-                self.stackedWidget.setCurrentIndex(0)
                 self.mp_up = False
+                self.stackedWidget.setCurrentIndex(0)
 
         # 필드에서 현재 턴의 출입구 위치(던전입구 좌표값) 확인 가능
         elif str_skill_name == 'map_find':
@@ -1432,67 +1497,10 @@ class BattleClass(QDialog, Ui_Dialog):
                 self.dict_user_gard['wizard_white']['mp'] -= minus_mp
                 self.stackedWidget.setCurrentIndex(0)
 
-    # 유저 수호대의 스킬 사용 후 몬스터 턴
-    def monster_turn(self):
-        if self.bool_meet_monster or self.bool_meet_enemy_monster:
-            QTimer.singleShot(2000, self.monster_atk)
-        elif self.bool_meet_gard or self.bool_meet_maze_gard:
-            QTimer.singleShot(2000, self.enemy_gard_atk)
-        elif self.bool_meet_boss_monster:
-            QTimer.singleShot(2000, self.boss_monster_atk)
+# -------------스킬 끝-----------------------------------------------------------------------------------#
 
-    # -------------스킬 구간----------------------------------------------------------------------------#
-
-    # 전투화면으로 전환시 각 캐릭터의 [장비]버튼 setDisabled처리
-    def equip_btn_disabled(self):
-        for i in range(6):
-            list_job_btn = self.list_frame[i].findChildren(QPushButton)[1].setDisabled(True)
-
-    # 위치가 바뀌면서 모션 수행
-    def move_image_forward(self, x, index):
-        self.index = index
-        self.current_pos = self.list_job_lb[self.index].pos()
-        print(self.current_pos)
-        if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.)
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack1.png'))
-            self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 200)
-            QTimer.singleShot(500, self.move_image_forward2)
-            # self.timer.stop()
-        return self.index
-
-    def move_image_forward2(self):
-        if self.current_pos.x() < 1000:  # 이동할 최종 위치 (x 좌표 :error 발생시 화면크기에 맞춰 좌표 숫자 조정필요.
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/attack2.png'))
-            self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y() - 300)
-            QTimer.singleShot(500, self.move_image_back)
-            # self.timer.stop()
-        return self.index
-
-    def move_image_back(self):
-        if self.current_pos.x() < 900:  # 원래 위치로 돌아가는 x 좌표
-            self.list_job_lb[self.index].setPixmap(QPixmap(f'img_src/{self.list_job[self.index]}/walk1.png'))
-            self.list_job_lb[self.index].move(self.current_pos.x(), self.current_pos.y())
-            self.timer.stop()
-
-    # 각 캐릭터의 [도망]버튼 클릭시 battle_dialog에 메세지를 띄운다. 확률에 따른 도망 성공/실패 -> 반환값(필드/전투화면)으로넘기기
-    def user_gard_run(self):
-        num = random.choice(range(1, 101))
-        sucess_rate = list(range(0, 31))
-        sucess_rate_num = random.choice(sucess_rate)
-        if sucess_rate_num < num:
-            self.battle_dialog.append(f"{100 - sucess_rate_num}%확률로 도망에 실패했습니다.전투화면이 유지됩니다.")
-            bool_run_mode = False
-        elif sucess_rate_num >= num:
-            if self.bool_meet_gard or self.bool_meet_monster:
-                back_to_loc = '필드'
-            elif self.bool_meet_maze_gard or self.bool_meet_enemy_monster or self.bool_meet_boss_monster:
-                back_to_loc = '던전'
-            self.battle_dialog.append(f"{sucess_rate_num}%확률로 도망에 성공했습니다. {back_to_loc}화면으로 돌아갑니다.")
-            bool_run_mode = True
-        return bool_run_mode
-
-    # -------------수호대와의 전투-------------------------------------------------------------------------------------------#
-    # [필드/던전]타수호대 조우 - 전투가능한 구성원의 [공격][스킬]버튼이 활성화
+# -------------수호대와의 전투--------------------------------------------------------------------------------------#
+# [필드/던전]타수호대 조우 - 전투가능한 구성원의 [공격][스킬]버튼이 활성화
     def battle_gard(self):
 
         # 따로 함수로 빼서 호출할까...
